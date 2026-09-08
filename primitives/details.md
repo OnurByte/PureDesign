@@ -18,7 +18,35 @@ Grouped accordion behavior:
 <details name="settings"><summary>Storage</summary>...</details>
 ```
 
-CSS observes `[open]`; newer browsers also expose richer animation hooks such as `::details-content`.
+## State
+
+The durable source of UI state is the element itself:
+
+```css
+details[open] > summary {
+    font-weight: 700;
+}
+```
+
+Firefox 136+ also supports the generic `:open` selector:
+
+```css
+details:open > summary {
+    font-weight: 700;
+}
+```
+
+## Animation boundary
+
+Do not confuse mature disclosure behavior with newer animation hooks.
+
+- `<details>` itself is mature.
+- grouped `<details name>` landed in Firefox 130.
+- `:open` landed in Firefox 136.
+- `::details-content` landed in Firefox 143, **newer than Firefox 140 ESR**.
+- intrinsic-size interpolation is additional polish and must not be required.
+
+For Tor Browser 15 / Firefox 140 ESR, use the native disclosure behavior and ordinary `[open]`/`:open` styling; do not require `::details-content`.
 
 ## Rules
 
@@ -28,7 +56,9 @@ CSS observes `[open]`; newer browsers also expose richer animation hooks such as
 
 ## Sources
 
-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details
-- https://gist.github.com/TeamDijon
-- https://www.reddit.com/r/css/comments/1vwv16h/
-- https://www.reddit.com/r/css/comments/1g4d2aa/
+- MDN: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details
+- Firefox 130: https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/130
+- Firefox 136 (`:open`): https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/136
+- Firefox 143 (`::details-content`): https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/143
+- Small progressive animation gist: https://gist.github.com/TeamDijon
+- Community edge cases: https://www.reddit.com/r/css/comments/1vwv16h/
