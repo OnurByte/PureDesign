@@ -35,7 +35,7 @@ PureDesign means:
 
 - zero client-side JavaScript for core behavior;
 - semantic HTML first;
-- browser-owned ephemeral interaction, focus, scroll, layout, form and media state where the platform exposes it;
+- browser-owned ephemeral interaction, focus, scroll, layout, form, media and preference state where the platform exposes it;
 - URL/server-owned durable application state;
 - CSS renders state instead of pretending to be a programming language;
 - unsupported new CSS may remove polish, never access to a task;
@@ -87,15 +87,30 @@ Before building a custom widget, check whether the task is already a real:
 
 Use `accent-color`, `::file-selector-button`, native state pseudo-classes and newer customizable-select styling before replacing semantics solely for branding.
 
-### Mobile input
+### Mobile input and unknown text direction
 
-Before UA/device sniffing, check:
+Before UA/device/language sniffing, check:
 
 - `inputmode`
 - `enterkeyhint`
 - `autocomplete` tokens
 - `hover` / `pointer` media features
-- `dir="auto"` / `<bdi>` for unknown-direction user text
+- `dir="auto"`
+- `<bdi>`
+- `dirname` form submission
+
+### User preferences
+
+Before `matchMedia()` or preference-detection JavaScript used only to alter presentation, check:
+
+- `prefers-color-scheme`
+- `prefers-reduced-motion`
+- `prefers-contrast`
+- `forced-colors`
+- `color-scheme`
+- `light-dark()`
+
+Respect the user's preference. Do not use `forced-color-adjust: none` or similar overrides broadly to preserve branding.
 
 ### Media and files
 
@@ -104,6 +119,7 @@ Before adding a client player/uploader/downloader/source-switcher, check:
 - native `<video>/<audio controls>`
 - `<track>` for WebVTT captions/subtitles
 - `<input type="file">` + multipart form
+- optional file `capture` hint, with normal file input retained as fallback
 - normal `<a>` download navigation
 - `<picture>` / `srcset` / `sizes`
 
@@ -170,4 +186,5 @@ These are research/progressive features, not excuses to delete stable fallbacks:
 - use UA/device sniffing where browser input/layout primitives answer the actual question;
 - apply gesture-altering rules such as `overscroll-behavior: none` globally without a specific reason;
 - replace native controls solely because their styling is less uniform;
-- treat CSS-presentational state as authorization/security state.
+- treat CSS-presentational state as authorization/security state;
+- override user motion/contrast/forced-color preferences just to preserve visual branding.
