@@ -1,0 +1,343 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    color-scheme: light dark;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.5;
+}
+
+body {
+    margin: 0;
+    background: Canvas;
+    color: CanvasText;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+a {
+    color: LinkText;
+}
+
+button,
+input,
+select,
+fieldset,
+.panel,
+[popover] {
+    border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+    border-radius: .8rem;
+}
+
+button,
+input,
+select {
+    padding: .65rem .8rem;
+}
+
+button {
+    cursor: pointer;
+    background: ButtonFace;
+    color: ButtonText;
+}
+
+button:hover {
+    filter: brightness(1.06);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 3px;
+}
+
+.site-header,
+main,
+footer {
+    width: min(72rem, calc(100% - 2rem));
+    margin-inline: auto;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+    padding-block: 2.5rem 1.5rem;
+}
+
+.site-header h1 {
+    margin: .15rem 0;
+    font-size: clamp(2rem, 6vw, 4.4rem);
+    line-height: 1;
+    letter-spacing: -.045em;
+}
+
+.site-header p {
+    max-width: 52rem;
+}
+
+.eyebrow {
+    margin: 0;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .62;
+}
+
+.toc {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    gap: .5rem;
+    overflow-x: auto;
+    padding: .75rem max(1rem, calc((100vw - 72rem) / 2));
+    background: color-mix(in srgb, Canvas 92%, transparent);
+    border-block: 1px solid color-mix(in srgb, CanvasText 12%, transparent);
+    backdrop-filter: blur(12px);
+}
+
+.toc a {
+    flex: 0 0 auto;
+    padding: .45rem .65rem;
+    border-radius: 999px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+    background: color-mix(in srgb, CanvasText 8%, transparent);
+}
+
+/* Enhancement: native scrollspy where supported. */
+@supports (scroll-target-group: auto) {
+    .toc {
+        scroll-target-group: auto;
+    }
+
+    .toc a:target-current {
+        background: Highlight;
+        color: HighlightText;
+    }
+}
+
+main {
+    display: grid;
+    gap: 1rem;
+    padding-block: 1rem 4rem;
+}
+
+.panel {
+    padding: clamp(1rem, 3vw, 2rem);
+    background: color-mix(in srgb, Canvas 96%, CanvasText 4%);
+    scroll-margin-top: 5rem;
+}
+
+.panel h2 {
+    margin-top: .2rem;
+}
+
+.stack {
+    display: grid;
+    gap: .8rem;
+}
+
+.stack label,
+label.stack {
+    display: grid;
+    gap: .35rem;
+}
+
+.actions,
+.workflow,
+.menu-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .7rem;
+}
+
+.reveal-card {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px dashed currentColor;
+    border-radius: .8rem;
+    content-visibility: auto;
+}
+
+/* Preserve hidden=until-found semantics. */
+[hidden]:where(:not([hidden="until-found"])) {
+    display: none !important;
+}
+
+.details-group {
+    display: grid;
+    gap: .55rem;
+}
+
+.details-group details {
+    padding: .8rem 1rem;
+    border: 1px solid color-mix(in srgb, CanvasText 15%, transparent);
+    border-radius: .7rem;
+}
+
+.details-group summary {
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.details-group details[open] {
+    background: color-mix(in srgb, Highlight 9%, Canvas);
+}
+
+.carousel {
+    display: flex;
+    gap: .8rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: .5rem;
+    scrollbar-gutter: stable;
+}
+
+.carousel > article {
+    flex: 0 0 min(82%, 28rem);
+    min-height: 12rem;
+    padding: 1.2rem;
+    border: 1px solid color-mix(in srgb, CanvasText 15%, transparent);
+    border-radius: 1rem;
+    scroll-snap-align: center;
+    background: Canvas;
+}
+
+/* Enhancement: browser-generated carousel navigation. */
+@supports (scroll-marker-group: after) {
+    .carousel {
+        scroll-marker-group: after;
+    }
+
+    .carousel::scroll-button(left) {
+        content: "←" / "Previous item";
+    }
+
+    .carousel::scroll-button(right) {
+        content: "→" / "Next item";
+    }
+
+    .carousel::scroll-button(*) {
+        border-radius: 999px;
+        inline-size: 2.4rem;
+        block-size: 2.4rem;
+    }
+
+    .carousel > article::scroll-marker {
+        content: "";
+        inline-size: .65rem;
+        block-size: .65rem;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+    }
+
+    .carousel > article::scroll-marker:target-current {
+        background: currentColor;
+    }
+
+    .carousel::scroll-marker-group {
+        display: flex;
+        justify-content: center;
+        gap: .4rem;
+    }
+}
+
+.workflow > fieldset {
+    flex: 1 1 18rem;
+    display: grid;
+    gap: .8rem;
+    margin: 0;
+    padding: 1rem;
+}
+
+[inert] {
+    opacity: .5;
+    filter: grayscale(.5);
+}
+
+[popover] {
+    padding: 1rem;
+    max-width: min(28rem, calc(100vw - 2rem));
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: 0 .8rem 2.5rem color-mix(in srgb, CanvasText 18%, transparent);
+}
+
+[popover]::backdrop {
+    background: color-mix(in srgb, CanvasText 8%, transparent);
+}
+
+.menu {
+    min-width: 16rem;
+}
+
+.menu a,
+.menu-row {
+    padding: .55rem;
+}
+
+.menu-row {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hint {
+    max-width: 20rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    button,
+    .panel,
+    [popover] {
+        transition:
+            transform 120ms ease,
+            opacity 120ms ease,
+            background-color 120ms ease,
+            border-color 120ms ease,
+            display 120ms allow-discrete;
+    }
+
+    [popover] {
+        opacity: 0;
+        transform: translateY(-.25rem) scale(.985);
+    }
+
+    [popover]:popover-open {
+        opacity: 1;
+        transform: none;
+    }
+
+    @starting-style {
+        [popover]:popover-open {
+            opacity: 0;
+            transform: translateY(-.25rem) scale(.985);
+        }
+    }
+}
+
+footer {
+    padding-block: 0 3rem;
+    opacity: .65;
+}
+
+@media (max-width: 44rem) {
+    .site-header {
+        display: grid;
+    }
+}
