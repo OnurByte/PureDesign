@@ -30,7 +30,9 @@ Persist on the server/cookie/account and render the authoritative state:
 
 ## Compose
 
+- [native selection state](../primitives/form-selection-state.md)
 - [`:has()`](../primitives/has.md)
+- [`color-scheme`](../primitives/color-scheme.md)
 - [server-authoritative state](../principles/server-authoritative-state.md)
 
 Do not require localStorage JavaScript for the theme to work.
