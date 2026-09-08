@@ -2,166 +2,141 @@
 
 **Modern web UI with zero client-side JavaScript.**
 
-PureDesign is a research-backed collection of patterns for building interfaces that feel like JavaScript applications while keeping behavior in native HTML, CSS, browser state, URLs, forms, and server-rendered navigation.
+PureDesign is an AI-friendly, atomic knowledge base for building application-like interfaces with semantic HTML, CSS, browser-owned state, URLs, native forms and server-rendered responses.
 
-The project is deliberately not “CSS doing JavaScript.” The goal is to identify which state already belongs to the browser and let the platform own it.
+The repository is intentionally split into small files. **Do not treat this README as the implementation guide.** Use it to locate the exact principle, primitive or pattern you need.
 
-```text
-Ephemeral UI state     -> native HTML state
-Form state             -> native controls + constraint validation
-Navigation state       -> URL / fragments
-Scroll state           -> browser scrolling / snapping / target tracking
-Keyboard group state   -> browser focus primitives
-Application state      -> HTTP / server
-Presentation           -> CSS
-Client-side JS         -> 0
-```
+For AI agents, start with [`AGENTS.md`](AGENTS.md).
 
-## Why this exists
-
-Modern browsers already provide many primitives frontend JavaScript used to recreate manually:
-
-- disclosure and accordions via `<details>` / `<summary>` / `<details name>`
-- floating menus via the Popover API
-- modal semantics via `<dialog>`
-- state propagation via `:has()`
-- form state via `:checked`, `:user-valid`, and `:user-invalid`
-- multiple form actions via `formaction`, `formmethod`, and `form`
-- URL-driven state via `:target`
-- findable collapsed content via `hidden="until-found"`
-- subtree deactivation via `inert`
-- keyboard focus via `:focus-visible` / `:focus-within`
-- scrolling interactions via CSS Scroll Snap
-- newer scrollspy via `scroll-target-group` + `:target-current`
-- newer browser-generated carousel controls via `::scroll-button()` / `::scroll-marker`
-- native suggestion lists via `<datalist>` where its accessibility tradeoffs are acceptable
-- enter/exit polish via transitions, `@starting-style`, and discrete transitions
-- server state via ordinary links, forms, redirects, and server-rendered HTML
-
-The deeper September 2026 pass also tracks emerging primitives that move even more frontend machinery into the browser:
-
-- `focusgroup` for declarative arrow-key / roving-focus navigation
-- `interestfor` + `popover="hint"` for declarative interest/tooltip behavior
-- customizable `<select>` via `appearance: base-select`
-- Declarative Partial Updates / `<template for>` for out-of-order server HTML patching without interaction-time JavaScript
-
-These newer features are documented as research/enhancement targets, not blindly treated as universal baseline features.
-
-## Repository map
-
-- [`docs/patterns.md`](docs/patterns.md) — the main no-JS UI architecture and component patterns
-- [`docs/hidden-gems.md`](docs/hidden-gems.md) — small GitHub/Reddit findings worth studying
-- [`docs/deep-research-2026-09.md`](docs/deep-research-2026-09.md) — deeper pass covering new browser primitives, low-visibility gists, and emerging HTML/CSS
-- [`docs/compatibility.md`](docs/compatibility.md) — progressive-enhancement rules, including Tor Browser / Firefox ESR considerations
-- [`examples/index.html`](examples/index.html) — original zero-JS UI playground
-- [`examples/styles.css`](examples/styles.css) — original demo styles
-- [`examples/native-deep.html`](examples/native-deep.html) — deeper native primitive demo
-- [`examples/native-deep.css`](examples/native-deep.css) — progressive enhancement for the deeper demo
-
-## The state model
+## Core model
 
 ```text
-                       BROWSER STATE
-                            |
-      +----------+----------+-----------+-------------+
-      |          |          |           |             |
-   :checked    :open   :popover-open   :target   scroll/current
-      |          |          |           |             |
-      +----------+----------+-----------+-------------+
-                            |
-                          :has()
-                            |
-                            v
-                           CSS
-                            |
-                    visual interaction
-
-
-Durable user action
-       |
-       v
-link / native form
-       |
-       v
-      HTTP
-       |
-       v
-application server
-       |
-       v
-rendered HTML
+Ephemeral interaction state -> browser-native HTML state
+Form state                  -> native form controls
+Navigation state            -> URL
+Durable application state   -> server
+Visual state                -> CSS
+Client-side JS              -> 0
 ```
 
-The September 2026 research adds two more important ownership categories:
+---
+
+# Principles
+
+Architectural rules that override clever implementation tricks.
+
+- [`principles/state-ownership.md`](principles/state-ownership.md) — decides whether state belongs to the browser, form, URL, server or CSS.
+- [`principles/semantic-html-first.md`](principles/semantic-html-first.md) — use the semantic platform primitive instead of fake checkbox/div widgets.
+- [`principles/progressive-enhancement.md`](principles/progressive-enhancement.md) — functionality first; new CSS may add polish but may not become the only task path.
+- [`principles/server-authoritative-state.md`](principles/server-authoritative-state.md) — sorting, filtering, CRUD, auth and other durable state remain HTTP/server concerns.
+- [`principles/accessibility-and-input.md`](principles/accessibility-and-input.md) — keyboard, touch, focus, hover and accessibility rules for zero-JS UI.
+
+---
+
+# Browser primitives
+
+Each file documents one browser capability, its state boundary, compatibility role and sources.
+
+## Stable / immediately useful primitives
+
+- [`primitives/details.md`](primitives/details.md) — `<details>`, `<summary>` and grouped `<details name>` accordions.
+- [`primitives/popover.md`](primitives/popover.md) — declarative floating menus/panels and `:popover-open`.
+- [`primitives/dialog.md`](primitives/dialog.md) — `<dialog>` semantics and the difference between the mature element and newer invoker commands.
+- [`primitives/has.md`](primitives/has.md) — `:has()` as visual state propagation instead of JavaScript class toggling.
+- [`primitives/native-validation.md`](primitives/native-validation.md) — native constraints, `:user-invalid` and `:user-valid`.
+- [`primitives/target.md`](primitives/target.md) — URL-fragment state exposed through `:target`.
+- [`primitives/hidden-until-found.md`](primitives/hidden-until-found.md) — collapsed content that remains discoverable through Find in Page and fragments.
+- [`primitives/inert.md`](primitives/inert.md) — disable an entire subtree declaratively.
+- [`primitives/datalist.md`](primitives/datalist.md) — simple native autocomplete suggestions and its accessibility limits.
+- [`primitives/declarative-shadow-dom.md`](primitives/declarative-shadow-dom.md) — server-rendered Shadow DOM without `attachShadow()` JavaScript.
+- [`primitives/multi-action-forms.md`](primitives/multi-action-forms.md) — `formaction`, `formmethod`, `formtarget` and external form submitters.
+- [`primitives/scroll-snap.md`](primitives/scroll-snap.md) — browser scrolling physics and snapping for carousels/bottom-sheet-like interactions.
+- [`primitives/starting-style-and-discrete-transitions.md`](primitives/starting-style-and-discrete-transitions.md) — JS-free entry/exit transition primitives.
+
+## Progressive / newer primitives
+
+- [`primitives/anchor-positioning.md`](primitives/anchor-positioning.md) — browser-native floating-element positioning and fallback direction.
+- [`primitives/customizable-select.md`](primitives/customizable-select.md) — richer styling while retaining a real `<select>`.
+- [`primitives/focusgroup.md`](primitives/focusgroup.md) — emerging declarative roving focus and arrow-key navigation.
+- [`primitives/interestfor-and-hint-popover.md`](primitives/interestfor-and-hint-popover.md) — emerging pointer/keyboard/touch interest state for hints and hovercards.
+- [`primitives/scroll-target-group.md`](primitives/scroll-target-group.md) — emerging CSS-native current-section tracking / scrollspy state.
+- [`primitives/scroll-buttons-and-markers.md`](primitives/scroll-buttons-and-markers.md) — browser-generated carousel buttons and markers.
+- [`primitives/view-transitions.md`](primitives/view-transitions.md) — MPA navigation polish without converting routing to an SPA.
+- [`primitives/scroll-driven-animations.md`](primitives/scroll-driven-animations.md) — scroll/view timeline decoration; never core content behavior.
+- [`primitives/text-fit.md`](primitives/text-fit.md) — emerging responsive text fitting without JS measurement loops.
+
+## Research / watchlist primitives
+
+- [`primitives/declarative-partial-updates.md`](primitives/declarative-partial-updates.md) — emerging `<template for>` server-stream patching without inline patch JS.
+- [`primitives/native-tooltip-proposals.md`](primitives/native-tooltip-proposals.md) — future native/styleable tooltip direction such as `::tooltip`.
+
+---
+
+# Patterns
+
+Patterns compose primitives into actual UI solutions. Read the pattern first when solving a concrete component problem, then follow its primitive links.
+
+- [`patterns/accordion.md`](patterns/accordion.md) — semantic accordion/disclosure.
+- [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md) — popover-based action/dropdown menu.
+- [`patterns/url-tabs.md`](patterns/url-tabs.md) — fragment/server-backed panels and tab-like navigation.
+- [`patterns/theme-switcher.md`](patterns/theme-switcher.md) — temporary radio-driven theme state plus persistent server preference.
+- [`patterns/carousel.md`](patterns/carousel.md) — scroll-snap baseline with optional native generated controls.
+- [`patterns/bottom-sheet.md`](patterns/bottom-sheet.md) — model a bottom sheet as scrolling rather than pointer-physics JavaScript.
+- [`patterns/scrollspy.md`](patterns/scrollspy.md) — normal anchors plus optional CSS-native active-section tracking.
+- [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) — URL/server-backed filtering, sorting and pagination.
+- [`patterns/multi-action-form.md`](patterns/multi-action-form.md) — Save/Publish/Preview-style actions without click routing scripts.
+- [`patterns/tooltip-hovercard.md`](patterns/tooltip-hovercard.md) — input-safe tooltip/hovercard direction and conservative fallback.
+- [`patterns/inactive-workflow-panel.md`](patterns/inactive-workflow-panel.md) — server-rendered inactive/permission-gated subtree with `inert`.
+- [`patterns/findable-collapsed-content.md`](patterns/findable-collapsed-content.md) — collapsed content that remains browser-searchable.
+- [`patterns/selectable-cards.md`](patterns/selectable-cards.md) — real checkbox/radio selection styled as cards through `:has()`.
+- [`patterns/validation-feedback.md`](patterns/validation-feedback.md) — native user-validation state plus server authority.
+- [`patterns/modal-confirmation.md`](patterns/modal-confirmation.md) — dialog semantics around a real server action.
+- [`patterns/server-streaming-future.md`](patterns/server-streaming-future.md) — future zero-JS out-of-order server streaming with Declarative Partial Updates.
+
+---
+
+# Compatibility
+
+Read these before making a new platform feature part of core product behavior.
+
+- [`compatibility/tor-browser-firefox-esr.md`](compatibility/tor-browser-firefox-esr.md) — exact Tor Browser 15.0.21 / Firefox 140.15 ESR baseline and newer-than-ESR features.
+- [`compatibility/feature-matrix.md`](compatibility/feature-matrix.md) — quick core/polish/conditional/experimental classification.
+- [`compatibility/testing.md`](compatibility/testing.md) — semantic HTML, target-browser no-JS and newest-browser enhancement test levels.
+
+---
+
+# How an AI should use PureDesign
+
+For a request such as **“build a zero-JS dropdown menu for Tor Browser”**:
 
 ```text
-find/reveal state       -> hidden="until-found"
-keyboard group nav      -> focusgroup (emerging)
-interest/hover state    -> interestfor (emerging)
-async server patching   -> <template for> (emerging)
+AGENTS.md
+  -> patterns/dropdown-action-menu.md
+  -> primitives/popover.md
+  -> primitives/anchor-positioning.md
+  -> compatibility/tor-browser-firefox-esr.md
+  -> compatibility/feature-matrix.md
 ```
 
-## Practical mapping
+For **“make selectable pricing cards”**:
 
-| UI problem | Prefer | Avoid making core behavior depend on |
-|---|---|---|
-| Accordion | `<details>` / `<summary>` / grouped `name` | checkbox hacks |
-| Dropdown / action menu | `popover` | hand-written overlay state |
-| Selection / toggle | real radio / checkbox / select | fake div state |
-| Parent visual state | `:has()` | JS class toggling |
-| Form feedback | native constraints + `:user-invalid` | custom touched-state machines |
-| Multi-action form | `formaction` / `formmethod` / submitter values | click router + `fetch()` |
-| Hidden but searchable content | `hidden="until-found"` | JS hash/find reveal logic |
-| Tabs / filters | server URL state or `:target` when appropriate | SPA-only state |
-| Scrollspy | ordinary anchors; enhance with `scroll-target-group` | IntersectionObserver as baseline |
-| Carousel | horizontal overflow + scroll snap; enhance with CSS carousel controls | drag library as requirement |
-| Theme | server preference + `color-scheme`; local radio state when temporary | mandatory localStorage JS |
-| Floating UI | normal positioning, enhanced with CSS Anchor Positioning | positioning library as baseline |
-| Modal | `<dialog>` where target invocation path is supported | checkbox-as-modal semantics |
-| Disabled subtree | server-rendered `inert` | manually disabling every descendant |
-| Lightweight suggestions | `<datalist>` when appropriate | assuming every combobox needs a framework |
-| Motion | CSS transitions / `@starting-style` | animation being required for functionality |
+```text
+patterns/selectable-cards.md
+  -> primitives/has.md
+  -> principles/state-ownership.md
+```
 
-## Five rules
+For **“make an app-like server-rendered file browser”**:
 
-1. **Semantic HTML first.** Use a disclosure as a disclosure, checkbox as a checkbox, link as navigation, and button as an action.
-2. **Let the browser own ephemeral state.** Do not mirror browser state into arbitrary classes if CSS can observe the real state.
-3. **Functionality must survive unsupported CSS.** New CSS should add polish, navigation help, or positioning—not decide whether the task exists.
-4. **Server-render durable state.** Sorting, filtering, auth, CRUD, preferences, pagination, search, uploads, and permissions belong in URLs/forms/server responses.
-5. **Separate shipped features from future platform direction.** `hidden="until-found"` and `formaction` are not in the same compatibility category as `focusgroup` or Declarative Partial Updates.
+```text
+principles/server-authoritative-state.md
+patterns/server-filter-sort-pagination.md
+patterns/dropdown-action-menu.md
+patterns/multi-action-form.md
+compatibility/feature-matrix.md
+```
 
-## Browser target philosophy
-
-PureDesign separates features into three tiers:
-
-- **Core:** features verified in the declared browser baseline.
-- **Polish:** unsupported browsers lose animation or visual refinement, not behavior.
-- **Experimental enhancement:** newer platform features must never be the only path to a task.
-
-For the current conservative reference target, Tor Browser stable is tracked against its exact Firefox ESR base instead of assuming that whatever current Firefox supports is available in Tor.
-
-See [`docs/compatibility.md`](docs/compatibility.md) for the detailed model and [`docs/deep-research-2026-09.md`](docs/deep-research-2026-09.md) for the newest findings.
-
-## Particularly useful research sources
-
-The research includes browser release notes/spec work plus small community examples that expose reusable ideas:
-
-- Adam Bien — [unscripted](https://github.com/AdamBien/unscripted)
-- YieldRay — [css-only-demo.html](https://gist.github.com/YieldRay/3d965bf568332a25c38f8c00fb79285e)
-- viliket — [pure-web-bottom-sheet](https://github.com/viliket/pure-web-bottom-sheet)
-- Johannes Mutter — [AnchorPop](https://github.com/johannesmutter/anchorpop)
-- TeamDijon — [details-animation-support.css](https://gist.github.com/TeamDijon)
-- webfactory — [dialog-utils](https://github.com/webfactory/dialog-utils)
-- Demetris — [Omni Carousel](https://github.com/demetris/omni-carousel)
-- Digicreon — [µCSS](https://github.com/Digicreon/muCSS)
-- Pico CSS — [Discussion #343](https://github.com/picocss/pico/discussions/343)
-- blackspike — [popover-menu.css](https://gist.github.com/blackspike)
-- TingRubato — [CSS-native TOC marker gist](https://gist.github.com/TingRubato/5a8474ed70eae1075f4db90211d510d2)
-- ijurko — [0-star customizable-select gist collection](https://gist.github.com/ijurko)
-- WICG — [Declarative Partial Updates](https://github.com/WICG/declarative-partial-updates)
-- Microsoft Edge — [focusgroup demos](https://github.com/MicrosoftEdge/Demos/blob/main/focusgroup/tablist.html)
-
-More detail and caveats are preserved in the docs instead of treating any repo as a dependency recommendation.
+The goal is selective retrieval, not reading one giant research document.
 
 ## License
 
