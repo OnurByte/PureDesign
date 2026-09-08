@@ -2,7 +2,7 @@
 
 ## Compose
 
-- real radio/checkbox state
+- [native checkbox/radio selection state](../primitives/form-selection-state.md)
 - [`:has()`](../primitives/has.md)
 
 ```html
