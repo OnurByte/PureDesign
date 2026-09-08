@@ -1,8 +1,22 @@
 # Theme Switcher
 
+## System-following theme with no interaction state
+
+If the product simply follows the browser/OS scheme, keep the browser authoritative:
+
+```css
+:root {
+  color-scheme: light dark;
+  --surface: light-dark(#fff, #111214);
+  --text: light-dark(#15171b, #f4f5f6);
+}
+```
+
+This avoids JavaScript theme detection and keeps native controls aligned with the document scheme.
+
 ## Temporary local state
 
-Use real radio controls and derive presentation with `:has()`:
+If the page needs an immediate non-persistent Light/System/Dark selector, use real radio controls and derive presentation with `:has()`:
 
 ```html
 <label><input type="radio" name="theme" value="system" checked> System</label>
@@ -28,11 +42,12 @@ Persist on the server/cookie/account and render the authoritative state:
 <html data-theme="dark">
 ```
 
+Do not require localStorage JavaScript for the theme to work.
+
 ## Compose
 
 - [native selection state](../primitives/form-selection-state.md)
 - [`:has()`](../primitives/has.md)
 - [`color-scheme`](../primitives/color-scheme.md)
+- [`light-dark()`](../primitives/light-dark.md)
 - [server-authoritative state](../principles/server-authoritative-state.md)
-
-Do not require localStorage JavaScript for the theme to work.
