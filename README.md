@@ -14,6 +14,7 @@ Form/input state            -> native controls and constraints
 Navigation state            -> URLs, links and forms
 Scroll/layout state         -> browser CSS/layout engine
 Media/device affordances    -> browser and operating system
+User preferences            -> CSS media features / UA settings
 Durable application state   -> server
 Visual state                -> CSS
 Client-side JS              -> 0
@@ -66,6 +67,7 @@ Client-side JS              -> 0
 - [`primitives/range-input.md`](primitives/range-input.md) — browser-owned slider interaction.
 - [`primitives/color-input.md`](primitives/color-input.md) — browser/OS color picker.
 - [`primitives/native-file-upload.md`](primitives/native-file-upload.md) — file picker + multipart upload baseline.
+- [`primitives/file-capture-hint.md`](primitives/file-capture-hint.md) — optional mobile camera/mic hint; normal file input remains fallback.
 - [`primitives/file-selector-button.md`](primitives/file-selector-button.md) — style the real upload button instead of click-forwarding to a hidden input.
 - [`primitives/progress.md`](primitives/progress.md) — semantic task progress.
 - [`primitives/meter.md`](primitives/meter.md) — semantic scalar/quota measurement.
@@ -80,6 +82,14 @@ Client-side JS              -> 0
 - [`primitives/scripting-media-feature.md`](primitives/scripting-media-feature.md) — CSS detection of script availability in mixed apps.
 - [`primitives/dir-auto.md`](primitives/dir-auto.md) — infer unknown user-text direction in the browser.
 - [`primitives/bdi.md`](primitives/bdi.md) — isolate unknown-direction inline user content.
+- [`primitives/dirname-form-submission.md`](primitives/dirname-form-submission.md) — submit browser-determined text direction alongside form values.
+
+## User preferences and accessibility media
+
+- [`primitives/prefers-color-scheme.md`](primitives/prefers-color-scheme.md) — system/browser light-dark preference without `matchMedia()` JS.
+- [`primitives/prefers-reduced-motion.md`](primitives/prefers-reduced-motion.md) — reduce decorative motion from CSS using user preference.
+- [`primitives/prefers-contrast.md`](primitives/prefers-contrast.md) — user-requested contrast adaptation.
+- [`primitives/forced-colors.md`](primitives/forced-colors.md) — targeted fixes for forced/high-contrast browser palettes.
 
 ## Navigation, downloads and media
 
@@ -153,7 +163,7 @@ Read a pattern first for a concrete UI problem, then follow its primitive links.
 - [`patterns/url-tabs.md`](patterns/url-tabs.md) — fragment/server-backed panels.
 - [`patterns/sticky-anchor-navigation.md`](patterns/sticky-anchor-navigation.md) — fragment navigation under sticky UI without scroll scripts.
 - [`patterns/theme-switcher.md`](patterns/theme-switcher.md) — system/local/server-owned theme state.
-- [`patterns/micro-interactions.md`](patterns/micro-interactions.md) — app-like hover/active/focus feedback.
+- [`patterns/micro-interactions.md`](patterns/micro-interactions.md) — app-like hover/active/focus feedback with reduced-motion handling.
 - [`patterns/autosizing-textarea.md`](patterns/autosizing-textarea.md) — message composer without autosize JS.
 - [`patterns/responsive-component.md`](patterns/responsive-component.md) — component layout without width-only ResizeObserver logic.
 - [`patterns/mobile-app-shell.md`](patterns/mobile-app-shell.md) — viewport/safe-area-aware shell without resize/device JS.
@@ -214,6 +224,15 @@ patterns/mobile-app-shell.md
  -> primitives/dynamic-viewport-units.md
  -> primitives/safe-area-env.md
  -> compatibility/tor-browser-firefox-esr.md
+```
+
+### User content in a chat app
+
+```text
+patterns/user-generated-bidi-content.md
+ -> primitives/dir-auto.md
+ -> primitives/bdi.md
+ -> primitives/dirname-form-submission.md
 ```
 
 ### Autosizing chat composer
