@@ -16,6 +16,7 @@ The following landed before Firefox 140 and are therefore available in the Firef
 - `:autofill` — Firefox 86
 - `<dialog>` — Firefox 98
 - dynamic viewport units (`svh`, `lvh`, `dvh`, etc.) — Firefox 101
+- `prefers-contrast` — Firefox 101
 - `:modal` — Firefox 103
 - container **size** queries — Firefox 110
 - `light-dark()` — Firefox 120
@@ -37,9 +38,10 @@ Mature technologies also well inside this baseline include:
 - `accent-color`;
 - native validation and range state;
 - `inputmode`, `enterkeyhint`, `autocomplete` tokens;
-- `dir="auto"` and `<bdi>`;
+- `dir="auto"`, `<bdi>` and `dirname` form submission;
 - `<picture>`, `srcset`, `sizes`;
 - native `<video>/<audio controls>` and `<track>`;
+- `prefers-color-scheme`, `prefers-reduced-motion`, `forced-colors`;
 - `position: sticky`;
 - `scroll-margin`, `scroll-padding`, scroll snap;
 - `aspect-ratio`, `object-fit`;
@@ -73,6 +75,10 @@ Do not make these core to Tor Browser 15.0.21:
 - Declarative Partial Updates — Chromium/WICG emerging work
 - cross-document View Transitions — not a Firefox 140 ESR baseline
 
+## Conditional native hint: file `capture`
+
+The ordinary file input is stable, but the `capture` hint remains Limited Availability across the broader browser ecosystem. Treat it as optional mobile ergonomics on top of a normal file-picker path.
+
 ## Special no-JS caveat: native lazy loading
 
 Do **not** infer that `loading="lazy"` will save bandwidth when scripting is disabled.
@@ -104,14 +110,15 @@ For a Tor-first product:
 4. ensure forms/links remain complete task paths;
 5. treat newer UI features as progressive enhancement;
 6. keep native gesture/input behavior intact unless a narrowly-scoped CSS rule intentionally changes it;
-7. do not depend on lazy-loading request deferral when scripting is disabled.
+7. do not depend on lazy-loading request deferral when scripting is disabled;
+8. respect reduced-motion/contrast/forced-color preferences instead of overriding them.
 
 ## Official Mozilla release references
 
 - `::file-selector-button` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/82
 - `:autofill` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/86
 - `<dialog>` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/98
-- dynamic viewport units — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/101
+- dynamic viewport units / `prefers-contrast` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/101
 - `:modal` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/103
 - container size queries — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/110
 - `light-dark()` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/120
