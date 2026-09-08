@@ -44,6 +44,10 @@ Each file documents one browser capability, its state boundary, compatibility ro
 - [`primitives/popover.md`](primitives/popover.md) — declarative floating menus/panels and `:popover-open`.
 - [`primitives/dialog.md`](primitives/dialog.md) — `<dialog>` semantics and the difference between the mature element and newer invoker commands.
 - [`primitives/has.md`](primitives/has.md) — `:has()` as visual state propagation instead of JavaScript class toggling.
+- [`primitives/focus-states.md`](primitives/focus-states.md) — `:focus-visible` and `:focus-within` for browser-owned focus feedback.
+- [`primitives/interaction-pseudo-classes.md`](primitives/interaction-pseudo-classes.md) — `:hover` / `:active` and instant CSS interaction feedback.
+- [`primitives/form-selection-state.md`](primitives/form-selection-state.md) — semantic `:checked` state for real radio/checkbox selection.
+- [`primitives/color-scheme.md`](primitives/color-scheme.md) — browser-native color-scheme integration for native controls/UI.
 - [`primitives/native-validation.md`](primitives/native-validation.md) — native constraints, `:user-invalid` and `:user-valid`.
 - [`primitives/target.md`](primitives/target.md) — URL-fragment state exposed through `:target`.
 - [`primitives/hidden-until-found.md`](primitives/hidden-until-found.md) — collapsed content that remains discoverable through Find in Page and fragments.
@@ -79,8 +83,10 @@ Patterns compose primitives into actual UI solutions. Read the pattern first whe
 
 - [`patterns/accordion.md`](patterns/accordion.md) — semantic accordion/disclosure.
 - [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md) — popover-based action/dropdown menu.
+- [`patterns/responsive-navigation.md`](patterns/responsive-navigation.md) — no-JS mobile/desktop navigation with semantic disclosure and newer dialog direction.
 - [`patterns/url-tabs.md`](patterns/url-tabs.md) — fragment/server-backed panels and tab-like navigation.
 - [`patterns/theme-switcher.md`](patterns/theme-switcher.md) — temporary radio-driven theme state plus persistent server preference.
+- [`patterns/micro-interactions.md`](patterns/micro-interactions.md) — hover/active/focus feedback that creates app-like responsiveness without JS.
 - [`patterns/carousel.md`](patterns/carousel.md) — scroll-snap baseline with optional native generated controls.
 - [`patterns/bottom-sheet.md`](patterns/bottom-sheet.md) — model a bottom sheet as scrolling rather than pointer-physics JavaScript.
 - [`patterns/scrollspy.md`](patterns/scrollspy.md) — normal anchors plus optional CSS-native active-section tracking.
@@ -108,7 +114,7 @@ Read these before making a new platform feature part of core product behavior.
 
 # How an AI should use PureDesign
 
-For a request such as **“build a zero-JS dropdown menu for Tor Browser”**:
+For **“build a zero-JS dropdown menu for Tor Browser”**:
 
 ```text
 AGENTS.md
@@ -123,6 +129,7 @@ For **“make selectable pricing cards”**:
 
 ```text
 patterns/selectable-cards.md
+  -> primitives/form-selection-state.md
   -> primitives/has.md
   -> principles/state-ownership.md
 ```
