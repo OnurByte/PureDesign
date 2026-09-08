@@ -15,6 +15,7 @@ This file answers one question: may a primitive be core behavior for the conserv
 | `:modal` / `::backdrop` | Yes on Firefox 140 baseline | browser-owned modal styling |
 | real checkbox/radio/select | Yes | selection/form state |
 | `<input type="file">` + multipart form | Yes | upload baseline |
+| file `capture` hint | Conditional | optional mobile camera/mic hint; Limited Availability |
 | `::file-selector-button` | Yes on Firefox 140 baseline | style native upload button |
 | date/time/range/color native inputs | Yes/conditional UX | browser-owned control; test task suitability |
 | `<progress>` / `<meter>` | Yes | semantic status/measurement |
@@ -33,11 +34,16 @@ This file answers one question: may a primitive be core behavior for the conserv
 | `inputmode` / `enterkeyhint` | Yes | virtual-keyboard hints |
 | `autocomplete` tokens | Yes | browser/password-manager autofill semantics |
 | `dir="auto"` / `<bdi>` | Yes | unknown-direction user text |
+| `dirname` form submission | Yes | submit browser-determined text direction |
 | `<picture>` / `srcset` / `sizes` | Yes | browser-owned responsive image selection |
 | native `<video>/<audio controls>` + `<track>` | Yes | baseline media playback/captions |
 | `loading="lazy"` | Conditional; **not a no-JS bandwidth guarantee** | deferral disappears when scripting is disabled |
 | `color-scheme` | Yes | UA/native-control scheme integration |
+| `prefers-color-scheme` | Yes | system/browser theme preference |
 | `light-dark()` | Yes on Firefox 140 baseline | system-following theme values |
+| `prefers-reduced-motion` | Yes | motion preference; enhancement behavior only |
+| `prefers-contrast` | Yes on Firefox 140 baseline | user-requested contrast adaptation |
+| `forced-colors` | Yes/conditional | targeted fixes for forced/high-contrast palettes |
 | input `hover` / `pointer` media features | Yes | input-capability-aware polish |
 | `scripting` media feature | Yes | capability-aware mixed-app fallback |
 | Popover API (`auto`/basic) | Yes on Firefox 140 baseline | menus/panels |
