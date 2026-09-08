@@ -30,6 +30,7 @@ Architectural rules that override clever implementation tricks.
 - [`principles/progressive-enhancement.md`](principles/progressive-enhancement.md) — functionality first; new CSS may add polish but may not become the only task path.
 - [`principles/server-authoritative-state.md`](principles/server-authoritative-state.md) — sorting, filtering, CRUD, auth and other durable state remain HTTP/server concerns.
 - [`principles/accessibility-and-input.md`](principles/accessibility-and-input.md) — keyboard, touch, focus, hover and accessibility rules for zero-JS UI.
+- [`principles/legacy-css-hacks.md`](principles/legacy-css-hacks.md) — checkbox/radio state-machine history, valid boundaries and why modern semantic primitives are preferred.
 
 ---
 
