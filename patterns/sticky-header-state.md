@@ -1,10 +1,12 @@
-# Sticky header state without scroll JavaScript
+# Sticky Header State Without Scroll JavaScript
 
 ## Goal
 
 Give a sticky header a visible "stuck" state without an `IntersectionObserver` or scroll listener.
 
 ## Baseline
+
+Use [`position: sticky`](../primitives/position-sticky.md):
 
 ```css
 .header-shell {
@@ -14,9 +16,11 @@ Give a sticky header a visible "stuck" state without an `IntersectionObserver` o
 }
 ```
 
-The header must remain correct without any state-dependent styling.
+The sticky behavior itself is stable browser functionality. The header must remain correct without any state-dependent styling.
 
 ## Progressive enhancement
+
+Use [scroll-state container queries](../primitives/scroll-state-container-queries.md) only for extra stuck-state presentation:
 
 ```css
 @supports (container-type: scroll-state) {
@@ -57,5 +61,6 @@ visual feedback -> CSS
 
 ## Read
 
+- [`../primitives/position-sticky.md`](../primitives/position-sticky.md)
 - [`../primitives/scroll-state-container-queries.md`](../primitives/scroll-state-container-queries.md)
 - [`../principles/progressive-enhancement.md`](../principles/progressive-enhancement.md)
