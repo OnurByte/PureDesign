@@ -3,6 +3,8 @@
 ## Compose
 
 - [`<dialog>`](../primitives/dialog.md)
+- [`:modal` / `::backdrop`](../primitives/modal-and-backdrop-state.md)
+- [`method="dialog"` / `formmethod="dialog"`](../primitives/dialog-form-method.md) for local cancel/close controls
 - newer [`command` / `commandfor`](../primitives/command-and-commandfor.md)
 - optional [`closedby`](../primitives/dialog-closedby.md)
 - optional [`scrollbar-gutter`](../primitives/scrollbar-gutter.md) for layout stability
@@ -30,13 +32,12 @@ A modal is only presentation/confirmation around that operation.
 
   <form action="/files/1/delete" method="post">
     <button type="submit">Confirm delete</button>
+    <button type="submit" formmethod="dialog">Cancel</button>
   </form>
-
-  <button commandfor="delete-dialog" command="request-close">Cancel</button>
 </dialog>
 ```
 
-The browser can own modal/top-layer state, platform close requests, and (where `closedby="any"` is supported) light dismissal.
+The browser can own modal/top-layer state, the backdrop and local dialog dismissal. `formmethod="dialog"` closes the dialog without sending the destructive POST; the confirmation button still uses the real server endpoint.
 
 ## Compatibility rule
 
