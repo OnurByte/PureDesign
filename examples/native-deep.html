@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PureDesign — Deep Native Demo</title>
+    <link rel="stylesheet" href="native-deep.css">
+</head>
+<body>
+    <header class="site-header">
+        <div>
+            <p class="eyebrow">PureDesign</p>
+            <h1>Deep native UI primitives</h1>
+            <p>No client-side JavaScript. New browser features are enhancements, not dependencies.</p>
+        </div>
+
+        <button popovertarget="about-demo">About this demo</button>
+        <aside id="about-demo" popover>
+            <strong>State owner:</strong> browser + URL + forms.
+        </aside>
+    </header>
+
+    <nav class="toc" aria-label="Demo sections">
+        <a href="#findable">Findable hidden content</a>
+        <a href="#forms">Native form routing</a>
+        <a href="#autocomplete">Autocomplete</a>
+        <a href="#accordion">Accordion</a>
+        <a href="#carousel">Carousel</a>
+        <a href="#inert-demo">Inert subtree</a>
+        <a href="#hints">Hint popovers</a>
+    </nav>
+
+    <main>
+        <section id="findable" class="panel">
+            <p class="eyebrow">Firefox 139+</p>
+            <h2><code>hidden="until-found"</code></h2>
+            <p>
+                The advanced note below starts hidden. It can still be revealed by fragment navigation,
+                and supporting browsers can reveal matching content through Find in Page.
+            </p>
+            <p><a href="#deep-hidden">Reveal the hidden section through its fragment</a></p>
+
+            <article id="deep-hidden" hidden="until-found" class="reveal-card">
+                <h3>You found the hidden section</h3>
+                <p>
+                    Ordinary <code>hidden</code> content cannot be reached this way. The
+                    <code>until-found</code> state lets the browser own the reveal behavior.
+                </p>
+            </article>
+        </section>
+
+        <section id="forms" class="panel">
+            <p class="eyebrow">Widely supported HTML</p>
+            <h2>One form, multiple server actions</h2>
+            <p>
+                The submit button itself can override the form endpoint and method. No click router or
+                <code>fetch()</code> is needed.
+            </p>
+
+            <form id="document-form" action="./native-deep.html#saved" method="get" class="stack">
+                <label>
+                    Document name
+                    <input name="name" required value="native-ui-notes">
+                </label>
+
+                <label>
+                    Visibility
+                    <select name="visibility">
+                        <option value="private">Private</option>
+                        <option value="public">Public</option>
+                    </select>
+                </label>
+
+                <div class="actions">
+                    <button type="submit" name="intent" value="save">Save</button>
+                    <button
+                        type="submit"
+                        name="intent"
+                        value="preview"
+                        formaction="./native-deep.html#preview"
+                        formmethod="get">
+                        Preview route
+                    </button>
+                </div>
+            </form>
+
+            <p>
+                This button is visually outside the form but still owns it through
+                <code>form="document-form"</code>:
+            </p>
+            <button form="document-form" type="submit" name="intent" value="sticky-save">
+                External save button
+            </button>
+        </section>
+
+        <section id="autocomplete" class="panel">
+            <p class="eyebrow">Native suggestion list</p>
+            <h2><code>&lt;datalist&gt;</code></h2>
+            <p>Useful for lightweight suggestions, but not a universal accessible combobox replacement.</p>
+
+            <label class="stack">
+                City
+                <input name="city" list="cities" placeholder="Start typing…">
+            </label>
+            <datalist id="cities">
+                <option value="Bolu"></option>
+                <option value="Ankara"></option>
+                <option value="Istanbul"></option>
+                <option value="Izmir"></option>
+                <option value="Bursa"></option>
+            </datalist>
+        </section>
+
+        <section id="accordion" class="panel">
+            <p class="eyebrow">Firefox 130+</p>
+            <h2>Exclusive accordion with <code>&lt;details name&gt;</code></h2>
+
+            <div class="details-group">
+                <details name="deep-demo" open>
+                    <summary>Browser state</summary>
+                    <p>The browser owns which disclosure is open.</p>
+                </details>
+                <details name="deep-demo">
+                    <summary>Server state</summary>
+                    <p>Durable data still belongs to HTTP and the server.</p>
+                </details>
+                <details name="deep-demo">
+                    <summary>CSS state</summary>
+                    <p>CSS renders state instead of inventing it.</p>
+                </details>
+            </div>
+        </section>
+
+        <section id="carousel" class="panel">
+            <p class="eyebrow">Baseline scroll snap + newer CSS controls</p>
+            <h2>Carousel that remains usable without generated controls</h2>
+
+            <div class="carousel" aria-label="Research cards">
+                <article>
+                    <strong>Baseline</strong>
+                    <p>Horizontal overflow means touch, trackpad, keyboard, and scrollbar remain real navigation.</p>
+                </article>
+                <article>
+                    <strong>Snap</strong>
+                    <p>CSS Scroll Snap gives pagination-like movement without drag JavaScript.</p>
+                </article>
+                <article>
+                    <strong>Enhancement</strong>
+                    <p>New browsers can generate previous/next buttons and markers directly from CSS.</p>
+                </article>
+                <article>
+                    <strong>Fallback</strong>
+                    <p>If the new pseudo-elements do not exist, the carousel is still a normal scroll container.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="inert-demo" class="panel">
+            <p class="eyebrow">Baseline since 2023</p>
+            <h2>Server-rendered inactive subtree with <code>inert</code></h2>
+            <p>The second workflow stage is intentionally not interactive or focusable.</p>
+
+            <div class="workflow">
+                <fieldset>
+                    <legend>Stage 1 — active</legend>
+                    <label>Title <input value="Editable"></label>
+                    <button type="button">Active control</button>
+                </fieldset>
+
+                <fieldset inert>
+                    <legend>Stage 2 — inert</legend>
+                    <label>Secret <input value="Cannot focus this"></label>
+                    <button type="button">Cannot activate this</button>
+                </fieldset>
+            </div>
+        </section>
+
+        <section id="hints" class="panel">
+            <p class="eyebrow">Popover state taxonomy</p>
+            <h2><code>popover="auto"</code> containing <code>popover="hint"</code></h2>
+
+            <button popovertarget="action-menu">Open action menu</button>
+
+            <div id="action-menu" popover="auto" class="menu">
+                <a href="#forms">Edit metadata</a>
+                <div class="menu-row">
+                    <span>Server-rendered</span>
+                    <button popovertarget="server-hint" aria-label="More information">?</button>
+                </div>
+            </div>
+
+            <div id="server-hint" popover="hint" class="hint">
+                Hint popovers are designed to coexist with surrounding auto-popover UI.
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>PureDesign deep-native demo — zero client-side JavaScript.</p>
+    </footer>
+</body>
+</html>
