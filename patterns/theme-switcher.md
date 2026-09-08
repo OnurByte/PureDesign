@@ -12,6 +12,8 @@ If the product simply follows the browser/OS scheme, keep the browser authoritat
 }
 ```
 
+For browsers/architectures where explicit media blocks are preferable, use [`prefers-color-scheme`](../primitives/prefers-color-scheme.md).
+
 This avoids JavaScript theme detection and keeps native controls aligned with the document scheme.
 
 ## Temporary local state
@@ -48,6 +50,7 @@ Do not require localStorage JavaScript for the theme to work.
 
 - [native selection state](../primitives/form-selection-state.md)
 - [`:has()`](../primitives/has.md)
+- [`prefers-color-scheme`](../primitives/prefers-color-scheme.md)
 - [`color-scheme`](../primitives/color-scheme.md)
 - [`light-dark()`](../primitives/light-dark.md)
 - [server-authoritative state](../principles/server-authoritative-state.md)
