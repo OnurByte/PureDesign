@@ -55,3 +55,12 @@ Depending on the browser baseline:
 - Declarative Partial Updates
 
 Always verify the exact target browser in `compatibility/`.
+
+## Research references
+
+Useful examples of this architecture:
+
+- Adam Bien / unscripted — https://github.com/AdamBien/unscripted
+- MinimaCSS — https://github.com/hardikforall/MinimaCSS
+- Omni Carousel — https://github.com/demetris/omni-carousel
+- TeamDijon details fallback example — https://gist.github.com/TeamDijon
