@@ -4,6 +4,7 @@
 
 - [`:hover` / `:active`](../primitives/interaction-pseudo-classes.md)
 - [`:focus-visible` / `:focus-within`](../primitives/focus-states.md)
+- [`prefers-reduced-motion`](../primitives/prefers-reduced-motion.md)
 - optional [`@starting-style` / discrete transitions](../primitives/starting-style-and-discrete-transitions.md)
 
 ## Goal
@@ -20,6 +21,16 @@ Make controls respond immediately without introducing a client runtime merely fo
 .button:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .button:active {
+    transform: none;
+  }
 }
 ```
 
