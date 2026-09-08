@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="PureDesign zero-client-JavaScript UI playground">
+    <title>PureDesign — zero-JS UI playground</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div>
+            <p class="eyebrow">PureDesign</p>
+            <h1>Zero-client-JS UI playground</h1>
+            <p class="lede">
+                Every interaction on this page is native HTML, CSS, URL state, or ordinary browser behavior.
+                There is no script element and no client JavaScript runtime.
+            </p>
+        </div>
+
+        <nav class="header-actions" aria-label="Page actions">
+            <div class="menu-wrap">
+                <button class="button secondary" popovertarget="demo-menu">Actions</button>
+                <div id="demo-menu" class="action-menu" popover>
+                    <a href="#forms">Open form demo</a>
+                    <a href="#carousel">Open carousel</a>
+                    <a href="../docs/patterns.md">Read patterns</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <section class="demo-section" aria-labelledby="theme-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Derived state</p>
+                    <h2 id="theme-title">Theme with radio state + <code>:has()</code></h2>
+                </div>
+                <span class="badge">No localStorage</span>
+            </div>
+
+            <fieldset class="segmented-control">
+                <legend>Color scheme</legend>
+
+                <label>
+                    <input id="theme-system" type="radio" name="theme" value="system" checked>
+                    <span>System</span>
+                </label>
+
+                <label>
+                    <input id="theme-light" type="radio" name="theme" value="light">
+                    <span>Light</span>
+                </label>
+
+                <label>
+                    <input id="theme-dark" type="radio" name="theme" value="dark">
+                    <span>Dark</span>
+                </label>
+            </fieldset>
+
+            <p class="note">
+                This state is intentionally temporary. A real persistent preference should be posted to the server
+                and rendered back onto the root document.
+            </p>
+        </section>
+
+        <section class="demo-section" aria-labelledby="plans-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Selection</p>
+                    <h2 id="plans-title">Cards react to real form state</h2>
+                </div>
+                <span class="badge"><code>:has(:checked)</code></span>
+            </div>
+
+            <fieldset class="plan-grid">
+                <legend>Choose a plan</legend>
+
+                <label class="plan-card">
+                    <input type="radio" name="plan" value="basic" checked>
+                    <span class="plan-name">Basic</span>
+                    <span class="plan-copy">A real radio button owns the state.</span>
+                </label>
+
+                <label class="plan-card">
+                    <input type="radio" name="plan" value="pro">
+                    <span class="plan-name">Pro</span>
+                    <span class="plan-copy">The parent card derives presentation with <code>:has()</code>.</span>
+                </label>
+
+                <label class="plan-card">
+                    <input type="radio" name="plan" value="max">
+                    <span class="plan-name">Max</span>
+                    <span class="plan-copy">No click handler or active class exists.</span>
+                </label>
+            </fieldset>
+        </section>
+
+        <section class="demo-section" aria-labelledby="details-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Disclosure</p>
+                    <h2 id="details-title">Native accordion</h2>
+                </div>
+                <span class="badge"><code>&lt;details name&gt;</code></span>
+            </div>
+
+            <div class="accordion">
+                <details name="architecture" open>
+                    <summary>Where does temporary UI state live?</summary>
+                    <div class="details-body">
+                        In the browser-native primitive: disclosure state, checked state, focus state, popover state,
+                        or URL fragment state.
+                    </div>
+                </details>
+
+                <details name="architecture">
+                    <summary>Where does durable state live?</summary>
+                    <div class="details-body">
+                        On the server. Links and forms produce HTTP requests; the response returns authoritative HTML.
+                    </div>
+                </details>
+
+                <details name="architecture">
+                    <summary>What happens when newer CSS is unsupported?</summary>
+                    <div class="details-body">
+                        Polish should disappear, not functionality. Progressive enhancement is part of the component contract.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section class="demo-section" id="forms" aria-labelledby="forms-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Forms</p>
+                    <h2 id="forms-title">Native validation feedback</h2>
+                </div>
+                <span class="badge"><code>:user-invalid</code></span>
+            </div>
+
+            <form class="demo-form" action="?submitted=1#forms" method="get">
+                <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" required placeholder="name@example.com" autocomplete="email">
+                    <small>Try submitting an invalid email.</small>
+                </label>
+
+                <label class="field">
+                    <span>Display name</span>
+                    <input type="text" name="name" minlength="3" maxlength="30" required placeholder="At least 3 characters">
+                    <small>Constraint validation remains browser-native; the server must still validate too.</small>
+                </label>
+
+                <button class="button" type="submit">Submit form</button>
+            </form>
+        </section>
+
+        <section class="demo-section" aria-labelledby="url-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">URL state</p>
+                    <h2 id="url-title">Fragment-driven panels</h2>
+                </div>
+                <span class="badge"><code>:target</code></span>
+            </div>
+
+            <nav class="tabs" aria-label="Architecture topics">
+                <a href="#browser-state">Browser state</a>
+                <a href="#server-state">Server state</a>
+                <a href="#progressive-state">Enhancement</a>
+            </nav>
+
+            <div class="tab-panels">
+                <article id="browser-state" class="tab-panel">
+                    <h3>Browser state</h3>
+                    <p>Use native interaction primitives for ephemeral state.</p>
+                </article>
+
+                <article id="server-state" class="tab-panel">
+                    <h3>Server state</h3>
+                    <p>Use URLs, forms, redirects, and rendered HTML for authoritative state.</p>
+                </article>
+
+                <article id="progressive-state" class="tab-panel">
+                    <h3>Progressive enhancement</h3>
+                    <p>New browser features improve presentation without becoming the only route to a task.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="demo-section" id="carousel" aria-labelledby="carousel-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Browser physics</p>
+                    <h2 id="carousel-title">Carousel as horizontal scrolling</h2>
+                </div>
+                <span class="badge">scroll snap</span>
+            </div>
+
+            <div class="carousel" aria-label="PureDesign principles">
+                <article class="carousel-card">
+                    <span class="card-index">01</span>
+                    <h3>Semantic first</h3>
+                    <p>Choose a native element whose semantics already match the interaction.</p>
+                </article>
+
+                <article class="carousel-card">
+                    <span class="card-index">02</span>
+                    <h3>Browser owns physics</h3>
+                    <p>Prefer real scrolling, focus, disclosure, and popover behavior over simulation.</p>
+                </article>
+
+                <article class="carousel-card">
+                    <span class="card-index">03</span>
+                    <h3>Server owns truth</h3>
+                    <p>Keep durable application state out of fragile client-only stores.</p>
+                </article>
+
+                <article class="carousel-card">
+                    <span class="card-index">04</span>
+                    <h3>Polish may disappear</h3>
+                    <p>An unsupported transition should never make content inaccessible.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="demo-section" aria-labelledby="server-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Server-rendered state</p>
+                    <h2 id="server-title">Links can be state controls</h2>
+                </div>
+                <span class="badge">HTTP</span>
+            </div>
+
+            <div class="view-controls" aria-label="Example server view state">
+                <a class="button secondary" href="?view=list#server-view">List view</a>
+                <a class="button secondary" href="?view=grid#server-view">Grid view</a>
+                <a class="button secondary" href="?sort=size#server-view">Sort by size</a>
+            </div>
+
+            <p id="server-view" class="note">
+                This static demo cannot render query parameters, but a real server would read them and render
+                attributes/classes directly into the response. Back, forward, refresh, copy-link, and bookmarks then work naturally.
+            </p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>PureDesign — no script tag, no client runtime.</p>
+        <a href="../README.md">Repository README</a>
+    </footer>
+</body>
+</html>
