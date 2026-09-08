@@ -22,9 +22,10 @@ The browser owns file selection and multipart encoding.
 
 - `multiple` — select multiple files;
 - `accept` — hint accepted MIME types/extensions;
+- [`capture`](file-capture-hint.md) — optional mobile camera/microphone hint with Limited Availability;
 - platform-native picker UI.
 
-`accept` is only a picker hint. The server must verify actual file type/content.
+`accept` and `capture` are only client hints. The server must verify actual file type/content.
 
 ## Boundary
 
@@ -35,3 +36,4 @@ Without client-side JavaScript you do not get local previews, drag/drop orchestr
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/multiple
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/accept
+- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/capture
