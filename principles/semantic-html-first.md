@@ -40,3 +40,12 @@ Use `:checked` when the state is genuinely checkbox/radio-like, not merely becau
 ## Test
 
 Before building a component, ask: if author CSS disappeared, would the remaining HTML still describe the interaction honestly?
+
+## Research references
+
+These projects are useful implementation/reference material, not required dependencies:
+
+- Pico CSS — https://github.com/picocss/pico
+- µCSS — https://github.com/Digicreon/muCSS
+- Frutjam — https://github.com/nezanuha/frutjam
+- classless-css collection — https://github.com/dbohdan/classless-css
