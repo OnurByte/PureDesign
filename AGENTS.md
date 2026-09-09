@@ -1,53 +1,90 @@
 # AI Instructions for PureDesign
 
-PureDesign is an atomic knowledge base for building modern interfaces with **zero client-side JavaScript for core behavior**.
+PureDesign is an atomic knowledge base for building modern interfaces that look like they should need JavaScript while using **zero client-side JavaScript**.
+
+## Non-negotiable rule
+
+```text
+client-side JavaScript = 0
+```
+
+Do not add:
+
+- `<script>`;
+- JavaScript modules;
+- inline event handlers such as `onclick`;
+- hydration;
+- client runtimes;
+- JavaScript polyfills;
+- event-listener glue;
+- DOM state machines;
+- JavaScript used only as an "optional enhancement" inside a PureDesign implementation.
+
+A backend may use any language/runtime. The restriction is JavaScript executed in the browser.
+
+If the requested interaction cannot be built from semantic HTML, CSS, browser-owned state, native controls, real URLs/forms, and server-rendered responses, report the limitation instead of adding JavaScript.
 
 ## How to read this repository
 
 Do **not** load every file blindly.
 
-1. Read `README.md` only as the map.
+1. Read `README.md` as the human/AI map.
 2. Read the exact file in `patterns/` matching the UI problem.
 3. Follow that pattern's links to the smallest relevant set in `primitives/`.
 4. Read `principles/` only when state ownership, semantics or accessibility is unclear.
 5. Read `compatibility/tor-browser-firefox-esr.md` whenever Tor Browser / Firefox ESR matters.
-6. Read `compatibility/feature-matrix.md` before making a newer primitive core functionality.
+6. Read `compatibility/feature-matrix.md` before making a newer primitive essential.
 
 ## Source-of-truth boundaries
 
 - `principles/` — architecture rules.
 - `primitives/` — **one browser/platform capability per file**.
 - `patterns/` — concrete compositions; link to primitive files instead of duplicating them.
-- `compatibility/` — core vs polish vs conditional vs unsupported/experimental.
+- `compatibility/` — baseline vs polish vs conditional vs unsupported/experimental.
 - Research provenance belongs in the exact primitive/pattern file that uses it.
 
 If files conflict:
 
 ```text
-compatibility > pattern convenience
-principles    > clever CSS trick
-semantics/a11y > visual similarity
+zero-client-JS contract > implementation convenience
+compatibility           > pattern convenience
+principles              > clever CSS trick
+semantics/a11y          > visual similarity
 ```
 
 ## Product contract
 
 PureDesign means:
 
-- no hydration requirement;
-- no client runtime required for core tasks;
+- no client-side JavaScript;
+- no hydration;
+- no browser-side runtime;
 - semantic HTML first;
 - browser-owned ephemeral interaction/focus/scroll/layout state where available;
 - native controls before reimplemented widgets;
 - real URLs/links/forms for navigation and submission;
 - URL/server-owned durable application state;
-- CSS renders browser/server state instead of becoming an unreadable state machine;
-- unsupported new features remove polish, not access to the task.
+- CSS renders browser/server state instead of becoming an unreadable fake application runtime;
+- unsupported new features remove polish, not access to the task;
+- impossible requests remain explicitly unsupported instead of being solved with JavaScript.
 
-## Decision flow before writing JavaScript
+## Required decision flow
+
+There is no "try HTML/CSS first, then write JavaScript" fallback.
+
+The flow is:
+
+```text
+requested UI
+  -> find semantic/native/browser primitive
+  -> compose with HTML/CSS/URL/form/server state
+  -> verify compatibility
+  -> if impossible under constraints: say unsupported
+```
 
 ### Navigation and deep links
 
-Before route-click, route-active or scroll-to-highlight JS, check:
+For route state, navigation, current-page styling, scrolling, and deep links, check:
 
 - `primitives/anchor-navigation.md`
 - `primitives/aria-current.md`
@@ -56,13 +93,13 @@ Before route-click, route-active or scroll-to-highlight JS, check:
 - `primitives/scroll-offsets.md`
 - `primitives/scroll-behavior.md`
 
-The server already knows the current route. Prefer server-rendered `aria-current` over `location.pathname -> .active` logic.
+The server already knows the current route. Prefer server-rendered `aria-current` over recreating location state in the browser.
 
 Use a real element `id` for durable structural anchors. Text fragments are useful for exact passages, but copied text in a `#:~:text=` URL is not a stable application identifier and may expose the quoted phrase in URL surfaces.
 
 ### Forms and actions
 
-Before click handlers or request-building code, check:
+For form routing, detached actions, validation, and multiple submit intents, check:
 
 - native form submission
 - `primitives/form-owner-attribute.md`
@@ -73,11 +110,11 @@ Before click handlers or request-building code, check:
 - `primitives/native-validation.md`
 - `primitives/search-input-and-landmark.md`
 
-A submit button can live outside the visual form and still belong to it through `form="id"`. The clicked successful submit button can already choose endpoint/method or serialize its own intent.
+A submit button can live outside the visual form and still belong to it through `form="id"`. The clicked successful submit button can choose endpoint/method or serialize its own intent.
 
 ### Native controls
 
-Before custom dropdown/date/color/file/range/progress/player widgets, check:
+Before inventing a custom dropdown/date/color/file/range/progress/player widget, check:
 
 - `native-select.md`
 - `date-time-inputs.md`
@@ -89,11 +126,11 @@ Before custom dropdown/date/color/file/range/progress/player widgets, check:
 - `meter.md`
 - `native-media-controls.md`
 
-A native control may be visually less exotic, but it often gives keyboard, touch, accessibility, OS integration and fallback behavior for free.
+A native control may be visually less exotic, but it gives keyboard, touch, accessibility, OS integration, and fallback behavior without browser-side code.
 
 ### Component responsiveness and layout
 
-Before `resize` listeners, `ResizeObserver`, manual column counts, sibling measurement or text-metric hacks, check:
+For responsive behavior, element measurement, sibling-aware presentation, and text metrics, check:
 
 - `container-size-queries.md`
 - `responsive-grid-auto-fit.md`
@@ -109,20 +146,20 @@ Before `resize` listeners, `ResizeObserver`, manual column counts, sibling measu
 - progressive `sibling-index-and-count.md`
 - progressive `text-box-trim.md`
 
-If the markup/data stays the same and only layout changes, the layout engine should usually own the problem.
+If the markup/data stays the same and only layout changes, the CSS layout engine should own the problem.
 
 Do not make sibling math or text-box trimming core on Firefox 140/Tor. They are current-browser presentation tools, not conservative-baseline primitives.
 
 ### Rendering/performance and scroll stability
 
-Before adding a runtime solely to reduce paint/layout work or manually compensate scroll position, check:
+For rendering cost and scroll stability, check:
 
 - `content-visibility.md`
 - `contain-intrinsic-size.md`
 - `css-containment.md`
 - `overflow-anchor.md`
 
-But never overclaim these:
+Never overclaim these:
 
 ```text
 content-visibility != data virtualization
@@ -135,7 +172,7 @@ Reserve intrinsic geometry first. Keep browser scroll anchoring enabled by defau
 
 ### Scroll and floating UI
 
-Before scroll listeners, pointer-physics or positioning libraries, check:
+For scrolling, sticky state, menus, popovers, and floating placement, check:
 
 - `position-sticky.md`
 - `scroll-snap.md`
@@ -152,7 +189,7 @@ Before scroll listeners, pointer-physics or positioning libraries, check:
 
 ### Text direction, locale and input method
 
-Before RTL branches/device sniffing/text-input helper JS, check:
+For RTL, unknown-direction content, and input hints, check:
 
 - `dir-auto.md`
 - `bdi.md`
@@ -170,7 +207,7 @@ For sensitive fields, remember `spellcheck` may involve third-party services in 
 
 ### User preferences and color
 
-Before `matchMedia()` used only to change CSS or client code that calculates a simple black/white foreground, check:
+For theme, reduced motion, contrast, input capability, and simple foreground derivation, check:
 
 - `prefers-color-scheme.md`
 - `prefers-reduced-motion.md`
@@ -184,13 +221,13 @@ Before `matchMedia()` used only to change CSS or client code that calculates a s
 
 ### CSS computation
 
-Before introducing runtime code only to derive reusable presentation values, check mature CSS math/custom properties first. For future-facing experiments also read:
+For presentation values that appear to require runtime computation, check mature CSS math/custom properties first. For future-facing experiments also read:
 
 - `css-if.md`
 - `css-custom-functions.md`
 - `typed-attr.md`
 
-Do not move permissions, durable state, business rules or data fetching into CSS merely because newer CSS can express more logic.
+Do not move permissions, durable state, business rules, or data fetching into CSS merely because newer CSS can express more logic.
 
 ## Compatibility discipline
 
@@ -218,9 +255,9 @@ Examples:
 - `field-sizing` is Firefox 152 -> not Tor 140 core.
 - `sibling-index()` / `sibling-count()` are Firefox 154 -> not Tor 140 core.
 - `text-box-trim` / `text-box-edge` are Firefox 154 -> not Tor 140 core.
-- `scroll-initial-target`, CSS `interactivity` and custom `@function` have no normal Firefox release support in the 2026-09-09 snapshot -> never Tor 140 core.
+- `scroll-initial-target`, CSS `interactivity`, and custom `@function` have no normal Firefox release support in the 2026-09-09 snapshot -> never Tor 140 core.
 
-Always compare the exact landing version against the target ESR and then test the actual Tor release.
+Always compare the exact landing version against the target ESR and test the actual Tor release.
 
 ## State ownership examples
 
@@ -244,10 +281,12 @@ application permissions     -> server
 
 ## Do not
 
+- add any client-side JavaScript;
+- add scripts and call them optional enhancement;
 - introduce hidden-checkbox hacks when a semantic primitive exists;
 - use `<a href="#">` or fake `div role=link` for ordinary navigation;
 - require hydration;
-- add JavaScript polyfills and still call the result zero-JS;
+- add JavaScript polyfills and still call the result PureDesign;
 - make experimental CSS the only path to functionality;
 - assume current Chrome/Firefox support implies Tor support;
 - copy a source project's framework layer when only its browser primitive matters;
@@ -257,4 +296,4 @@ application permissions     -> server
 - treat CSS-generated content as the sole accessible critical status message;
 - disable scroll anchoring globally without a concrete product reason;
 - treat CSS `interactivity`/HTML `inert` as authorization;
-- apply `overscroll-behavior: none`, aggressive containment or other behavior-changing optimizations globally without a specific reason.
+- apply `overscroll-behavior: none`, aggressive containment, or other behavior-changing optimizations globally without a specific reason.
