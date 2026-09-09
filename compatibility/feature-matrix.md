@@ -50,6 +50,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `<input type="range">` | Yes | native slider |
 | `<input type="color">` | Yes | native color picker |
 | native file input + multipart form | Yes | baseline upload |
+| `webkitdirectory` directory picker | Conditional; verify actual Tor/product/server stack | native folder selection; Firefox 50+ but still non-standard, hierarchy submission semantics must be tested |
 | `capture` hint | Conditional | mobile capture hint; Limited Availability |
 | `::file-selector-button` | Yes | style real file input button |
 | `<progress>` / `<meter>` | Yes | progress vs scalar measurement |
@@ -72,6 +73,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `scripting` media feature | Yes | script capability adaptation |
 | `position: sticky` | Yes | sticky layout without scroll JS |
 | container size queries | Yes on Firefox 140 baseline | component responsiveness |
+| name-only container queries | No for Firefox 140 ESR | context-based component styling without size conditions; Firefox 149+, Chromium 148+, Safari 26.4+ |
 | Grid `auto-fit` / `minmax()` | Yes | intrinsic responsive column count |
 | CSS Subgrid | Yes | repeated-component track alignment |
 | CSS logical sizing/positioning | Yes | direction-safe layout |
@@ -79,6 +81,7 @@ This file answers one question: may a primitive participate in core behavior for
 | CSS containment | Yes/conditional | layout/paint isolation; behavior-changing |
 | `content-visibility: auto` | Yes/progressive performance | skip off-screen layout/paint |
 | `contain-intrinsic-size` | Yes/progressive | placeholder/remembered contained size |
+| native `loading="lazy"` | Do not rely on it for strict no-JS network savings | img/iframe/video/audio lazy scheduling is disabled when scripting is disabled as an anti-tracking measure |
 | scroll snap | Yes | browser scroll physics |
 | `scroll-initial-target` | No | experimental initial snap target; Chromium 133+, no normal Firefox support at snapshot |
 | scroll offsets | Yes | fragment visibility under sticky UI |
@@ -114,10 +117,12 @@ This file answers one question: may a primitive participate in core behavior for
 | `reading-flow` / `reading-order` | No | experimental sequential navigation ordering |
 | media state pseudo-classes | No for Firefox 140 ESR | playback styling; Firefox 150+ |
 | cross-document View Transitions | No for Firefox 140 ESR | MPA navigation polish |
-| scroll-driven animations | No | decoration only |
+| `<link rel="expect" blocking="render">` | No for Firefox 140 ESR | progressive parser/render stabilization, especially for MPA View Transitions; Chromium-led support |
+| scroll-driven animations | No | scroll directly controls decorative animation progress |
+| scroll-triggered animations / `animation-trigger` | No for Firefox 140 ESR | start/reset time-based decorative animations from scroll conditions; Chromium 146+ |
 | container style queries | No/partial for conservative baseline | newer custom-property-derived component styling |
 | `@scope` | Verify newer-browser support | selector scoping enhancement |
-| typed `attr()` | No/verify | newer attribute-to-CSS value flow |
+| typed `attr()` | No for Firefox 140 ESR | server-rendered attribute values into CSS properties; Firefox 155+ for any property |
 | CSS `if()` | No | experimental/watchlist |
 | CSS custom `@function` | No | experimental author-defined value functions; Chromium 139+, no normal Firefox support at snapshot |
 | native masonry/Grid Lanes | No | evolving/watchlist |
