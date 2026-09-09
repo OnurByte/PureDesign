@@ -23,13 +23,20 @@ The browser owns file selection and multipart encoding.
 - `multiple` — select multiple files;
 - `accept` — hint accepted MIME types/extensions;
 - [`capture`](file-capture-hint.md) — optional mobile camera/microphone hint with Limited Availability;
+- [`webkitdirectory`](directory-file-input.md) — conditional native directory selection;
 - platform-native picker UI.
 
-`accept` and `capture` are only client hints. The server must verify actual file type/content.
+`accept`, `capture`, filenames and directory metadata are client input. The server must verify actual file type/content, authorization, limits and path safety.
+
+## Directory uploads
+
+For a complete no-JS composition, see [directory upload form](../patterns/directory-upload-form.md).
+
+Do not assume directory hierarchy survives ordinary multipart submission just because the browser DOM exposes `File.webkitRelativePath`; verify the target browser and server parser when preserving folders is required.
 
 ## Boundary
 
-Without client-side JavaScript you do not get local previews, drag/drop orchestration, chunked uploads, or live upload progress. Keep the ordinary multipart endpoint as the reliable baseline even when another client exists.
+Without client-side JavaScript you do not get local previews before submission, custom drag/drop orchestration, chunked uploads, or live upload progress. Keep the ordinary multipart endpoint as the reliable baseline even when another client exists.
 
 ## Sources
 
@@ -37,3 +44,4 @@ Without client-side JavaScript you do not get local previews, drag/drop orchestr
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/multiple
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/accept
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/capture
+- https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory
