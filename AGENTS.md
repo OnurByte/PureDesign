@@ -1,6 +1,6 @@
 # AI Instructions for PureDesign
 
-This repository is an atomic knowledge base for building modern interfaces with zero client-side JavaScript.
+PureDesign is an atomic knowledge base for building modern interfaces with **zero client-side JavaScript for core behavior**.
 
 ## How to read this repository
 
@@ -8,24 +8,24 @@ Do **not** load every file blindly.
 
 1. Read `README.md` only as the map.
 2. Read the exact file in `patterns/` matching the UI problem.
-3. Follow that pattern's links to the smallest relevant set of files in `primitives/`.
-4. Read `principles/` only when a state/semantic/accessibility decision is unclear.
-5. Read `compatibility/tor-browser-firefox-esr.md` when Tor Browser or Firefox ESR matters.
+3. Follow that pattern's links to the smallest relevant set in `primitives/`.
+4. Read `principles/` only when state ownership, semantics or accessibility is unclear.
+5. Read `compatibility/tor-browser-firefox-esr.md` whenever Tor Browser / Firefox ESR matters.
 6. Read `compatibility/feature-matrix.md` before making a newer primitive core functionality.
 
 ## Source-of-truth boundaries
 
-- `principles/` defines architectural rules.
-- `primitives/` defines **one browser capability per file**.
-- `patterns/` composes primitives into concrete UI solutions; it should link rather than duplicate primitive documentation.
-- `compatibility/` decides whether a primitive may be core, enhancement-only, conditional, or experimental.
-- Research provenance belongs in the exact primitive/pattern file that uses it; do not create giant source catalogs.
+- `principles/` — architecture rules.
+- `primitives/` — **one browser/platform capability per file**.
+- `patterns/` — concrete compositions; link to primitive files instead of duplicating them.
+- `compatibility/` — core vs polish vs conditional vs unsupported/experimental.
+- Research provenance belongs in the exact primitive/pattern file that uses it.
 
 If files conflict:
 
 ```text
-compatibility  > pattern convenience
-principles     > clever CSS trick
+compatibility > pattern convenience
+principles    > clever CSS trick
 semantics/a11y > visual similarity
 ```
 
@@ -33,158 +33,189 @@ semantics/a11y > visual similarity
 
 PureDesign means:
 
-- zero client-side JavaScript for core behavior;
+- no hydration requirement;
+- no client runtime required for core tasks;
 - semantic HTML first;
-- browser-owned ephemeral interaction, focus, scroll, layout, form, media and preference state where the platform exposes it;
+- browser-owned ephemeral interaction/focus/scroll/layout state where available;
+- native controls before reimplemented widgets;
+- real URLs/links/forms for navigation and submission;
 - URL/server-owned durable application state;
-- CSS renders state instead of pretending to be a programming language;
-- unsupported new CSS may remove polish, never access to a task;
-- server pagination/data limits remain necessary even when CSS can skip off-screen rendering.
+- CSS renders browser/server state instead of becoming an unreadable state machine;
+- unsupported new features remove polish, not access to the task.
 
-## Before writing JavaScript, check the platform owner
+## Decision flow before writing JavaScript
 
-### Resize / layout measurement
+### Navigation
 
-Before `ResizeObserver`, resize listeners or `getBoundingClientRect()` used only for presentation, check:
+Before route-click or route-active JS, check:
+
+- `primitives/anchor-navigation.md`
+- `primitives/aria-current.md`
+- `primitives/target.md`
+- `primitives/scroll-offsets.md`
+- `primitives/scroll-behavior.md`
+
+The server already knows the current route. Prefer server-rendered `aria-current` over `location.pathname -> .active` logic.
+
+### Forms and actions
+
+Before click handlers or request-building code, check:
+
+- native form submission
+- `primitives/multi-action-forms.md`
+- `primitives/submitter-name-value.md`
+- `primitives/formnovalidate.md`
+- `primitives/fieldset-disabled.md`
+- `primitives/native-validation.md`
+- `primitives/search-input-and-landmark.md`
+
+The clicked successful submit button can already choose endpoint/method or serialize its own intent.
+
+### Native controls
+
+Before custom dropdown/date/color/file/range/progress/player widgets, check:
+
+- `native-select.md`
+- `date-time-inputs.md`
+- `color-input.md`
+- `native-file-upload.md`
+- `file-selector-button.md`
+- `range-input.md`
+- `progress.md`
+- `meter.md`
+- `native-media-controls.md`
+
+A native control may be visually less exotic, but it often gives keyboard, touch, accessibility, OS integration and fallback behavior for free.
+
+### Component responsiveness and layout
+
+Before `resize` listeners, `ResizeObserver`, manual column counts or sibling measurement, check:
 
 - `container-size-queries.md`
-- `dynamic-viewport-units.md`
-- `safe-area-env.md`
+- `responsive-grid-auto-fit.md`
+- `subgrid.md`
 - `aspect-ratio-and-object-fit.md`
 - `css-math-responsive-sizing.md`
 - `position-sticky.md`
-- `scroll-offsets.md`
-- `scrollbar-gutter.md`
+- `logical-properties.md`
+- `text-wrap.md`
+- `text-overflow.md`
+- `dynamic-viewport-units.md`
+- `safe-area-env.md`
 
-Use JavaScript only when measurements change actual data/application behavior rather than CSS presentation.
+If the markup/data stays the same and only layout changes, the layout engine should usually own the problem.
 
-### Scrolling / visibility
+### Rendering/performance
 
-Before `scroll` listeners or `IntersectionObserver`, check:
+Before adding a runtime solely to reduce paint/layout work, check:
+
+- `content-visibility.md`
+- `contain-intrinsic-size.md`
+- `css-containment.md`
+
+But never overclaim these:
+
+```text
+content-visibility != data virtualization
+containment         != server pagination
+render skipping     != fewer DOM nodes / response bytes
+```
+
+Server pagination/data limits still matter.
+
+### Scroll and floating UI
+
+Before scroll listeners, pointer-physics or positioning libraries, check:
 
 - `position-sticky.md`
-- `content-visibility.md`
 - `scroll-snap.md`
-- `scroll-offsets.md`
-- `scroll-state-container-queries.md` (newer enhancement)
-- `scroll-target-group.md` (newer enhancement)
-- `position-visibility.md` (newer enhancement)
+- `scrollbar-gutter.md`
+- `overscroll-behavior.md`
+- `popover.md`
+- progressive `anchor-positioning.md`
+- progressive `scroll-state-container-queries.md`
+- progressive `position-visibility.md`
 
-Do not overclaim these. `content-visibility` does not reduce response bytes or DOM node count.
+### Text direction, locale and input method
 
-### Native form controls
+Before RTL branches/device sniffing/text-input helper JS, check:
 
-Before building a custom widget, check whether the task is already a real:
+- `dir-auto.md`
+- `bdi.md`
+- `dir-pseudo-class.md`
+- `lang-pseudo-class.md`
+- `logical-properties.md`
+- `inputmode.md`
+- `enterkeyhint.md`
+- `autocomplete-tokens.md`
+- `autocapitalize.md`
+- `autocorrect.md`
+- `spellcheck.md`
 
-- `<select>`
-- checkbox/radio
-- date/time input
-- range slider
-- color picker
-- file picker
-- `<progress>`
-- `<meter>`
-
-Use `accent-color`, `::file-selector-button`, native state pseudo-classes and newer customizable-select styling before replacing semantics solely for branding.
-
-### Mobile input and unknown text direction
-
-Before UA/device/language sniffing, check:
-
-- `inputmode`
-- `enterkeyhint`
-- `autocomplete` tokens
-- `hover` / `pointer` media features
-- `dir="auto"`
-- `<bdi>`
-- `dirname` form submission
+For sensitive fields, remember `spellcheck` may involve third-party services in some browser configurations.
 
 ### User preferences
 
-Before `matchMedia()` or preference-detection JavaScript used only to alter presentation, check:
+Before `matchMedia()` used only to change CSS, check:
 
-- `prefers-color-scheme`
-- `prefers-reduced-motion`
-- `prefers-contrast`
-- `forced-colors`
-- `color-scheme`
-- `light-dark()`
-
-Respect the user's preference. Do not use `forced-color-adjust: none` or similar overrides broadly to preserve branding.
-
-### Media and files
-
-Before adding a client player/uploader/downloader/source-switcher, check:
-
-- native `<video>/<audio controls>`
-- `<track>` for WebVTT captions/subtitles
-- `<input type="file">` + multipart form
-- optional file `capture` hint, with normal file input retained as fallback
-- normal `<a>` download navigation
-- `<picture>` / `srcset` / `sizes`
-
-Advanced streaming, chunking, local previews or bespoke media UX may still require another client, but the semantic HTTP/native baseline should remain complete.
+- `prefers-color-scheme.md`
+- `prefers-reduced-motion.md`
+- `prefers-contrast.md`
+- `forced-colors.md`
+- `input-capability-media-features.md`
+- `scripting-media-feature.md`
 
 ## Compatibility discipline
 
-Do not treat an MDN **Baseline 2026** badge as proof of Tor support. Tor Browser 15.0.21 uses Firefox 140.15 ESR.
+Do not equate an MDN **Baseline 2026** badge with Tor Browser support.
+
+Conservative reference target in this repository:
+
+```text
+Tor Browser 15.0.21
+Firefox 140.15 ESR engine baseline
+```
 
 Examples:
 
-- container **size** queries landed in Firefox 110: inside the Firefox 140 engine baseline.
-- `field-sizing` is Baseline 2026 but Firefox only added it in 152: not Tor 140 core.
-- `command/commandfor` landed in Firefox 144: not Tor 140 core.
-- typed `attr()` for arbitrary CSS properties landed in Firefox 155: not Tor 140 core.
-- CSS Anchor Positioning is newer than Firefox 140: enhancement only.
-- Popover-specific `popovertargetaction` landed with Firefox 125 Popover support: available in the Firefox 140 engine baseline.
+- `<search>` is Firefox 118 -> predates ESR 140.
+- `autocorrect` is Firefox 136 -> predates ESR 140.
+- `:open` is Firefox 136 -> predates ESR 140.
+- `hidden="until-found"` is Firefox 139 -> predates ESR 140.
+- `command/commandfor` is Firefox 144 -> not Tor 140 core.
+- CSS Anchor Positioning default is Firefox 147 -> not Tor 140 core.
+- media state pseudo-classes are Firefox 150 -> not Tor 140 core.
+- `field-sizing` is Firefox 152 -> not Tor 140 core.
 
-Always compare the exact landing version against the target ESR.
+Always compare the exact landing version against the target ESR and then test the actual Tor release.
 
-## Native lazy-loading trap
+## State ownership examples
 
-Do **not** assume `loading="lazy"` saves network traffic when scripting is disabled.
-
-Browsers intentionally disable lazy request deferral without scripting as an anti-tracking measure. A Tor/Safest-style no-JS design must budget as if lazy resources can be requested eagerly.
-
-## Performance discipline
-
-Before writing JS measurement/observer code, check relevant primitives such as:
-
-- `content-visibility`
-- container size queries
-- `field-sizing`
-- scroll-state container queries
-- Anchor Positioning
-- `position-visibility`
-- `interpolate-size`
-- `scrollbar-gutter`
-
-But do not turn browser-layout features into fake data virtualization. Large datasets still need server limits/pagination.
-
-## Experimental discipline
-
-These are research/progressive features, not excuses to delete stable fallbacks:
-
-- CSS `@scope`
-- container style queries
-- typed `attr()` in arbitrary properties
-- CSS `if()`
-- native masonry / Grid Lanes
-- Declarative Partial Updates
-- `focusgroup`
-- `interestfor`
+```text
+menu open/closed           -> browser Popover/details/dialog state
+selected radio             -> native form control
+current page               -> URL/server + aria-current
+search/filter/sort/page     -> URL/server
+form action chosen          -> native submitter + server
+layout column count         -> Grid/container query
+sticky position             -> CSS layout engine
+current sticky styling      -> newer scroll-state query, enhancement only
+user text direction         -> browser bidi algorithm
+media playback              -> browser; newer CSS may observe state
+application permissions     -> server
+```
 
 ## Do not
 
 - introduce hidden-checkbox hacks when a semantic primitive exists;
+- use `<a href="#">` or fake `div role=link` for ordinary navigation;
 - require hydration;
 - add JavaScript polyfills and still call the result zero-JS;
-- use experimental CSS as the only path to functionality;
-- assume current Chrome/Firefox support implies Tor Browser support;
+- make experimental CSS the only path to functionality;
+- assume current Chrome/Firefox support implies Tor support;
 - copy a source project's framework layer when only its browser primitive matters;
 - use positive `tabindex` or DOM duplication to repair visual ordering;
-- use UA/device sniffing where browser input/layout primitives answer the actual question;
-- apply gesture-altering rules such as `overscroll-behavior: none` globally without a specific reason;
-- replace native controls solely because their styling is less uniform;
-- treat CSS-presentational state as authorization/security state;
-- override user motion/contrast/forced-color preferences just to preserve visual branding.
+- use UA/device sniffing when capability media queries answer the real question;
+- treat `:visited` as application read/unread state;
+- treat CSS-generated content as the sole accessible critical status message;
+- apply `overscroll-behavior: none`, aggressive containment or other behavior-changing optimizations globally without a specific reason.
