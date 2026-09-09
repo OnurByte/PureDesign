@@ -1,57 +1,80 @@
 # PureDesign
 
-**Build modern, application-like web interfaces with semantic HTML, CSS, native browser features, real URLs/forms, and server-rendered state — without requiring client-side JavaScript for core behavior.**
+**Build interfaces that look like they should need JavaScript — using HTML and CSS instead.**
 
-PureDesign is a practical reference for developers **and AI coding agents**. It collects browser capabilities and reusable UI patterns that can replace common JavaScript glue: dropdown toggles, dialogs, responsive layout logic, form routing, validation helpers, scroll state, theme adaptation, media controls, and more.
+PureDesign is a practical knowledge base of modern HTML, CSS, native browser features, real URLs/forms, and server-rendered patterns for building rich application-like interfaces with **zero client-side JavaScript**.
 
-It is **not a framework, package, component library, or build system**. There is nothing to install. Open the pattern that matches your problem, follow its primitive links, check compatibility, and use the relevant HTML/CSS/server behavior in your own project.
+The challenge is intentional: if a UI normally reaches for click handlers, DOM state, resize listeners, scroll listeners, custom widget code, hydration, or a frontend runtime, PureDesign asks whether the browser can already do it declaratively.
 
-## Why PureDesign?
-
-A lot of frontend JavaScript exists only to reproduce behavior the browser already knows how to provide.
-
-PureDesign starts with a different ownership model:
+## The rule
 
 ```text
-open / focus / interaction state -> browser
-form state                       -> native controls
-navigation state                 -> URL / link / form
-layout and responsive state      -> CSS layout engine
-scroll state                     -> browser / CSS
-user preferences                 -> CSS media features
-application and durable state    -> server
-presentation                     -> CSS
-client-side JavaScript           -> optional enhancement, not core requirement
+client-side JavaScript = 0
 ```
 
-The goal is not "never write JavaScript under any circumstances." The goal is to avoid requiring JavaScript when HTML, CSS, browser state, URLs, forms, or the server already solve the problem well.
+No inline scripts. No modules. No event-handler attributes. No hydration runtime. No JavaScript polyfill used to make a pattern work. No "JS is only an enhancement" exception inside a PureDesign implementation.
 
-## Who is this for?
+A backend may be written in any language or runtime. The restriction is on code executed as JavaScript in the browser.
 
-Use PureDesign if you are:
+If an interaction cannot be implemented with semantic HTML, CSS, browser-owned state, native controls, URLs/forms, or server-rendered responses, it is **outside the PureDesign solution space**. Document the limitation instead of silently adding JavaScript.
 
-- building server-rendered applications;
-- building sites that must remain usable with JavaScript disabled;
-- targeting Tor Browser or conservative Firefox ESR environments;
-- trying to reduce hydration, client bundles, dependencies, or frontend runtime complexity;
-- building with Laravel, Rails, Django, Phoenix, Go templates, ASP.NET, plain HTML, or any other server-rendered stack;
-- using an AI coding agent and want it to prefer platform primitives over unnecessary JavaScript libraries;
-- researching modern HTML/CSS features that replace categories of frontend JavaScript.
+## What is the point?
+
+PureDesign collects techniques for UI that can initially look impossible without JavaScript:
+
+- dropdown and action menus;
+- dialogs and confirmation flows;
+- accordions and disclosures;
+- tabs and URL-backed panels;
+- responsive navigation;
+- sticky application shells and action bars;
+- responsive components without resize observers;
+- form validation and multi-action forms;
+- selectable cards;
+- search, filtering, sorting, and pagination;
+- carousels and snap-based scrollers;
+- current/sticky/scroll-derived presentation;
+- theme and user-preference adaptation;
+- native media previews and controls;
+- deep links and exact-text highlighting;
+- modern transitions and micro-interactions where browser support permits them.
+
+The browser owns as much transient UI state as possible:
+
+```text
+open / closed / focus state     -> browser primitives
+form state                      -> native controls
+navigation state                -> URLs, links and forms
+layout and responsive state     -> CSS layout engine
+scroll behavior/state           -> browser and CSS
+user/device preferences         -> CSS media features
+application/durable state       -> server
+presentation                    -> CSS
+client-side JavaScript          -> forbidden
+```
+
+## This is not a framework
+
+PureDesign is not a package, component library, stylesheet, build system, or frontend runtime. There is nothing to install.
+
+It is a reference you can use while building your own UI:
+
+1. Find the UI you want in [`patterns/`](patterns/).
+2. Read the small browser capabilities linked from that pattern in [`primitives/`](primitives/).
+3. Check [`compatibility/`](compatibility/) before depending on newer features.
+4. Adapt the HTML/CSS/server behavior to your own project.
+
+You can use it manually or give the repository to an AI coding agent.
 
 ## Quick start
-
-### 1. Find the UI problem
-
-Start in [`patterns/`](patterns/). Patterns describe complete UI compositions such as a dropdown menu, modal confirmation, responsive grid, search form, carousel, or sticky form actions.
-
-Examples:
 
 | You want to build | Start here |
 |---|---|
 | Dropdown/action menu | [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md) |
 | Modal confirmation | [`patterns/modal-confirmation.md`](patterns/modal-confirmation.md) |
 | Responsive navigation | [`patterns/responsive-navigation.md`](patterns/responsive-navigation.md) |
-| Search without client fetching | [`patterns/server-search-form.md`](patterns/server-search-form.md) |
+| URL-backed tabs | [`patterns/url-tabs.md`](patterns/url-tabs.md) |
+| Search | [`patterns/server-search-form.md`](patterns/server-search-form.md) |
 | Filter / sort / paginate | [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) |
 | Sticky Save/Publish actions | [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) |
 | Draft vs Publish form | [`patterns/draft-vs-publish-form.md`](patterns/draft-vs-publish-form.md) |
@@ -63,40 +86,11 @@ Examples:
 | Carousel | [`patterns/carousel.md`](patterns/carousel.md) |
 | Native media preview | [`patterns/native-media-preview.md`](patterns/native-media-preview.md) |
 | Theme switching | [`patterns/theme-switcher.md`](patterns/theme-switcher.md) |
-| Exact-passage/deep links | [`patterns/citable-text-deep-links.md`](patterns/citable-text-deep-links.md) |
+| Exact-passage deep links | [`patterns/citable-text-deep-links.md`](patterns/citable-text-deep-links.md) |
 
-### 2. Follow only the primitive links you need
+## Example: dropdown without JavaScript
 
-Each pattern points to small files in [`primitives/`](primitives/). A primitive documents **one browser/platform capability**.
-
-Examples include:
-
-- [`primitives/popover.md`](primitives/popover.md) — browser-owned popovers;
-- [`primitives/dialog.md`](primitives/dialog.md) — native dialogs;
-- [`primitives/form-owner-attribute.md`](primitives/form-owner-attribute.md) — controls and submit buttons outside their form;
-- [`primitives/native-validation.md`](primitives/native-validation.md) — browser constraint validation;
-- [`primitives/container-size-queries.md`](primitives/container-size-queries.md) — component responsiveness without resize listeners;
-- [`primitives/position-sticky.md`](primitives/position-sticky.md) — sticky UI without scroll listeners;
-- [`primitives/scroll-snap.md`](primitives/scroll-snap.md) — browser-owned scrolling/snapping;
-- [`primitives/content-visibility.md`](primitives/content-visibility.md) — progressive render skipping;
-- [`primitives/native-media-controls.md`](primitives/native-media-controls.md) — browser media playback controls;
-- [`primitives/prefers-reduced-motion.md`](primitives/prefers-reduced-motion.md) — user motion preferences.
-
-Do not copy the whole repository into your mental model or prompt unless you actually need it. PureDesign is intentionally split into small files so humans and AI agents can retrieve only relevant context.
-
-### 3. Check browser support
-
-Before making a newer primitive essential to the UI, check:
-
-- [`compatibility/feature-matrix.md`](compatibility/feature-matrix.md) — what may be core vs progressive/experimental;
-- [`compatibility/tor-browser-firefox-esr.md`](compatibility/tor-browser-firefox-esr.md) — conservative Tor Browser / Firefox ESR boundary;
-- [`compatibility/testing.md`](compatibility/testing.md) — how to test the result with JavaScript disabled.
-
-A new CSS feature being supported by the latest Chrome or Firefox does **not** automatically make it safe for a conservative browser target.
-
-## Example: a menu without click-handler JavaScript
-
-Instead of writing JavaScript to maintain open/closed state, start with the browser-owned Popover API:
+A typical application would attach a click listener, toggle state, handle outside clicks, and manage Escape. The browser can own that state with Popover:
 
 ```html
 <button type="button" popovertarget="file-actions">
@@ -112,13 +106,13 @@ Instead of writing JavaScript to maintain open/closed state, start with the brow
 </div>
 ```
 
-The browser owns the temporary open state. Navigation remains a real link. The destructive action remains a real form submission. Your server still owns durable application state.
+No script keeps the menu open or closed. The browser does it. Navigation stays a real link and the destructive action stays a real form submission.
 
-For the full composition, read [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md).
+See [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md).
 
-## Example: Save button outside the form
+## Example: sticky Save button outside its form
 
-You do not need a click handler just because a sticky action bar lives elsewhere in the DOM:
+A visually detached action bar does not need a click handler or DOM lookup:
 
 ```html
 <form id="profile-form" action="/profile" method="post">
@@ -133,61 +127,68 @@ You do not need a click handler just because a sticky action bar lives elsewhere
 </footer>
 ```
 
-The native `form` attribute associates the button with the form. See [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) and [`primitives/form-owner-attribute.md`](primitives/form-owner-attribute.md).
+The HTML `form` attribute associates the button with the distant form.
 
-## Using PureDesign with AI coding agents
+See [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) and [`primitives/form-owner-attribute.md`](primitives/form-owner-attribute.md).
 
-PureDesign is structured so an AI agent can use it without loading a giant style guide into context.
+## Example: responsive layout without measuring elements
 
-The recommended entry point for agents is [`AGENTS.md`](AGENTS.md).
+Do not measure component width in JavaScript just to select a layout. Let the component respond to its own container:
 
-A useful instruction is:
+```css
+.card-list {
+  container-type: inline-size;
+}
 
-```text
-Use the PureDesign repository as the UI/platform reference for this task.
-Read AGENTS.md first.
-Then open only the pattern matching the requested UI and the primitive/
-compatibility files that pattern links to.
+.card {
+  display: grid;
+  gap: 1rem;
+}
 
-Prefer semantic HTML, native browser state, CSS layout/state, real URLs/forms,
-and server-rendered state over client-side JavaScript.
-Do not make experimental features the only path to core functionality.
+@container (width >= 40rem) {
+  .card {
+    grid-template-columns: 10rem 1fr auto;
+  }
+}
 ```
 
-You can also give an agent a specific task:
+See [`patterns/responsive-component.md`](patterns/responsive-component.md) and [`primitives/container-size-queries.md`](primitives/container-size-queries.md).
 
-```text
-Build a server-rendered file action menu using PureDesign.
-Start with patterns/dropdown-action-menu.md and follow only its required links.
-The result must remain usable with JavaScript disabled.
-```
-
-The repository is organized for selective retrieval:
-
-```text
-UI problem
-  -> patterns/<matching-pattern>.md
-      -> primitives/<required-browser-capability>.md
-      -> compatibility/<target>.md when needed
-```
-
-## Repository structure
+## How the repository is organized
 
 ```text
 PureDesign/
-├── README.md          # human + AI entry point
-├── AGENTS.md          # detailed instructions for coding agents
-├── principles/        # architectural rules and state ownership
-├── patterns/          # complete UI compositions
+├── README.md          # entry point for people and AI
+├── AGENTS.md          # strict instructions for coding agents
+├── principles/        # architecture and state-ownership rules
+├── patterns/          # complete reusable UI compositions
 ├── primitives/        # one browser/platform capability per file
-└── compatibility/     # browser support and zero-JS testing rules
+└── compatibility/     # support boundaries and zero-JS testing
 ```
+
+### `patterns/`
+
+Start here when you have an actual UI problem. A pattern composes multiple platform capabilities into something directly useful.
+
+### `primitives/`
+
+Each file explains one HTML/CSS/browser capability, its semantics, limitations, compatibility, and appropriate use.
+
+Examples:
+
+- [`primitives/popover.md`](primitives/popover.md)
+- [`primitives/dialog.md`](primitives/dialog.md)
+- [`primitives/details.md`](primitives/details.md)
+- [`primitives/form-owner-attribute.md`](primitives/form-owner-attribute.md)
+- [`primitives/native-validation.md`](primitives/native-validation.md)
+- [`primitives/container-size-queries.md`](primitives/container-size-queries.md)
+- [`primitives/position-sticky.md`](primitives/position-sticky.md)
+- [`primitives/scroll-snap.md`](primitives/scroll-snap.md)
+- [`primitives/native-media-controls.md`](primitives/native-media-controls.md)
 
 ### `principles/`
 
-Use these when deciding **who should own state** and whether a technique belongs in PureDesign at all.
-
-Important starting points:
+Use these when deciding whether a technique belongs in PureDesign at all:
 
 - [`principles/state-ownership.md`](principles/state-ownership.md)
 - [`principles/semantic-html-first.md`](principles/semantic-html-first.md)
@@ -195,79 +196,94 @@ Important starting points:
 - [`principles/server-authoritative-state.md`](principles/server-authoritative-state.md)
 - [`principles/accessibility-and-input.md`](principles/accessibility-and-input.md)
 
-### `patterns/`
-
-Use these first when solving an actual product/UI problem. A pattern combines primitives without duplicating their documentation.
-
-### `primitives/`
-
-Use these when you need to understand the exact browser capability, support boundary, semantics, accessibility behavior, or fallback strategy.
-
 ### `compatibility/`
 
-Use these before relying on newer browser features for core behavior.
+New browser features are useful, but a shiny syntax is not automatically safe to depend on.
 
-## Core design rules
+- [`compatibility/feature-matrix.md`](compatibility/feature-matrix.md) — core vs progressive/experimental classification.
+- [`compatibility/tor-browser-firefox-esr.md`](compatibility/tor-browser-firefox-esr.md) — conservative Tor Browser / Firefox ESR boundary.
+- [`compatibility/testing.md`](compatibility/testing.md) — testing protocol with scripting disabled.
 
-PureDesign generally prefers:
+Experimental features may add polish or unlock future patterns, but must not be presented as broadly available when they are not.
 
-- semantic elements over `div`-based fake controls;
-- native buttons, links, forms, inputs, dialogs, disclosures, and media controls;
-- browser-owned ephemeral state over custom state machines;
-- real URLs for navigable state;
-- GET forms for searchable/filterable URL state where appropriate;
-- ordinary form submission for server actions;
-- server-rendered current/permission/application state;
-- CSS Grid/Flexbox/container queries over measurement scripts;
-- capability queries over device sniffing;
-- progressive enhancement over mandatory polyfills;
-- accessibility and predictable browser behavior over visual cleverness.
+## Using PureDesign with AI
 
-PureDesign generally avoids:
+PureDesign is deliberately split into small files so coding agents do not need the entire repository in context.
 
-- hydration as a requirement for core tasks;
-- fake links and buttons;
-- hidden-checkbox state-machine hacks when a semantic primitive exists;
-- JavaScript whose only job is toggling a class the browser can already derive;
-- JavaScript routing around ordinary links/forms;
-- resize/scroll listeners used only for layout or presentation that CSS can own;
-- experimental CSS as the sole route to an important action;
-- claiming a JavaScript polyfill is still a "zero-JS" implementation.
+Give the agent [`AGENTS.md`](AGENTS.md) as its contract, then let it retrieve only the matching pattern and its linked primitives.
 
-## JavaScript is allowed as enhancement
-
-PureDesign does **not** require your entire application to contain zero JavaScript.
-
-A useful boundary is:
+Example prompt:
 
 ```text
-JavaScript unavailable -> core task still works
-JavaScript available   -> optional convenience/polish may improve
+Use the PureDesign repository as the UI reference for this task.
+Read AGENTS.md first.
+
+Client-side JavaScript is forbidden. Do not add scripts, event handlers,
+hydration, JavaScript polyfills, or a client runtime.
+
+Find the closest pattern in patterns/, follow only its required primitive
+and compatibility links, and implement the requested UI using semantic HTML,
+CSS, native browser behavior, real URLs/forms, and server-rendered state.
+
+If the requested behavior cannot be achieved inside those constraints, say so
+instead of adding JavaScript.
 ```
 
-For example, autocomplete, optimistic updates, drag-and-drop, richer client caching, or realtime interfaces may reasonably use JavaScript. The baseline should still be designed deliberately instead of accidentally depending on hydration.
+For a narrower task:
 
-## Conservative browser target
+```text
+Build a file action menu using PureDesign.
+Start with patterns/dropdown-action-menu.md.
+Client-side JavaScript is forbidden.
+Follow only the primitive and compatibility files required by that pattern.
+```
 
-The compatibility documentation currently uses **Tor Browser 15.0.21 / Firefox 140.15 ESR** as a conservative reference target.
+Recommended retrieval flow:
 
-That target is intentionally stricter than "latest evergreen browser." Newer features can still be documented and used as progressive enhancements.
+```text
+UI problem
+  -> patterns/<matching-pattern>.md
+      -> primitives/<required-capability>.md
+      -> compatibility/<target>.md when needed
+```
 
-See [`compatibility/feature-matrix.md`](compatibility/feature-matrix.md) for the current classification.
+## Design rules
+
+PureDesign prefers semantic HTML over fake widgets, browser-owned state over custom state machines, native controls over reimplementations, real links/forms over client routing, URL/server state over hidden client state, and CSS layout engines over manual measurements.
+
+PureDesign does **not** accept:
+
+- `<script>` or JavaScript modules in an implementation;
+- inline JavaScript event attributes such as `onclick`;
+- hydration or a browser-side runtime;
+- JavaScript polyfills used to provide required behavior;
+- click handlers that toggle classes/state;
+- JavaScript routing around normal links/forms;
+- resize/scroll listeners used for UI behavior;
+- a JS library used only because a native HTML/CSS primitive was overlooked;
+- calling an implementation "PureDesign" when it requires JavaScript to function.
+
+The point is not merely graceful degradation with JavaScript disabled. **The implementation itself is JavaScript-free.**
+
+## Browser target
+
+The compatibility documentation currently uses **Tor Browser 15.0.21 / Firefox 140.15 ESR** as a conservative reference target while also documenting newer and experimental platform capabilities.
+
+Modern features can still be researched and catalogued, but their support status must remain explicit.
 
 ## Contributing
 
-Contributions are welcome.
+Contributions are welcome. Useful additions include overlooked native browser primitives, unusual HTML/CSS compositions, accessibility findings, compatibility research, browser-version notes, and genuinely useful interfaces that appear to require JavaScript but do not.
 
-When adding material, keep the repository atomic:
+Keep contributions atomic:
 
-1. Put architectural rules in `principles/`.
-2. Put one browser/platform capability per file in `primitives/`.
-3. Put complete reusable UI compositions in `patterns/`.
-4. Put browser-support/testing policy in `compatibility/`.
-5. Link related files instead of copying the same explanation everywhere.
-6. Separate mature baseline behavior from progressive or experimental features.
-7. Do not require client-side JavaScript for a pattern that is presented as zero-JS core behavior.
+1. architectural rules -> `principles/`;
+2. one platform capability -> `primitives/`;
+3. reusable UI composition -> `patterns/`;
+4. browser support/testing -> `compatibility/`;
+5. link related files instead of duplicating documentation;
+6. separate conservative baseline behavior from experimental features;
+7. never solve a PureDesign pattern by adding client-side JavaScript.
 
 ## License
 
