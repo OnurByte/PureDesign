@@ -26,16 +26,19 @@ PureDesign collects techniques for UI that can initially look impossible without
 - dialogs and confirmation flows;
 - accordions and disclosures;
 - tabs and URL-backed panels;
+- server-backed multi-step forms;
+- hierarchical file/folder browsers;
 - responsive navigation;
 - sticky application shells and action bars;
 - responsive components without resize observers;
 - form validation and multi-action forms;
 - selectable cards;
 - search, filtering, sorting, and pagination;
-- carousels and snap-based scrollers;
-- current/sticky/scroll-derived presentation;
+- carousels, URL-addressable slideshows, and snap-based scrollers;
+- current/sticky/scroll-derived presentation and reading progress;
 - theme and user-preference adaptation;
 - native media previews and controls;
+- rich native selects where browser support permits them;
 - deep links and exact-text highlighting;
 - modern transitions and micro-interactions where browser support permits them.
 
@@ -74,6 +77,8 @@ You can use it manually or give the repository to an AI coding agent.
 | Modal confirmation | [`patterns/modal-confirmation.md`](patterns/modal-confirmation.md) |
 | Responsive navigation | [`patterns/responsive-navigation.md`](patterns/responsive-navigation.md) |
 | URL-backed tabs | [`patterns/url-tabs.md`](patterns/url-tabs.md) |
+| Multi-step wizard/form | [`patterns/server-backed-multi-step-form.md`](patterns/server-backed-multi-step-form.md) |
+| Hierarchical file browser | [`patterns/hierarchical-file-browser.md`](patterns/hierarchical-file-browser.md) |
 | Search | [`patterns/server-search-form.md`](patterns/server-search-form.md) |
 | Filter / sort / paginate | [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) |
 | Sticky Save/Publish actions | [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) |
@@ -84,6 +89,10 @@ You can use it manually or give the repository to an AI coding agent.
 | Mobile app-like shell | [`patterns/mobile-app-shell.md`](patterns/mobile-app-shell.md) |
 | Long server-rendered list | [`patterns/long-server-rendered-list.md`](patterns/long-server-rendered-list.md) |
 | Carousel | [`patterns/carousel.md`](patterns/carousel.md) |
+| URL-addressable slideshow | [`patterns/url-slideshow.md`](patterns/url-slideshow.md) |
+| Scroll edge cues | [`patterns/scroll-edge-affordance.md`](patterns/scroll-edge-affordance.md) |
+| Reading progress | [`patterns/reading-progress.md`](patterns/reading-progress.md) |
+| Rich native select | [`patterns/rich-native-select.md`](patterns/rich-native-select.md) |
 | Native media preview | [`patterns/native-media-preview.md`](patterns/native-media-preview.md) |
 | Theme switching | [`patterns/theme-switcher.md`](patterns/theme-switcher.md) |
 | Exact-passage deep links | [`patterns/citable-text-deep-links.md`](patterns/citable-text-deep-links.md) |
@@ -184,6 +193,8 @@ Examples:
 - [`primitives/container-size-queries.md`](primitives/container-size-queries.md)
 - [`primitives/position-sticky.md`](primitives/position-sticky.md)
 - [`primitives/scroll-snap.md`](primitives/scroll-snap.md)
+- [`primitives/anchor-positioning.md`](primitives/anchor-positioning.md)
+- [`primitives/anchored-container-queries.md`](primitives/anchored-container-queries.md)
 - [`primitives/native-media-controls.md`](primitives/native-media-controls.md)
 
 ### `principles/`
