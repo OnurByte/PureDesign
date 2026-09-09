@@ -1,137 +1,118 @@
 # Tor Browser / Firefox ESR Baseline
 
-Compatibility snapshot: **2026-09-08**.
+Compatibility snapshot: **2026-09-09**.
 
-Tor Browser **15.0.21** is based on **Firefox 140.15.0 ESR**.
+Tor Browser stable **15.0.21** is based on **Firefox 140.15.0 ESR**.
 
 Official Tor release:
 
 - https://blog.torproject.org/new-release-tor-browser-15021/
 
-## Safe baseline facts
+This file records engine-version facts. Tor may apply privacy/security policy changes, so a Firefox-engine fact still requires testing in the exact Tor release and security level.
 
-The following landed before Firefox 140 and are therefore available in the Firefox engine baseline used by Tor Browser 15.0.21, subject to Tor-specific policy/auditing and product testing:
+## Features known to predate Firefox 140
 
-- `::file-selector-button` — Firefox 82
-- `:autofill` — Firefox 86
-- `<dialog>` — Firefox 98
-- dynamic viewport units (`svh`, `lvh`, `dvh`, etc.) — Firefox 101
-- `prefers-contrast` — Firefox 101
-- `:modal` — Firefox 103
-- container **size** queries — Firefox 110
-- `light-dark()` — Firefox 120
-- `:has()` — Firefox 121
-- Declarative Shadow DOM (`shadowrootmode`) — Firefox 123
-- Popover API, `popovertarget`, `popovertargetaction` — fully supported in Firefox 125
-- `@starting-style` — Firefox 129
-- `transition-behavior: allow-discrete` — Firefox 129
-- grouped `<details name>` — Firefox 130
-- `:open` — Firefox 136
-- `hidden="until-found"` — Firefox 139
+These are available in the Firefox engine baseline, subject to Tor-specific behavior and product testing.
 
-Mature technologies also well inside this baseline include:
+### Semantic HTML / navigation / forms
 
-- semantic links, buttons and ordinary forms;
-- normal `<select>`, checkbox, radio, date/time/range/color/file controls;
-- `method="dialog"` behavior within dialogs;
-- `<progress>` and `<meter>`;
-- `accent-color`;
-- native validation and range state;
-- `inputmode`, `enterkeyhint`, `autocomplete` tokens;
-- `dir="auto"`, `<bdi>` and `dirname` form submission;
-- `<picture>`, `srcset`, `sizes`;
-- native `<video>/<audio controls>` and `<track>`;
-- `prefers-color-scheme`, `prefers-reduced-motion`, `forced-colors`;
-- `position: sticky`;
-- `scroll-margin`, `scroll-padding`, scroll snap;
-- `aspect-ratio`, `object-fit`;
-- `min()`, `max()`, `clamp()`;
-- `text-overflow`;
-- safe-area `env()` variables;
-- `inert`, `:target`, normal focus/input-capability media queries, `color-scheme`;
-- `scripting` media queries and `content-visibility: auto`;
-- `scrollbar-gutter` and `overscroll-behavior`.
+- real anchors, forms, buttons and standard form submitter semantics are mature platform behavior.
+- `<dialog>` — Firefox 98.
+- `<search>` — Firefox 118.
+- `<details name>` — Firefox 130.
+- `autocorrect` — Firefox 136.
+- native search/date/range/color/file/select controls, `formaction`, `formmethod`, `formnovalidate`, submitter `name=value`, `fieldset disabled`, `inputmode`, `autocomplete`, `spellcheck`, `aria-current`, `inert`, and ordinary constraint validation all predate this ESR baseline.
+
+### CSS/browser-owned state
+
+- `light-dark()` — Firefox 120.
+- `:has()` — Firefox 121.
+- Declarative Shadow DOM (`shadowrootmode`) — Firefox 123.
+- Popover API, `popovertarget`, `popovertargetaction` — Firefox 125.
+- `@starting-style` — Firefox 129.
+- `transition-behavior: allow-discrete` — Firefox 129.
+- `:open` — Firefox 136.
+- `hidden="until-found"` — Firefox 139.
+- `:target`, `:focus-visible`, `:focus-within`, `:checked`, `:default`, `:indeterminate`, `:in-range`, `:out-of-range`, `:placeholder-shown`, link states, logical properties, Grid/Flexbox, Subgrid, CSS containment, scroll snap, sticky positioning, CSS counters and normal media queries are older than this ESR baseline.
+
+### Layout/performance/input preferences
+
+- container **size** queries predate Firefox 140 and may be used for component layout after testing.
+- `content-visibility: auto` and `contain-intrinsic-size` predate this baseline; remember they do not reduce DOM/data size.
+- dynamic viewport units (`dvh` / `svh` / `lvh`) predate this baseline.
+- `scrollbar-gutter`, safe-area `env()`, `aspect-ratio`, `object-fit`, `min()` / `max()` / `clamp()`, and input capability media queries predate this baseline.
+- `prefers-reduced-motion`, `prefers-color-scheme`, `prefers-contrast`, `forced-colors`, `color-scheme`, and the `scripting` media feature are available before this ESR line.
 
 ## Explicitly newer than Firefox 140
 
-Do not make these core to Tor Browser 15.0.21:
+Do **not** make these core to Tor Browser 15.0.21:
 
-- `::details-content` — Firefox 143 (grouped `<details name>` itself is older)
-- `command` / `commandfor` invoker commands — Firefox 144
-- CSS Anchor Positioning enabled by default — Firefox 147
-- `popover="hint"` — Firefox 149
-- customizable-select styling in its newer form — newer/partial around Firefox 149
-- `field-sizing` — Firefox 152
-- typed `attr()` in arbitrary CSS properties — Firefox 155
-- CSS `@scope` — current-browser/Baseline 2026 feature, not ESR 140 baseline
-- container style queries — not an interoperable Firefox 140 baseline feature
-- CSS `if()` — Limited Availability / experimental
-- native CSS masonry / Grid Lanes — still evolving/early-testing
-- `focusgroup` — Chromium 150-era emerging feature
-- `scroll-target-group` / CSS generated scroll controls — emerging/newer feature set
-- scroll-state container queries — not a Firefox 140 ESR core feature
-- `reading-flow` / `reading-order` — experimental / Limited Availability
-- `anchor-scope` / `position-visibility` — part of the newer Anchor Positioning stack, not ESR 140 baseline
-- Declarative Partial Updates — Chromium/WICG emerging work
-- cross-document View Transitions — not a Firefox 140 ESR baseline
+- `::details-content` — Firefox 143.
+- generic `command` / `commandfor` invoker commands — Firefox 144.
+- CSS Anchor Positioning enabled by default — Firefox 147.
+- `popover="hint"` — Firefox 149.
+- customizable-select newer picker styling — newer/partial around Firefox 149.
+- media state pseudo-classes (`:playing`, `:paused`, `:buffering`, `:muted`, `:seeking`, `:stalled`, `:volume-locked`) — Firefox 150.
+- `field-sizing` — Firefox 152.
+- `focusgroup` — Chromium 150-era emerging feature, not Firefox 140 baseline.
+- `scroll-target-group`, generated scroll buttons/markers and scroll-state query work — newer/emerging feature family.
+- `reading-flow` / `reading-order` — Limited Availability/experimental for the conservative target.
+- `anchor-scope` / `position-visibility` — part of the newer Anchor Positioning stack.
+- Declarative Partial Updates — Chromium/WICG emerging work.
+- cross-document View Transitions — not Firefox 140 ESR baseline.
+- media playback-state CSS selectors — Firefox 150, therefore presentation enhancement only for newer browsers.
 
-## Conditional native hint: file `capture`
+## Features whose syntax exists but must be treated carefully
 
-The ordinary file input is stable, but the `capture` hint remains Limited Availability across the broader browser ecosystem. Treat it as optional mobile ergonomics on top of a normal file-picker path.
+### Native lazy loading with JavaScript disabled
 
-## Special no-JS caveat: native lazy loading
+Do **not** count `loading="lazy"` as a Tor/Safest bandwidth guarantee. Browser lazy-loading behavior has anti-tracking constraints, and MDN notes that deferred loading is tied to scripting being enabled. A page must remain correct if resources load eagerly.
 
-Do **not** infer that `loading="lazy"` will save bandwidth when scripting is disabled.
+See `primitives/native-lazy-loading-caveat.md`.
 
-MDN documents that browsers only defer native lazy resource loading when JavaScript is enabled. This is an anti-tracking measure: otherwise a server could infer approximate scroll position from when strategically placed lazy resources are requested.
+### `spellcheck`
 
-For a Tor/Safest-style contract, treat `loading="lazy"` as optional progressive metadata, not as a network-budget guarantee.
+Support is old, but privacy is the important boundary: browser configurations may send editable content to a third-party spellchecking service. Sensitive/private fields should explicitly consider `spellcheck="false"`.
 
-## Features that are safe only as polish
+### `autocapitalize`
 
-Some capabilities do not need a hard yes/no for product behavior because the component must work without them anyway:
+Treat as a harmless input-method hint, not a guaranteed cross-browser behavior. MDN still marks it Limited Availability across the whole browser ecosystem.
 
-- intrinsic-size animation via `interpolate-size`;
-- advanced entry/exit animation;
-- scroll-driven animation;
-- newer value-level CSS helpers.
+### CSS `resize`
 
-If unsupported, the UI should simply become instant/static rather than unusable.
+Treat arbitrary-element resizing as optional ergonomics; MDN marks the feature Limited Availability across the complete browser landscape.
 
-## Tor-specific rule
+### `text-wrap` values
 
-Never infer Tor support solely from current Firefox stable or from an MDN "Baseline 2026" badge. Tor stable tracks Firefox ESR and applies privacy/security audits and changes.
+Line-wrapping enhancements are presentation only. Do not make content accessibility depend on `balance`, `pretty` or other newer wrapping values.
 
-For a Tor-first product:
+## Tor-first rules
+
+For a Tor-first / JavaScript-disabled product:
 
 1. test the exact Tor Browser stable release;
-2. test with JavaScript disabled / Safest where that is the product contract;
-3. avoid JavaScript polyfills;
-4. ensure forms/links remain complete task paths;
-5. treat newer UI features as progressive enhancement;
-6. keep native gesture/input behavior intact unless a narrowly-scoped CSS rule intentionally changes it;
-7. do not depend on lazy-loading request deferral when scripting is disabled;
-8. respect reduced-motion/contrast/forced-color preferences instead of overriding them.
+2. test the intended security level, including Safest/JS-disabled if that is the contract;
+3. never add a JavaScript polyfill and still call the path zero-JS;
+4. keep links/forms as complete task paths;
+5. make newer platform features progressive enhancement;
+6. do not equate current Firefox/MDN Baseline with Firefox ESR;
+7. keep native input/gesture behavior intact unless a narrowly-scoped rule intentionally changes it;
+8. do not assume browser convenience features such as spellchecking/lazy loading have the same privacy/performance behavior in every configuration.
 
-## Official Mozilla release references
+## Exact Mozilla release references
 
-- `::file-selector-button` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/82
-- `:autofill` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/86
-- `<dialog>` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/98
-- dynamic viewport units / `prefers-contrast` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/101
-- `:modal` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/103
-- container size queries — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/110
+- `<search>` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/118
 - `light-dark()` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/120
 - `:has()` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/121
 - Declarative Shadow DOM — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/123
 - Popover / `popovertargetaction` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/125
 - `@starting-style` / `transition-behavior` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/129
 - `<details name>` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/130
-- `:open` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/136
+- `:open` and `autocorrect` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/136
 - `hidden="until-found"` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/139
 - `::details-content` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/143
 - `command` / `commandfor` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/144
 - Anchor Positioning — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/147
 - `popover="hint"` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/149
+- media state pseudo-classes — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/150
 - `field-sizing` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/152
-- typed `attr()` — https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/155
