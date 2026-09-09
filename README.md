@@ -2,310 +2,280 @@
 
 **Modern application-like web UI with zero client-side JavaScript.**
 
-PureDesign is an AI-friendly, atomic knowledge base for building interfaces with semantic HTML, CSS, browser-owned state, URLs, native forms, native media and server-rendered responses.
+PureDesign is an AI-oriented knowledge base for building interfaces from semantic HTML, browser-owned state, CSS/layout primitives, native controls, real URLs/forms and server-rendered responses.
 
-**Every implementation topic lives in its own file.** This README is only the map. AI agents should start with [`AGENTS.md`](AGENTS.md), then retrieve only the files relevant to the task.
-
-## Core model
+This README is **only the map**. Each implementation topic has its own file. AI agents should begin with [`AGENTS.md`](AGENTS.md), open the relevant `patterns/` file, then follow only the primitive/compatibility links needed for the task.
 
 ```text
-Ephemeral interaction state -> browser-native HTML state
-Form/input state            -> native controls and constraints
-Navigation state            -> real URLs, links and forms
-Scroll/layout state         -> browser CSS/layout engine
-Media/device affordances    -> browser and operating system
-User preferences            -> CSS media features / UA settings
-Durable application state   -> server
-Visual state                -> CSS
-Client-side JS              -> 0
+interaction/focus/open state -> browser
+form state                   -> native controls
+navigation state             -> real URL / link / form
+layout/scroll state          -> CSS layout engine
+user/device preferences      -> UA / CSS media features
+application state            -> server
+presentation                 -> CSS
+client-side JS               -> 0 for core behavior
 ```
 
----
+## Principles
 
-# Principles
+- [`principles/state-ownership.md`](principles/state-ownership.md) — ownership rules for browser/form/URL/server/CSS state.
+- [`principles/semantic-html-first.md`](principles/semantic-html-first.md) — semantic primitives before fake widgets.
+- [`principles/progressive-enhancement.md`](principles/progressive-enhancement.md) — enhancements may disappear; tasks may not.
+- [`principles/server-authoritative-state.md`](principles/server-authoritative-state.md) — durable state remains HTTP/server state.
+- [`principles/accessibility-and-input.md`](principles/accessibility-and-input.md) — keyboard/touch/focus/a11y rules.
+- [`principles/legacy-css-hacks.md`](principles/legacy-css-hacks.md) — boundaries of checkbox/radio/CSS state-machine hacks.
 
-- [`principles/state-ownership.md`](principles/state-ownership.md) — decide whether state belongs to the browser, form, URL, server or CSS.
-- [`principles/semantic-html-first.md`](principles/semantic-html-first.md) — use semantic platform primitives before fake widgets.
-- [`principles/progressive-enhancement.md`](principles/progressive-enhancement.md) — unsupported new CSS may remove polish, never access to the task.
-- [`principles/server-authoritative-state.md`](principles/server-authoritative-state.md) — durable application state remains URL/form/server state.
-- [`principles/accessibility-and-input.md`](principles/accessibility-and-input.md) — keyboard, touch, hover, focus and assistive-tech rules.
-- [`principles/legacy-css-hacks.md`](principles/legacy-css-hacks.md) — checkbox/radio state-machine history and where those hacks stop being appropriate.
+# Primitives
 
----
+## Navigation, URL and document location
 
-# Stable / conservative primitives
+- [`primitives/anchor-navigation.md`](primitives/anchor-navigation.md) — real `<a href>` navigation semantics.
+- [`primitives/aria-current.md`](primitives/aria-current.md) — semantic current page/step/location state.
+- [`primitives/link-and-visited-state.md`](primitives/link-and-visited-state.md) — link/history presentation and privacy limits.
+- [`primitives/local-link-watchlist.md`](primitives/local-link-watchlist.md) — experimental current-document link selector direction.
+- [`primitives/target.md`](primitives/target.md) — fragment state through `:target`.
+- [`primitives/search-input-and-landmark.md`](primitives/search-input-and-landmark.md) — `<search>` / search landmark / `<input type="search">`.
+- [`primitives/download-links.md`](primitives/download-links.md) — normal browser download navigation.
+- [`primitives/scroll-offsets.md`](primitives/scroll-offsets.md) — fragment offsets under sticky UI.
+- [`primitives/scroll-behavior.md`](primitives/scroll-behavior.md) — optional native smooth scrolling.
 
-## Navigation and location state
+## Disclosure, overlays and interaction state
 
-- [`primitives/anchor-navigation.md`](primitives/anchor-navigation.md) — preserve real link navigation, new-tab, bookmark, history and copy-link semantics.
-- [`primitives/aria-current.md`](primitives/aria-current.md) — expose server-known current page/step/location without client route matching.
-- [`primitives/link-and-visited-state.md`](primitives/link-and-visited-state.md) — native link/history presentation plus `:visited` privacy boundaries.
-- [`primitives/target.md`](primitives/target.md) — URL fragment state via `:target`.
-- [`primitives/scroll-offsets.md`](primitives/scroll-offsets.md) — `scroll-margin` / `scroll-padding` instead of sticky-header offset scripts.
-- [`primitives/scroll-behavior.md`](primitives/scroll-behavior.md) — optional native smooth fragment scrolling.
-- [`primitives/download-links.md`](primitives/download-links.md) — ordinary browser downloads instead of `fetch -> Blob -> objectURL` glue.
-- [`primitives/search-input-and-landmark.md`](primitives/search-input-and-landmark.md) — `<search>`, `role="search"` and `<input type="search">` for server search.
+- [`primitives/details.md`](primitives/details.md) — disclosure and grouped accordions.
+- [`primitives/popover.md`](primitives/popover.md) — Popover state/top-layer behavior.
+- [`primitives/popovertargetaction.md`](primitives/popovertargetaction.md) — Popover show/hide/toggle actions.
+- [`primitives/dialog.md`](primitives/dialog.md) — native dialog semantics.
+- [`primitives/dialog-form-method.md`](primitives/dialog-form-method.md) — local dialog close through form semantics.
+- [`primitives/dialog-closedby.md`](primitives/dialog-closedby.md) — newer dialog dismissal policy.
+- [`primitives/modal-and-backdrop-state.md`](primitives/modal-and-backdrop-state.md) — `:modal` / `::backdrop`.
+- [`primitives/command-and-commandfor.md`](primitives/command-and-commandfor.md) — newer declarative invoker commands.
+- [`primitives/open-pseudo-class.md`](primitives/open-pseudo-class.md) — `:open` state.
+- [`primitives/has.md`](primitives/has.md) — derived ancestor presentation state.
+- [`primitives/focus-states.md`](primitives/focus-states.md) — focus-visible/focus-within.
+- [`primitives/interaction-pseudo-classes.md`](primitives/interaction-pseudo-classes.md) — hover/active feedback.
+- [`primitives/empty-pseudo-class.md`](primitives/empty-pseudo-class.md) — DOM-derived empty presentation.
+- [`primitives/hidden-until-found.md`](primitives/hidden-until-found.md) — findable/revealable hidden content.
+- [`primitives/inert.md`](primitives/inert.md) — inactive subtree semantics.
 
-## Browser interaction state
+## Forms, validation and submitters
 
-- [`primitives/details.md`](primitives/details.md) — `<details>`, `<summary>` and grouped `<details name>` disclosure state.
-- [`primitives/popover.md`](primitives/popover.md) — browser-owned floating panel state.
-- [`primitives/popovertargetaction.md`](primitives/popovertargetaction.md) — declarative `show` / `hide` / `toggle` Popover actions.
-- [`primitives/dialog.md`](primitives/dialog.md) — native dialog/modal semantics.
-- [`primitives/dialog-form-method.md`](primitives/dialog-form-method.md) — close dialogs through `method="dialog"` / `formmethod="dialog"`.
-- [`primitives/modal-and-backdrop-state.md`](primitives/modal-and-backdrop-state.md) — `:modal` and `::backdrop` instead of duplicated overlay state.
-- [`primitives/open-pseudo-class.md`](primitives/open-pseudo-class.md) — style browser-owned open state using `:open`.
-- [`primitives/has.md`](primitives/has.md) — derive parent/ancestor presentation from descendant state.
-- [`primitives/focus-states.md`](primitives/focus-states.md) — `:focus-visible` / `:focus-within`.
-- [`primitives/interaction-pseudo-classes.md`](primitives/interaction-pseudo-classes.md) — `:hover` / `:active` feedback.
-- [`primitives/empty-pseudo-class.md`](primitives/empty-pseudo-class.md) — derive noncritical empty-container presentation from DOM structure.
-- [`primitives/hidden-until-found.md`](primitives/hidden-until-found.md) — collapsed content that remains Find-in-Page/fragment discoverable.
-- [`primitives/inert.md`](primitives/inert.md) — declaratively disable an entire interaction subtree.
+- [`primitives/form-selection-state.md`](primitives/form-selection-state.md) — checked radio/checkbox state.
+- [`primitives/default-and-indeterminate-state.md`](primitives/default-and-indeterminate-state.md) — default/indeterminate state.
+- [`primitives/native-validation.md`](primitives/native-validation.md) — native constraints and user-validity state.
+- [`primitives/placeholder-shown.md`](primitives/placeholder-shown.md) — placeholder/empty-field presentation.
+- [`primitives/autofill-state.md`](primitives/autofill-state.md) — browser autofill state.
+- [`primitives/range-validation-state.md`](primitives/range-validation-state.md) — in-range/out-of-range state.
+- [`primitives/disabled-readonly-state.md`](primitives/disabled-readonly-state.md) — disabled vs readonly semantics.
+- [`primitives/fieldset-disabled.md`](primitives/fieldset-disabled.md) — disable a form group.
+- [`primitives/multi-action-forms.md`](primitives/multi-action-forms.md) — submitter endpoint/method/target overrides.
+- [`primitives/submitter-name-value.md`](primitives/submitter-name-value.md) — clicked button intent in form payload.
+- [`primitives/formnovalidate.md`](primitives/formnovalidate.md) — per-submitter browser validation bypass.
+- [`primitives/form-reset.md`](primitives/form-reset.md) — native reset-to-initial-state behavior and UX warning.
 
-## Forms and submitter semantics
+## Native form controls
 
-- [`primitives/form-selection-state.md`](primitives/form-selection-state.md) — semantic `:checked` radio/checkbox state.
-- [`primitives/default-and-indeterminate-state.md`](primitives/default-and-indeterminate-state.md) — browser-owned `:default` / `:indeterminate` states.
-- [`primitives/native-select.md`](primitives/native-select.md) — real `<select>` before custom dropdown reimplementation.
-- [`primitives/native-validation.md`](primitives/native-validation.md) — native constraints plus `:user-invalid` / `:user-valid`.
-- [`primitives/placeholder-shown.md`](primitives/placeholder-shown.md) — derive placeholder/empty-field presentation without reading values in JS.
-- [`primitives/autofill-state.md`](primitives/autofill-state.md) — style browser/password-manager autofill state.
-- [`primitives/range-validation-state.md`](primitives/range-validation-state.md) — `:in-range` / `:out-of-range` from native constraints.
-- [`primitives/disabled-readonly-state.md`](primitives/disabled-readonly-state.md) — semantic disabled vs read-only behavior.
-- [`primitives/fieldset-disabled.md`](primitives/fieldset-disabled.md) — disable a whole group with one semantic attribute.
-- [`primitives/multi-action-forms.md`](primitives/multi-action-forms.md) — `formaction`, `formmethod`, `formtarget` and external submitters.
-- [`primitives/submitter-name-value.md`](primitives/submitter-name-value.md) — clicked submitter identifies intent in the serialized form payload.
-- [`primitives/formnovalidate.md`](primitives/formnovalidate.md) — let one submit action skip browser constraint validation, e.g. Save Draft.
-- [`primitives/datalist.md`](primitives/datalist.md) — native suggestions with explicit accessibility limitations.
-- [`primitives/date-time-inputs.md`](primitives/date-time-inputs.md) — native date/time pickers and normalized values.
-- [`primitives/range-input.md`](primitives/range-input.md) — browser-owned slider interaction.
-- [`primitives/color-input.md`](primitives/color-input.md) — browser/OS color picker.
-- [`primitives/native-file-upload.md`](primitives/native-file-upload.md) — file picker + multipart upload baseline.
-- [`primitives/file-capture-hint.md`](primitives/file-capture-hint.md) — optional mobile capture hint; normal file picker remains fallback.
-- [`primitives/file-selector-button.md`](primitives/file-selector-button.md) — style the real file button instead of proxy-clicking a hidden input.
-- [`primitives/progress.md`](primitives/progress.md) — semantic task progress.
-- [`primitives/meter.md`](primitives/meter.md) — semantic scalar/quota measurement.
-- [`primitives/accent-color.md`](primitives/accent-color.md) — brand native checkbox/radio/range/progress controls without rebuilding them.
+- [`primitives/native-select.md`](primitives/native-select.md) — baseline native selection UI.
+- [`primitives/customizable-select.md`](primitives/customizable-select.md) — newer richer native select styling.
+- [`primitives/datalist.md`](primitives/datalist.md) — native suggestions and a11y limits.
+- [`primitives/date-time-inputs.md`](primitives/date-time-inputs.md) — native date/time pickers.
+- [`primitives/range-input.md`](primitives/range-input.md) — native slider.
+- [`primitives/color-input.md`](primitives/color-input.md) — native color picker.
+- [`primitives/native-file-upload.md`](primitives/native-file-upload.md) — native file picker/multipart upload.
+- [`primitives/file-selector-button.md`](primitives/file-selector-button.md) — style the real file button.
+- [`primitives/file-capture-hint.md`](primitives/file-capture-hint.md) — optional mobile capture hint.
+- [`primitives/progress.md`](primitives/progress.md) — task progress.
+- [`primitives/meter.md`](primitives/meter.md) — scalar/quota measurement.
+- [`primitives/accent-color.md`](primitives/accent-color.md) — native control accenting.
 
-## Text-entry and mobile input affordances
+## Text entry, device and browser affordances
 
-- [`primitives/inputmode.md`](primitives/inputmode.md) — virtual keyboard hint without device detection.
-- [`primitives/enterkeyhint.md`](primitives/enterkeyhint.md) — browser-owned virtual-keyboard action label.
-- [`primitives/autocomplete-tokens.md`](primitives/autocomplete-tokens.md) — describe field purpose to autofill/password managers.
-- [`primitives/autocorrect.md`](primitives/autocorrect.md) — browser/OS autocorrection; Firefox 136+.
-- [`primitives/autocapitalize.md`](primitives/autocapitalize.md) — virtual-keyboard/voice capitalization hint with limited cross-browser availability.
-- [`primitives/spellcheck.md`](primitives/spellcheck.md) — browser spellchecking plus the privacy warning for sensitive text.
-- [`primitives/input-capability-media-features.md`](primitives/input-capability-media-features.md) — query `hover` / `pointer` capability instead of UA/device sniffing.
-- [`primitives/scripting-media-feature.md`](primitives/scripting-media-feature.md) — CSS adaptation to scripting capability in mixed applications.
+- [`primitives/inputmode.md`](primitives/inputmode.md) — virtual keyboard hint.
+- [`primitives/enterkeyhint.md`](primitives/enterkeyhint.md) — virtual keyboard action hint.
+- [`primitives/autocomplete-tokens.md`](primitives/autocomplete-tokens.md) — autofill/password-manager semantics.
+- [`primitives/autocapitalize.md`](primitives/autocapitalize.md) — capitalization input hint.
+- [`primitives/autocorrect.md`](primitives/autocorrect.md) — UA/OS autocorrection.
+- [`primitives/spellcheck.md`](primitives/spellcheck.md) — browser spellcheck plus privacy caveat.
+- [`primitives/input-capability-media-features.md`](primitives/input-capability-media-features.md) — hover/pointer capability queries.
+- [`primitives/scripting-media-feature.md`](primitives/scripting-media-feature.md) — CSS scripting-capability query.
 
-## Direction and language
+## Language, bidi and flow direction
 
-- [`primitives/dir-auto.md`](primitives/dir-auto.md) — browser-determined direction for unknown user text.
-- [`primitives/bdi.md`](primitives/bdi.md) — isolate unknown-direction inline user content.
-- [`primitives/dirname-form-submission.md`](primitives/dirname-form-submission.md) — submit browser-determined text direction with a form value.
-- [`primitives/dir-pseudo-class.md`](primitives/dir-pseudo-class.md) — style the browser-computed direction only where flow-relative CSS is not enough.
-- [`primitives/lang-pseudo-class.md`](primitives/lang-pseudo-class.md) — language-specific typography from semantic `lang` state.
-- [`primitives/logical-properties.md`](primitives/logical-properties.md) — flow-relative spacing/positioning instead of `.rtl` / `.ltr` layout branches.
+- [`primitives/dir-auto.md`](primitives/dir-auto.md) — infer unknown text direction.
+- [`primitives/bdi.md`](primitives/bdi.md) — isolate unknown-direction inline content.
+- [`primitives/dirname-form-submission.md`](primitives/dirname-form-submission.md) — submit detected text direction.
+- [`primitives/dir-pseudo-class.md`](primitives/dir-pseudo-class.md) — style computed direction.
+- [`primitives/lang-pseudo-class.md`](primitives/lang-pseudo-class.md) — style semantic language.
+- [`primitives/logical-properties.md`](primitives/logical-properties.md) — flow-relative geometry.
 
-## User preference and accessibility media
+## Preferences, theme and accessibility modes
 
-- [`primitives/prefers-color-scheme.md`](primitives/prefers-color-scheme.md) — system/browser theme preference without `matchMedia()` JS.
-- [`primitives/prefers-reduced-motion.md`](primitives/prefers-reduced-motion.md) — honor reduced-motion preference in CSS.
-- [`primitives/prefers-contrast.md`](primitives/prefers-contrast.md) — adapt to requested contrast.
-- [`primitives/forced-colors.md`](primitives/forced-colors.md) — targeted fixes for forced/high-contrast palettes.
-- [`primitives/color-scheme.md`](primitives/color-scheme.md) — tell native controls/browser UI which schemes are supported.
-- [`primitives/light-dark.md`](primitives/light-dark.md) — system-following light/dark values without theme-detection JS.
+- [`primitives/prefers-color-scheme.md`](primitives/prefers-color-scheme.md) — light/dark preference.
+- [`primitives/prefers-reduced-motion.md`](primitives/prefers-reduced-motion.md) — reduced motion preference.
+- [`primitives/prefers-contrast.md`](primitives/prefers-contrast.md) — contrast preference.
+- [`primitives/forced-colors.md`](primitives/forced-colors.md) — forced/high-contrast palettes.
+- [`primitives/color-scheme.md`](primitives/color-scheme.md) — native control/browser scheme integration.
+- [`primitives/light-dark.md`](primitives/light-dark.md) — scheme-dependent CSS values.
 
-## Media and responsive resources
+## Layout and responsive composition
 
-- [`primitives/responsive-images.md`](primitives/responsive-images.md) — `<picture>` / `srcset` / `sizes` instead of source-switching JS.
-- [`primitives/native-media-controls.md`](primitives/native-media-controls.md) — browser audio/video player plus WebVTT tracks.
-- [`primitives/native-lazy-loading-caveat.md`](primitives/native-lazy-loading-caveat.md) — why native lazy loading cannot be counted as a JS-disabled bandwidth optimization.
-- [`primitives/aspect-ratio-and-object-fit.md`](primitives/aspect-ratio-and-object-fit.md) — intrinsic media boxes/cropping without resize measurement JS.
+- [`primitives/position-sticky.md`](primitives/position-sticky.md) — sticky positioning without scroll listeners.
+- [`primitives/container-size-queries.md`](primitives/container-size-queries.md) — component-width responsiveness.
+- [`primitives/container-style-queries.md`](primitives/container-style-queries.md) — newer container style queries.
+- [`primitives/responsive-grid-auto-fit.md`](primitives/responsive-grid-auto-fit.md) — intrinsic responsive Grid columns.
+- [`primitives/subgrid.md`](primitives/subgrid.md) — nested track alignment.
+- [`primitives/css-math-responsive-sizing.md`](primitives/css-math-responsive-sizing.md) — min/max/clamp sizing.
+- [`primitives/dynamic-viewport-units.md`](primitives/dynamic-viewport-units.md) — dvh/svh/lvh mobile viewport sizing.
+- [`primitives/safe-area-env.md`](primitives/safe-area-env.md) — browser safe-area insets.
+- [`primitives/aspect-ratio-and-object-fit.md`](primitives/aspect-ratio-and-object-fit.md) — media box sizing/cropping.
+- [`primitives/text-overflow.md`](primitives/text-overflow.md) — native truncation.
+- [`primitives/text-wrap.md`](primitives/text-wrap.md) — browser line-wrapping strategies.
+- [`primitives/text-fit.md`](primitives/text-fit.md) — newer browser text fitting.
+- [`primitives/resize.md`](primitives/resize.md) — optional native resize handles.
+- [`primitives/reading-flow.md`](primitives/reading-flow.md) — emerging sequential-navigation ordering.
 
-## Layout, scrolling and rendering
+## Scrolling, rendering and performance
 
-- [`primitives/position-sticky.md`](primitives/position-sticky.md) — sticky headers/sidebars without scroll listeners.
-- [`primitives/container-size-queries.md`](primitives/container-size-queries.md) — component responsiveness without width-only `ResizeObserver` class state.
-- [`primitives/responsive-grid-auto-fit.md`](primitives/responsive-grid-auto-fit.md) — browser-chosen card column count using `auto-fit/minmax`.
-- [`primitives/subgrid.md`](primitives/subgrid.md) — align nested/repeated component internals without sibling height measurement.
-- [`primitives/css-containment.md`](primitives/css-containment.md) — rendering/layout containment with explicit behavioral caveats.
-- [`primitives/content-visibility.md`](primitives/content-visibility.md) — skip off-screen layout/paint while semantic DOM remains present.
-- [`primitives/contain-intrinsic-size.md`](primitives/contain-intrinsic-size.md) — reserve/remember size for skipped contained content.
-- [`primitives/scroll-snap.md`](primitives/scroll-snap.md) — browser-owned scroll physics and snapping.
-- [`primitives/scrollbar-gutter.md`](primitives/scrollbar-gutter.md) — avoid scrollbar-driven layout shift.
-- [`primitives/overscroll-behavior.md`](primitives/overscroll-behavior.md) — control nested scroll chaining without wheel/touch handlers.
-- [`primitives/dynamic-viewport-units.md`](primitives/dynamic-viewport-units.md) — `dvh` / `svh` / `lvh` instead of `window.innerHeight -> --vh` scripts.
-- [`primitives/safe-area-env.md`](primitives/safe-area-env.md) — UA safe-area insets instead of device/notch tables.
-- [`primitives/css-math-responsive-sizing.md`](primitives/css-math-responsive-sizing.md) — `min()` / `max()` / `clamp()` instead of responsive size measurement JS.
-- [`primitives/text-overflow.md`](primitives/text-overflow.md) — single-line ellipsis without measuring string width.
-- [`primitives/text-wrap.md`](primitives/text-wrap.md) — browser-owned balanced/pretty line wrapping without injected `<br>` logic.
-- [`primitives/resize.md`](primitives/resize.md) — optional native user-resize handles for simple panels.
-- [`primitives/css-counters.md`](primitives/css-counters.md) — presentational numbering derived from document structure.
-- [`primitives/declarative-shadow-dom.md`](primitives/declarative-shadow-dom.md) — server-rendered Shadow DOM without `attachShadow()` JS.
-- [`primitives/starting-style-and-discrete-transitions.md`](primitives/starting-style-and-discrete-transitions.md) — entry/exit motion without timer JS.
-- [`primitives/interpolate-size.md`](primitives/interpolate-size.md) — intrinsic-size animation without measuring heights in JS.
+- [`primitives/scroll-snap.md`](primitives/scroll-snap.md) — browser scroll physics/snapping.
+- [`primitives/scrollbar-gutter.md`](primitives/scrollbar-gutter.md) — scrollbar layout stability.
+- [`primitives/overscroll-behavior.md`](primitives/overscroll-behavior.md) — scroll chaining behavior.
+- [`primitives/css-containment.md`](primitives/css-containment.md) — layout/paint/size containment.
+- [`primitives/content-visibility.md`](primitives/content-visibility.md) — off-screen render skipping.
+- [`primitives/contain-intrinsic-size.md`](primitives/contain-intrinsic-size.md) — intrinsic placeholder/remembered size.
+- [`primitives/scroll-state-container-queries.md`](primitives/scroll-state-container-queries.md) — newer stuck/snapped/scrollable state queries.
+- [`primitives/scroll-target-group.md`](primitives/scroll-target-group.md) — newer current-scroll-target state.
+- [`primitives/scroll-buttons-and-markers.md`](primitives/scroll-buttons-and-markers.md) — generated carousel controls.
+- [`primitives/scroll-driven-animations.md`](primitives/scroll-driven-animations.md) — scroll-linked decorative motion.
 
----
+## Media and resources
 
-# Newer / progressive primitives
+- [`primitives/responsive-images.md`](primitives/responsive-images.md) — picture/srcset/sizes source selection.
+- [`primitives/native-media-controls.md`](primitives/native-media-controls.md) — native audio/video controls and tracks.
+- [`primitives/media-state-pseudo-classes.md`](primitives/media-state-pseudo-classes.md) — Firefox 150+ playback state in CSS.
+- [`primitives/native-lazy-loading-caveat.md`](primitives/native-lazy-loading-caveat.md) — lazy-loading caveat with scripting disabled.
 
-These may remove more JavaScript in newer browsers, but must not become the only path for conservative/Tor targets unless compatibility explicitly changes.
+## CSS architecture and transitions
 
-- [`primitives/command-and-commandfor.md`](primitives/command-and-commandfor.md) — standardized declarative invoker commands.
-- [`primitives/dialog-closedby.md`](primitives/dialog-closedby.md) — declarative dialog dismissal policy.
-- [`primitives/field-sizing-content.md`](primitives/field-sizing-content.md) — native autosizing text controls.
-- [`primitives/anchor-positioning.md`](primitives/anchor-positioning.md) — browser-native floating UI placement/fallbacks.
-- [`primitives/anchor-scope.md`](primitives/anchor-scope.md) — isolate anchor names inside repeated components.
-- [`primitives/position-visibility.md`](primitives/position-visibility.md) — hide anchored UI when its anchor/placement stops making sense.
-- [`primitives/customizable-select.md`](primitives/customizable-select.md) — richer styling while retaining a real `<select>`.
-- [`primitives/container-style-queries.md`](primitives/container-style-queries.md) — descendant presentation from container custom-property state.
-- [`primitives/css-scope.md`](primitives/css-scope.md) — subtree-local selectors without runtime scoping classes.
-- [`primitives/typed-attr.md`](primitives/typed-attr.md) — feed server-rendered attribute values into CSS properties.
-- [`primitives/focusgroup.md`](primitives/focusgroup.md) — emerging browser-owned roving focus/arrow navigation.
-- [`primitives/interestfor-and-hint-popover.md`](primitives/interestfor-and-hint-popover.md) — emerging interest state for hints/hovercards.
-- [`primitives/scroll-target-group.md`](primitives/scroll-target-group.md) — emerging CSS-native current-section/scrollspy state.
-- [`primitives/scroll-state-container-queries.md`](primitives/scroll-state-container-queries.md) — query stuck/snapped/scrollable state without scroll listeners.
-- [`primitives/scroll-buttons-and-markers.md`](primitives/scroll-buttons-and-markers.md) — browser-generated carousel controls.
-- [`primitives/reading-flow.md`](primitives/reading-flow.md) — emerging visual/sequential-navigation ordering.
-- [`primitives/media-state-pseudo-classes.md`](primitives/media-state-pseudo-classes.md) — Firefox 150+ playback state directly in CSS.
-- [`primitives/view-transitions.md`](primitives/view-transitions.md) — MPA navigation polish without turning routing into an SPA.
-- [`primitives/scroll-driven-animations.md`](primitives/scroll-driven-animations.md) — scroll-linked decoration only.
-- [`primitives/text-fit.md`](primitives/text-fit.md) — browser text fitting without measurement loops.
+- [`primitives/declarative-shadow-dom.md`](primitives/declarative-shadow-dom.md) — server-rendered Shadow DOM.
+- [`primitives/css-scope.md`](primitives/css-scope.md) — newer subtree selector scoping.
+- [`primitives/css-counters.md`](primitives/css-counters.md) — structural presentational numbering.
+- [`primitives/starting-style-and-discrete-transitions.md`](primitives/starting-style-and-discrete-transitions.md) — declarative entry/exit motion.
+- [`primitives/interpolate-size.md`](primitives/interpolate-size.md) — intrinsic-size animation.
+- [`primitives/view-transitions.md`](primitives/view-transitions.md) — MPA/navigation visual transitions.
+
+## Floating UI and newer browser-owned state
+
+- [`primitives/anchor-positioning.md`](primitives/anchor-positioning.md) — native floating UI placement.
+- [`primitives/anchor-scope.md`](primitives/anchor-scope.md) — repeated-component anchor isolation.
+- [`primitives/position-visibility.md`](primitives/position-visibility.md) — anchor/overflow-aware visibility.
+- [`primitives/focusgroup.md`](primitives/focusgroup.md) — emerging browser-owned roving focus.
+- [`primitives/interestfor-and-hint-popover.md`](primitives/interestfor-and-hint-popover.md) — emerging hint/interest state.
 
 ## Research / watchlist
 
-- [`primitives/declarative-partial-updates.md`](primitives/declarative-partial-updates.md) — emerging `<template for>` server-stream patching without inline patch JS.
-- [`primitives/native-tooltip-proposals.md`](primitives/native-tooltip-proposals.md) — future browser-owned/styleable tooltip direction.
-- [`primitives/css-if.md`](primitives/css-if.md) — experimental value-level CSS conditional logic.
-- [`primitives/native-masonry-watchlist.md`](primitives/native-masonry-watchlist.md) — evolving native masonry/Grid Lanes work.
-- [`primitives/local-link-watchlist.md`](primitives/local-link-watchlist.md) — future URL-relative link selector; currently unsupported.
-
----
+- [`primitives/declarative-partial-updates.md`](primitives/declarative-partial-updates.md) — emerging native server-stream DOM patching.
+- [`primitives/native-tooltip-proposals.md`](primitives/native-tooltip-proposals.md) — future styleable/browser-owned tooltips.
+- [`primitives/css-if.md`](primitives/css-if.md) — experimental CSS value conditionals.
+- [`primitives/typed-attr.md`](primitives/typed-attr.md) — newer typed HTML attribute values in CSS.
+- [`primitives/native-masonry-watchlist.md`](primitives/native-masonry-watchlist.md) — evolving native masonry/Grid Lanes.
 
 # Patterns
 
-Patterns compose primitives into concrete UI recipes. Read the pattern first for a task, then follow only its primitive links.
+## Navigation / overlays
 
-## Navigation and overlays
-
-- [`patterns/current-navigation.md`](patterns/current-navigation.md) — server-rendered active/current navigation without route-matching JS.
+- [`patterns/current-navigation.md`](patterns/current-navigation.md) — server-rendered current navigation.
 - [`patterns/responsive-navigation.md`](patterns/responsive-navigation.md) — no-JS responsive navigation.
-- [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md) — Popover action/dropdown menu.
-- [`patterns/declarative-dialog-drawer.md`](patterns/declarative-dialog-drawer.md) — newer native modal side drawer/navigation.
-- [`patterns/modal-confirmation.md`](patterns/modal-confirmation.md) — confirmation around a real server action.
+- [`patterns/dropdown-action-menu.md`](patterns/dropdown-action-menu.md) — Popover action menu.
+- [`patterns/declarative-dialog-drawer.md`](patterns/declarative-dialog-drawer.md) — newer native dialog drawer.
+- [`patterns/modal-confirmation.md`](patterns/modal-confirmation.md) — native dialog + real server action.
 - [`patterns/url-tabs.md`](patterns/url-tabs.md) — fragment/server-backed panels.
-- [`patterns/sticky-anchor-navigation.md`](patterns/sticky-anchor-navigation.md) — fragment navigation under sticky UI without offset JS.
-- [`patterns/scrollspy.md`](patterns/scrollspy.md) — anchor baseline + optional native current-section state.
-- [`patterns/tooltip-hovercard.md`](patterns/tooltip-hovercard.md) — conservative tooltip/hovercard path plus newer declarative direction.
+- [`patterns/sticky-anchor-navigation.md`](patterns/sticky-anchor-navigation.md) — fragment navigation under sticky UI.
+- [`patterns/scrollspy.md`](patterns/scrollspy.md) — anchor baseline + progressive native scrollspy.
+- [`patterns/tooltip-hovercard.md`](patterns/tooltip-hovercard.md) — conservative + newer native hint direction.
 
-## Forms and input
+## Forms
 
-- [`patterns/server-search-form.md`](patterns/server-search-form.md) — GET/search URL state with native search semantics.
-- [`patterns/multi-action-form.md`](patterns/multi-action-form.md) — multiple server actions without click routing.
-- [`patterns/draft-vs-publish-form.md`](patterns/draft-vs-publish-form.md) — Save Draft vs Publish using submitter state and `formnovalidate`.
-- [`patterns/mobile-friendly-form.md`](patterns/mobile-friendly-form.md) — virtual keyboard/autofill hints without device sniffing.
-- [`patterns/autosizing-textarea.md`](patterns/autosizing-textarea.md) — composer autosize without JS where supported.
-- [`patterns/selectable-cards.md`](patterns/selectable-cards.md) — semantic radio/checkbox cards using `:has()`.
-- [`patterns/validation-feedback.md`](patterns/validation-feedback.md) — browser validation feedback + server authority.
-- [`patterns/inactive-workflow-panel.md`](patterns/inactive-workflow-panel.md) — permission/workflow gating with `inert`.
+- [`patterns/server-search-form.md`](patterns/server-search-form.md) — GET/server-rendered search.
+- [`patterns/multi-action-form.md`](patterns/multi-action-form.md) — multiple actions without click routing.
+- [`patterns/draft-vs-publish-form.md`](patterns/draft-vs-publish-form.md) — draft vs publish semantics.
+- [`patterns/mobile-friendly-form.md`](patterns/mobile-friendly-form.md) — input-method/autofill hints.
+- [`patterns/autosizing-textarea.md`](patterns/autosizing-textarea.md) — progressive native composer autosize.
+- [`patterns/selectable-cards.md`](patterns/selectable-cards.md) — semantic radio/checkbox cards.
+- [`patterns/validation-feedback.md`](patterns/validation-feedback.md) — browser validation + server authority.
+- [`patterns/inactive-workflow-panel.md`](patterns/inactive-workflow-panel.md) — inert workflow/permission state.
 
-## Layout, rendering and responsive UI
+## Responsive / layout / performance
 
-- [`patterns/responsive-component.md`](patterns/responsive-component.md) — component adaptation without width-only ResizeObserver state.
-- [`patterns/responsive-card-grid.md`](patterns/responsive-card-grid.md) — intrinsic card/file grid without JS column counting.
-- [`patterns/aligned-card-internals.md`](patterns/aligned-card-internals.md) — align repeated card rows with Grid/Subgrid instead of max-height JS.
-- [`patterns/accessibly-reordered-layout.md`](patterns/accessibly-reordered-layout.md) — visual adaptation without DOM-reorder scripts.
-- [`patterns/rtl-safe-layout.md`](patterns/rtl-safe-layout.md) — flow-relative geometry + bidi semantics without RTL branching JS.
-- [`patterns/mobile-app-shell.md`](patterns/mobile-app-shell.md) — viewport/safe-area-aware shell without resize/device scripts.
-- [`patterns/sticky-header-state.md`](patterns/sticky-header-state.md) — sticky baseline plus newer stuck-state styling.
-- [`patterns/long-server-rendered-list.md`](patterns/long-server-rendered-list.md) — server pagination + browser render skipping.
-- [`patterns/resizable-panel.md`](patterns/resizable-panel.md) — optional simple user-resizable panel without pointer-drag state machine.
-- [`patterns/empty-state.md`](patterns/empty-state.md) — server-owned meaningful empty state + optional DOM-derived presentation.
-- [`patterns/balanced-heading.md`](patterns/balanced-heading.md) — heading wrapping without measurement/injected breaks.
-- [`patterns/findable-collapsed-content.md`](patterns/findable-collapsed-content.md) — hidden content that remains browser-searchable.
+- [`patterns/responsive-component.md`](patterns/responsive-component.md) — container-responsive component.
+- [`patterns/responsive-card-grid.md`](patterns/responsive-card-grid.md) — intrinsic card/file grid.
+- [`patterns/aligned-card-internals.md`](patterns/aligned-card-internals.md) — Subgrid card alignment.
+- [`patterns/accessibly-reordered-layout.md`](patterns/accessibly-reordered-layout.md) — visual order without DOM-reorder JS.
+- [`patterns/rtl-safe-layout.md`](patterns/rtl-safe-layout.md) — bidi/logical-property layout.
+- [`patterns/mobile-app-shell.md`](patterns/mobile-app-shell.md) — dynamic viewport + safe area shell.
+- [`patterns/sticky-header-state.md`](patterns/sticky-header-state.md) — sticky baseline + progressive stuck state.
+- [`patterns/long-server-rendered-list.md`](patterns/long-server-rendered-list.md) — server limits + render skipping.
+- [`patterns/resizable-panel.md`](patterns/resizable-panel.md) — optional native panel resizing.
+- [`patterns/empty-state.md`](patterns/empty-state.md) — server semantic empty state + derived presentation.
+- [`patterns/balanced-heading.md`](patterns/balanced-heading.md) — browser text wrapping.
+- [`patterns/findable-collapsed-content.md`](patterns/findable-collapsed-content.md) — hidden but browser-searchable content.
 
-## Scrolling and motion
+## Scroll / motion
 
-- [`patterns/carousel.md`](patterns/carousel.md) — scroll-snap baseline + optional generated controls.
-- [`patterns/bottom-sheet.md`](patterns/bottom-sheet.md) — scrolling/snap model instead of pointer physics JS.
-- [`patterns/micro-interactions.md`](patterns/micro-interactions.md) — hover/active/focus feedback with reduced-motion handling.
+- [`patterns/carousel.md`](patterns/carousel.md) — scroll-snap carousel.
+- [`patterns/bottom-sheet.md`](patterns/bottom-sheet.md) — scrolling/snap bottom-sheet model.
+- [`patterns/micro-interactions.md`](patterns/micro-interactions.md) — hover/active/focus motion with reduced-motion handling.
 
-## Media, theme and content
+## Media / theme / user content
 
-- [`patterns/native-media-preview.md`](patterns/native-media-preview.md) — file/storage preview using native browser media controls.
-- [`patterns/media-state-styling.md`](patterns/media-state-styling.md) — newer presentation-only media playback state without event-to-class glue.
-- [`patterns/theme-switcher.md`](patterns/theme-switcher.md) — system/local/server-owned theme state.
-- [`patterns/user-generated-bidi-content.md`](patterns/user-generated-bidi-content.md) — LTR/RTL user content without direction-detection JS.
-- [`patterns/script-capability-adaptation.md`](patterns/script-capability-adaptation.md) — mixed app presentation based on scripting capability.
+- [`patterns/native-media-preview.md`](patterns/native-media-preview.md) — native file/media preview.
+- [`patterns/media-state-styling.md`](patterns/media-state-styling.md) — progressive media playback-state styling.
+- [`patterns/theme-switcher.md`](patterns/theme-switcher.md) — system/local/server theme state.
+- [`patterns/user-generated-bidi-content.md`](patterns/user-generated-bidi-content.md) — unknown-direction user content.
+- [`patterns/script-capability-adaptation.md`](patterns/script-capability-adaptation.md) — mixed app scripting capability presentation.
 
-## Server-owned application state
+## Server-owned state
 
-- [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) — URL/server-owned filtering, sorting and pagination.
-- [`patterns/server-streaming-future.md`](patterns/server-streaming-future.md) — future zero-JS out-of-order server streaming.
-
----
+- [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) — URL/server filtering/sorting/pagination.
+- [`patterns/server-streaming-future.md`](patterns/server-streaming-future.md) — future declarative out-of-order server streaming.
 
 # Compatibility
 
-- [`compatibility/tor-browser-firefox-esr.md`](compatibility/tor-browser-firefox-esr.md) — exact Tor Browser 15.0.21 / Firefox 140.15 ESR boundaries.
-- [`compatibility/feature-matrix.md`](compatibility/feature-matrix.md) — core / polish / conditional / unsupported classification.
-- [`compatibility/testing.md`](compatibility/testing.md) — semantic baseline, target-browser no-JS and newest-browser enhancement test levels.
+- [`compatibility/tor-browser-firefox-esr.md`](compatibility/tor-browser-firefox-esr.md) — Tor Browser 15.0.21 / Firefox 140.15 ESR boundary.
+- [`compatibility/feature-matrix.md`](compatibility/feature-matrix.md) — core/polish/conditional/unsupported classification.
+- [`compatibility/testing.md`](compatibility/testing.md) — zero-JS test protocol.
 
----
-
-# AI retrieval examples
-
-### Zero-JS file manager
+# Suggested AI retrieval paths
 
 ```text
-patterns/current-navigation.md
-patterns/server-search-form.md
-patterns/responsive-card-grid.md
-patterns/dropdown-action-menu.md
-patterns/multi-action-form.md
-patterns/native-media-preview.md
-patterns/server-filter-sort-pagination.md
-compatibility/feature-matrix.md
+file manager
+  -> current-navigation
+  -> server-search-form
+  -> responsive-card-grid
+  -> dropdown-action-menu
+  -> multi-action-form
+  -> native-media-preview
+  -> server-filter-sort-pagination
+
+Tor action menu
+  -> dropdown-action-menu
+  -> popover
+  -> popovertargetaction
+  -> tor-browser-firefox-esr
+
+long server-rendered list
+  -> long-server-rendered-list
+  -> content-visibility
+  -> contain-intrinsic-size
+  -> server-filter-sort-pagination
+
+draft/publish editor
+  -> draft-vs-publish-form
+  -> submitter-name-value
+  -> formnovalidate
+  -> native-validation
 ```
 
-### Tor Browser action menu
-
-```text
-patterns/dropdown-action-menu.md
- -> primitives/popover.md
- -> primitives/popovertargetaction.md
- -> compatibility/tor-browser-firefox-esr.md
-```
-
-### Responsive reusable component
-
-```text
-patterns/responsive-component.md
- -> primitives/container-size-queries.md
- -> primitives/responsive-grid-auto-fit.md
- -> primitives/subgrid.md
-```
-
-### Draft / publish editor
-
-```text
-patterns/draft-vs-publish-form.md
- -> primitives/submitter-name-value.md
- -> primitives/formnovalidate.md
- -> primitives/native-validation.md
-```
-
-### Long server-rendered list
-
-```text
-patterns/long-server-rendered-list.md
- -> primitives/content-visibility.md
- -> primitives/contain-intrinsic-size.md
- -> patterns/server-filter-sort-pagination.md
-```
-
-The goal is **selective retrieval**, not loading the whole repository.
+The goal is **selective retrieval**, not loading the repository wholesale.
 
 ## License
 
