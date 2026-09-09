@@ -45,23 +45,27 @@ PureDesign means:
 
 ## Decision flow before writing JavaScript
 
-### Navigation
+### Navigation and deep links
 
-Before route-click or route-active JS, check:
+Before route-click, route-active or scroll-to-highlight JS, check:
 
 - `primitives/anchor-navigation.md`
 - `primitives/aria-current.md`
 - `primitives/target.md`
+- `primitives/text-fragments-and-target-text.md`
 - `primitives/scroll-offsets.md`
 - `primitives/scroll-behavior.md`
 
 The server already knows the current route. Prefer server-rendered `aria-current` over `location.pathname -> .active` logic.
+
+Use a real element `id` for durable structural anchors. Text fragments are useful for exact passages, but copied text in a `#:~:text=` URL is not a stable application identifier and may expose the quoted phrase in URL surfaces.
 
 ### Forms and actions
 
 Before click handlers or request-building code, check:
 
 - native form submission
+- `primitives/form-owner-attribute.md`
 - `primitives/multi-action-forms.md`
 - `primitives/submitter-name-value.md`
 - `primitives/formnovalidate.md`
@@ -69,7 +73,7 @@ Before click handlers or request-building code, check:
 - `primitives/native-validation.md`
 - `primitives/search-input-and-landmark.md`
 
-The clicked successful submit button can already choose endpoint/method or serialize its own intent.
+A submit button can live outside the visual form and still belong to it through `form="id"`. The clicked successful submit button can already choose endpoint/method or serialize its own intent.
 
 ### Native controls
 
@@ -89,7 +93,7 @@ A native control may be visually less exotic, but it often gives keyboard, touch
 
 ### Component responsiveness and layout
 
-Before `resize` listeners, `ResizeObserver`, manual column counts or sibling measurement, check:
+Before `resize` listeners, `ResizeObserver`, manual column counts, sibling measurement or text-metric hacks, check:
 
 - `container-size-queries.md`
 - `responsive-grid-auto-fit.md`
@@ -102,16 +106,21 @@ Before `resize` listeners, `ResizeObserver`, manual column counts or sibling mea
 - `text-overflow.md`
 - `dynamic-viewport-units.md`
 - `safe-area-env.md`
+- progressive `sibling-index-and-count.md`
+- progressive `text-box-trim.md`
 
 If the markup/data stays the same and only layout changes, the layout engine should usually own the problem.
 
-### Rendering/performance
+Do not make sibling math or text-box trimming core on Firefox 140/Tor. They are current-browser presentation tools, not conservative-baseline primitives.
 
-Before adding a runtime solely to reduce paint/layout work, check:
+### Rendering/performance and scroll stability
+
+Before adding a runtime solely to reduce paint/layout work or manually compensate scroll position, check:
 
 - `content-visibility.md`
 - `contain-intrinsic-size.md`
 - `css-containment.md`
+- `overflow-anchor.md`
 
 But never overclaim these:
 
@@ -119,9 +128,10 @@ But never overclaim these:
 content-visibility != data virtualization
 containment         != server pagination
 render skipping     != fewer DOM nodes / response bytes
+scroll anchoring    != layout-shift prevention
 ```
 
-Server pagination/data limits still matter.
+Reserve intrinsic geometry first. Keep browser scroll anchoring enabled by default; use `overflow-anchor: none` only for a specific bad anchor candidate. Server pagination/data limits still matter.
 
 ### Scroll and floating UI
 
@@ -131,10 +141,14 @@ Before scroll listeners, pointer-physics or positioning libraries, check:
 - `scroll-snap.md`
 - `scrollbar-gutter.md`
 - `overscroll-behavior.md`
+- `overflow-anchor.md`
 - `popover.md`
+- progressive `scroll-initial-target.md`
 - progressive `anchor-positioning.md`
 - progressive `scroll-state-container-queries.md`
 - progressive `position-visibility.md`
+
+`scroll-initial-target` is enhancement-only: current/selected application state still belongs to the server/URL/markup.
 
 ### Text direction, locale and input method
 
@@ -154,9 +168,9 @@ Before RTL branches/device sniffing/text-input helper JS, check:
 
 For sensitive fields, remember `spellcheck` may involve third-party services in some browser configurations.
 
-### User preferences
+### User preferences and color
 
-Before `matchMedia()` used only to change CSS, check:
+Before `matchMedia()` used only to change CSS or client code that calculates a simple black/white foreground, check:
 
 - `prefers-color-scheme.md`
 - `prefers-reduced-motion.md`
@@ -164,6 +178,19 @@ Before `matchMedia()` used only to change CSS, check:
 - `forced-colors.md`
 - `input-capability-media-features.md`
 - `scripting-media-feature.md`
+- progressive `contrast-color.md`
+
+`contrast-color()` is not an accessibility proof. Keep the palette constrained and the fallback readable.
+
+### CSS computation
+
+Before introducing runtime code only to derive reusable presentation values, check mature CSS math/custom properties first. For future-facing experiments also read:
+
+- `css-if.md`
+- `css-custom-functions.md`
+- `typed-attr.md`
+
+Do not move permissions, durable state, business rules or data fetching into CSS merely because newer CSS can express more logic.
 
 ## Compatibility discipline
 
@@ -179,13 +206,19 @@ Firefox 140.15 ESR engine baseline
 Examples:
 
 - `<search>` is Firefox 118 -> predates ESR 140.
+- `::target-text` is Firefox 131 -> predates ESR 140; still verify actual Tor product behavior.
 - `autocorrect` is Firefox 136 -> predates ESR 140.
 - `:open` is Firefox 136 -> predates ESR 140.
 - `hidden="until-found"` is Firefox 139 -> predates ESR 140.
+- `::details-content` is Firefox 143 -> not Tor 140 core.
 - `command/commandfor` is Firefox 144 -> not Tor 140 core.
+- `contrast-color()` is Firefox 146 -> not Tor 140 core.
 - CSS Anchor Positioning default is Firefox 147 -> not Tor 140 core.
 - media state pseudo-classes are Firefox 150 -> not Tor 140 core.
 - `field-sizing` is Firefox 152 -> not Tor 140 core.
+- `sibling-index()` / `sibling-count()` are Firefox 154 -> not Tor 140 core.
+- `text-box-trim` / `text-box-edge` are Firefox 154 -> not Tor 140 core.
+- `scroll-initial-target`, CSS `interactivity` and custom `@function` have no normal Firefox release support in the 2026-09-09 snapshot -> never Tor 140 core.
 
 Always compare the exact landing version against the target ESR and then test the actual Tor release.
 
@@ -195,11 +228,15 @@ Always compare the exact landing version against the target ESR and then test th
 menu open/closed           -> browser Popover/details/dialog state
 selected radio             -> native form control
 current page               -> URL/server + aria-current
+exact quoted passage       -> optional text fragment; structural anchor remains id/URL
 search/filter/sort/page     -> URL/server
 form action chosen          -> native submitter + server
+detached save button       -> form="id" + native submitter
 layout column count         -> Grid/container query
 sticky position             -> CSS layout engine
+scroll reading position     -> browser scroll anchoring where applicable
 current sticky styling      -> newer scroll-state query, enhancement only
+initial scroller placement  -> optional scroll-initial-target; current item remains server/URL state
 user text direction         -> browser bidi algorithm
 media playback              -> browser; newer CSS may observe state
 application permissions     -> server
@@ -218,4 +255,6 @@ application permissions     -> server
 - use UA/device sniffing when capability media queries answer the real question;
 - treat `:visited` as application read/unread state;
 - treat CSS-generated content as the sole accessible critical status message;
+- disable scroll anchoring globally without a concrete product reason;
+- treat CSS `interactivity`/HTML `inert` as authorization;
 - apply `overscroll-behavior: none`, aggressive containment or other behavior-changing optimizations globally without a specific reason.
