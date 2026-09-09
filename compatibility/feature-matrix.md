@@ -15,8 +15,10 @@ This file answers one question: may a primitive participate in core behavior for
 | `<input type="search">` | Yes | native search field/form submission |
 | `:link` / `:visited` | Yes, presentation only | browser-private link history styling |
 | `:local-link` | No | currently unsupported watchlist |
+| Text Fragments / `::target-text` | Firefox 140 engine: Yes; verify actual Tor product | exact-passage deep links/highlighting; `::target-text` FF131+; URL privacy caveat |
 | `<details>` / `<summary>` | Yes | disclosure |
 | `<details name>` | Yes | exclusive accordion |
+| `::details-content` | No for Firefox 140 ESR | disclosure-content styling/animation hook; FF143+ |
 | Popover API basic/auto | Yes on Firefox 140 baseline | menus/panels |
 | `popovertargetaction` | Yes on Firefox 140 baseline | show/hide/toggle Popover |
 | `<dialog>` | Yes | dialog semantics |
@@ -28,6 +30,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `:empty` | Yes, presentation caveats | DOM-derived empty-container styling |
 | `hidden="until-found"` | Yes on Firefox 140 baseline | findable collapsed content |
 | `inert` | Yes when semantics fit | inactive subtree |
+| CSS `interactivity` | No | experimental CSS inertness; Chromium 135+, no normal Firefox support at snapshot |
 | real checkbox/radio/select | Yes | form selection state |
 | `:checked` | Yes | visual selection state |
 | `:default` / `:indeterminate` | Yes | browser-owned default/indeterminate presentation |
@@ -37,6 +40,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `:autofill` | Yes/verify styling restrictions | browser autofill presentation |
 | `:in-range` / `:out-of-range` | Yes | range constraint presentation |
 | `disabled` / `readonly` / `fieldset disabled` | Yes | semantic interaction/submission state |
+| explicit `form="id"` ownership | Yes | detached controls/action bars associated with one real form |
 | `formaction` / `formmethod` / `formtarget` | Yes | native multi-action routing |
 | submitter `name=value` | Yes | clicked action intent in form payload |
 | `formnovalidate` | Yes | draft/non-validating browser-submit action |
@@ -63,6 +67,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `prefers-contrast` | Yes on Firefox 140 baseline | contrast preference |
 | `forced-colors` | Yes/conditional platform | forced-color adaptation |
 | `color-scheme` / `light-dark()` | Yes | native/theme color integration |
+| `contrast-color()` | No for Firefox 140 ESR | progressive black/white foreground selection; FF146+; still verify real contrast |
 | hover/pointer media features | Yes | input capability adaptation |
 | `scripting` media feature | Yes | script capability adaptation |
 | `position: sticky` | Yes | sticky layout without scroll JS |
@@ -70,20 +75,24 @@ This file answers one question: may a primitive participate in core behavior for
 | Grid `auto-fit` / `minmax()` | Yes | intrinsic responsive column count |
 | CSS Subgrid | Yes | repeated-component track alignment |
 | CSS logical sizing/positioning | Yes | direction-safe layout |
+| `sibling-index()` / `sibling-count()` | No for Firefox 140 ESR | numeric DOM sibling position/count; Firefox 154+ |
 | CSS containment | Yes/conditional | layout/paint isolation; behavior-changing |
 | `content-visibility: auto` | Yes/progressive performance | skip off-screen layout/paint |
 | `contain-intrinsic-size` | Yes/progressive | placeholder/remembered contained size |
 | scroll snap | Yes | browser scroll physics |
+| `scroll-initial-target` | No | experimental initial snap target; Chromium 133+, no normal Firefox support at snapshot |
 | scroll offsets | Yes | fragment visibility under sticky UI |
 | `scroll-behavior` | Yes/polish | smooth native navigation |
 | `scrollbar-gutter` | Yes/polish | layout stability |
 | `overscroll-behavior` | Conditional | nested scroll chaining; gesture effects |
+| `overflow-anchor` | Yes on Firefox 140 / conditional cross-browser | selective scroll-anchoring opt-out; keep default anchoring unless needed |
 | dynamic viewport units | Yes on Firefox 140 baseline | mobile viewport sizing |
 | safe-area `env()` | Yes/conditional device | display-cutout insets |
 | `aspect-ratio` / `object-fit` | Yes | media layout/cropping |
 | `min()` / `max()` / `clamp()` | Yes | responsive sizing without measurements |
 | `text-overflow` | Yes | truncation presentation |
 | `text-wrap: balance/pretty` | Polish / verify value | browser line wrapping quality |
+| `text-box-trim` / `text-box-edge` | No for Firefox 140 ESR | typography/optical alignment polish; Firefox 154+ |
 | CSS counters | Yes, presentation only | document-structural numbering |
 | CSS `resize` | Conditional | simple user resizing; Limited Availability |
 | Declarative Shadow DOM | Verify component semantics | server-rendered isolation |
@@ -109,6 +118,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `@scope` | Verify newer-browser support | selector scoping enhancement |
 | typed `attr()` | No/verify | newer attribute-to-CSS value flow |
 | CSS `if()` | No | experimental/watchlist |
+| CSS custom `@function` | No | experimental author-defined value functions; Chromium 139+, no normal Firefox support at snapshot |
 | native masonry/Grid Lanes | No | evolving/watchlist |
 | Declarative Partial Updates | No | research/future server-stream patching |
 | `text-fit` | No for Firefox 140 ESR | newer presentation enhancement |
