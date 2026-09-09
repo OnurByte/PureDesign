@@ -12,6 +12,15 @@ Zero JavaScript does not automatically mean accessible.
 6. Do not visually disable something without matching behavioral semantics.
 7. Do not invent ARIA-heavy widgets when ordinary navigation/forms better match the task.
 8. Native browser behavior still needs real UX testing with long content and assistive technology.
+9. Do not add keyboard shortcuts merely to imitate a desktop app when the platform cannot provide them reliably under the no-JS contract.
+
+## Keyboard-shortcut boundary
+
+HTML `accesskey` is native, but browser/OS modifier combinations vary and can conflict with browser, operating-system and assistive-technology shortcuts. Keyboard layouts and localization add more conflicts. MDN generally advises against using it for most general-purpose sites/apps.
+
+`aria-keyshortcuts` is only metadata describing a shortcut that has already been implemented. It does **not** create keyboard behavior. Custom shortcut handling normally requires JavaScript, so adding `aria-keyshortcuts` alone is not a PureDesign shortcut implementation.
+
+Prefer ordinary native keyboard behavior from links, buttons, form controls, `<details>`, dialogs and other semantic elements.
 
 ## Common examples
 
@@ -23,3 +32,8 @@ Zero JavaScript does not automatically mean accessible.
 ## Principle
 
 Prefer deleting custom interaction code by choosing a better semantic primitive, not by moving complexity into CSS selectors.
+
+## Sources
+
+- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/accesskey
+- https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-keyshortcuts
