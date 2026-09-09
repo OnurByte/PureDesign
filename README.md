@@ -27,10 +27,11 @@ PureDesign collects techniques for UI that can initially look impossible without
 - accordions and disclosures;
 - tabs and URL-backed panels;
 - server-backed multi-step forms;
-- hierarchical file/folder browsers;
+- hierarchical file/folder browsers and native directory uploads;
+- bulk-selection and bulk-action workflows;
 - responsive navigation;
 - sticky application shells and action bars;
-- responsive components without resize observers;
+- responsive and context-aware components without resize observers;
 - form validation and multi-action forms;
 - selectable cards;
 - search, filtering, sorting, and pagination;
@@ -79,6 +80,8 @@ You can use it manually or give the repository to an AI coding agent.
 | URL-backed tabs | [`patterns/url-tabs.md`](patterns/url-tabs.md) |
 | Multi-step wizard/form | [`patterns/server-backed-multi-step-form.md`](patterns/server-backed-multi-step-form.md) |
 | Hierarchical file browser | [`patterns/hierarchical-file-browser.md`](patterns/hierarchical-file-browser.md) |
+| Directory upload | [`patterns/directory-upload-form.md`](patterns/directory-upload-form.md) |
+| Bulk actions | [`patterns/server-backed-bulk-actions.md`](patterns/server-backed-bulk-actions.md) |
 | Search | [`patterns/server-search-form.md`](patterns/server-search-form.md) |
 | Filter / sort / paginate | [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) |
 | Sticky Save/Publish actions | [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) |
@@ -169,6 +172,7 @@ See [`patterns/responsive-component.md`](patterns/responsive-component.md) and [
 PureDesign/
 ├── README.md          # entry point for people and AI
 ├── AGENTS.md          # strict instructions for coding agents
+├── CONTRIBUTING.md    # contribution/research contract
 ├── principles/        # architecture and state-ownership rules
 ├── patterns/          # complete reusable UI compositions
 ├── primitives/        # one browser/platform capability per file
@@ -191,10 +195,12 @@ Examples:
 - [`primitives/form-owner-attribute.md`](primitives/form-owner-attribute.md)
 - [`primitives/native-validation.md`](primitives/native-validation.md)
 - [`primitives/container-size-queries.md`](primitives/container-size-queries.md)
+- [`primitives/name-only-container-queries.md`](primitives/name-only-container-queries.md)
 - [`primitives/position-sticky.md`](primitives/position-sticky.md)
 - [`primitives/scroll-snap.md`](primitives/scroll-snap.md)
 - [`primitives/anchor-positioning.md`](primitives/anchor-positioning.md)
 - [`primitives/anchored-container-queries.md`](primitives/anchored-container-queries.md)
+- [`primitives/render-blocking-expect.md`](primitives/render-blocking-expect.md)
 - [`primitives/native-media-controls.md`](primitives/native-media-controls.md)
 
 ### `principles/`
@@ -285,6 +291,8 @@ Modern features can still be researched and catalogued, but their support status
 ## Contributing
 
 Contributions are welcome. Useful additions include overlooked native browser primitives, unusual HTML/CSS compositions, accessibility findings, compatibility research, browser-version notes, and genuinely useful interfaces that appear to require JavaScript but do not.
+
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for the research, compatibility, accessibility and security checklist.
 
 Keep contributions atomic:
 
