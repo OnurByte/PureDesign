@@ -42,8 +42,10 @@ This file answers one question: may a primitive participate in core behavior for
 | `disabled` / `readonly` / `fieldset disabled` | Yes | semantic interaction/submission state |
 | explicit `form="id"` ownership | Yes | detached controls/action bars associated with one real form |
 | `formaction` / `formmethod` / `formtarget` | Yes | native multi-action routing |
+| named browsing-context targets | Yes / conditional UX | route a link/form response into an existing named iframe or other browsing context; parent URL does not own child navigation state |
 | submitter `name=value` | Yes | clicked action intent in form payload |
 | `formnovalidate` | Yes | draft/non-validating browser-submit action |
+| `<input type="image">` coordinates | Yes / conditional accessibility and geometry | browser submits click x/y in CSS pixels; exact-point tasks need a non-pointing fallback |
 | native `<select>` | Yes | browser-owned picker |
 | `<datalist>` | Conditional | simple suggestions; accessibility limitations |
 | native date/time inputs | Yes/conditional UX | browser picker; not ideal for every date task |
@@ -71,6 +73,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `contrast-color()` | No for Firefox 140 ESR | progressive black/white foreground selection; FF146+; still verify real contrast |
 | hover/pointer media features | Yes | input capability adaptation |
 | `scripting` media feature | Yes | script capability adaptation |
+| HTML Capability Elements (`<geolocation>`, `<usermedia>`) | No / watchlist | browser-owned permission UI is emerging, but returned position/MediaStream still requires DOM API/event consumption for ordinary application workflows |
 | `position: sticky` | Yes | sticky layout without scroll JS |
 | container size queries | Yes on Firefox 140 baseline | component responsiveness |
 | name-only container queries | No for Firefox 140 ESR | context-based component styling without size conditions; Firefox 149+, Chromium 148+, Safari 26.4+ |
@@ -99,6 +102,7 @@ This file answers one question: may a primitive participate in core behavior for
 | CSS counters | Yes, presentation only | document-structural numbering |
 | CSS `resize` | Conditional | simple user resizing; Limited Availability |
 | Declarative Shadow DOM | Verify component semantics | server-rendered isolation |
+| responsive iframe `frame-sizing` + `responsive-embedded-sizing` | No / experimental | future child-content-based iframe sizing without parent measurement JS; no stable interoperable baseline at snapshot |
 | `@starting-style` | Polish | entry transition |
 | `transition-behavior: allow-discrete` | Polish | discrete entry/exit transition |
 | `interpolate-size` | Polish / verify | intrinsic-size animation only |
@@ -122,6 +126,7 @@ This file answers one question: may a primitive participate in core behavior for
 | scroll-triggered animations / `animation-trigger` | No for Firefox 140 ESR | start/reset time-based decorative animations from scroll conditions; Chromium 146+ |
 | container style queries | No/partial for conservative baseline | newer custom-property-derived component styling |
 | `@scope` | Verify newer-browser support | selector scoping enhancement |
+| `@supports at-rule()` | No for Firefox 140 ESR | detect support for CSS at-rules without UA sniffing; Chromium 148+, WebKit main implementation, no conservative Firefox support |
 | typed `attr()` | No for Firefox 140 ESR | server-rendered attribute values into CSS properties; Firefox 155+ for any property |
 | CSS `if()` | No | experimental/watchlist |
 | CSS custom `@function` | No | experimental author-defined value functions; Chromium 139+, no normal Firefox support at snapshot |
