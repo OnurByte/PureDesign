@@ -1,94 +1,118 @@
 # Feature Matrix
 
-Snapshot: **2026-09-08**.
+Snapshot: **2026-09-09**.
 
-This file answers one question: may a primitive be core behavior for the conservative PureDesign / Tor Browser 15 (Firefox 140 ESR) target?
+Conservative reference target: **Tor Browser 15.0.21 / Firefox 140.15 ESR**.
+
+This file answers one question: may a primitive participate in core behavior for that conservative target?
 
 | Primitive | Conservative/Tor core? | Use |
 |---|---:|---|
 | semantic links/forms/buttons | Yes | core navigation/actions |
-| normal download links/server responses | Yes | file download baseline |
+| real `<a href>` navigation | Yes | URLs, history, new-tab/bookmark/copy semantics |
+| `aria-current` | Yes | server-known current page/step/location |
+| `<search>` | Yes on Firefox 140 baseline | search landmark; Firefox 118+ |
+| `<input type="search">` | Yes | native search field/form submission |
+| `:link` / `:visited` | Yes, presentation only | browser-private link history styling |
+| `:local-link` | No | currently unsupported watchlist |
 | `<details>` / `<summary>` | Yes | disclosure |
 | `<details name>` | Yes | exclusive accordion |
-| `<dialog>` element | Yes | dialog semantics; opening path still matters |
-| `method="dialog"` | Yes/conditional | local dialog close; not a server mutation |
-| `:modal` / `::backdrop` | Yes on Firefox 140 baseline | browser-owned modal styling |
-| real checkbox/radio/select | Yes | selection/form state |
-| `<input type="file">` + multipart form | Yes | upload baseline |
-| file `capture` hint | Conditional | optional mobile camera/mic hint; Limited Availability |
-| `::file-selector-button` | Yes on Firefox 140 baseline | style native upload button |
-| date/time/range/color native inputs | Yes/conditional UX | browser-owned control; test task suitability |
-| `<progress>` / `<meter>` | Yes | semantic status/measurement |
-| `accent-color` | Yes | lightweight native-control branding |
-| `:checked` | Yes | visual selection state |
-| `:placeholder-shown` | Yes | empty/placeholder presentation state |
-| `:autofill` | Yes on Firefox 140 baseline | browser autofill state |
-| `:in-range` / `:out-of-range` | Yes | range-validation presentation |
-| `:disabled` / `:read-only` / `<fieldset disabled>` | Yes | semantic inactive/read-only state |
-| `:target` | Yes | fragment-backed state |
-| `scroll-margin` / `scroll-padding` | Yes | fragment/snap landing offsets |
-| `:focus-visible`, `:focus-within` | Yes | focus feedback |
-| `:has()` | Yes on Firefox 140 baseline | derived visual state |
+| Popover API basic/auto | Yes on Firefox 140 baseline | menus/panels |
+| `popovertargetaction` | Yes on Firefox 140 baseline | show/hide/toggle Popover |
+| `<dialog>` | Yes | dialog semantics |
+| `method="dialog"` / `formmethod="dialog"` | Yes | local dialog close/result |
+| `:modal` / `::backdrop` | Yes/verify product styling | modal presentation state |
 | `:open` | Yes on Firefox 140 baseline | native open-state styling |
-| native constraint validation | Yes | client affordance; server still validates |
-| `inputmode` / `enterkeyhint` | Yes | virtual-keyboard hints |
-| `autocomplete` tokens | Yes | browser/password-manager autofill semantics |
-| `dir="auto"` / `<bdi>` | Yes | unknown-direction user text |
-| `dirname` form submission | Yes | submit browser-determined text direction |
-| `<picture>` / `srcset` / `sizes` | Yes | browser-owned responsive image selection |
-| native `<video>/<audio controls>` + `<track>` | Yes | baseline media playback/captions |
-| `loading="lazy"` | Conditional; **not a no-JS bandwidth guarantee** | deferral disappears when scripting is disabled |
-| `color-scheme` | Yes | UA/native-control scheme integration |
-| `prefers-color-scheme` | Yes | system/browser theme preference |
-| `light-dark()` | Yes on Firefox 140 baseline | system-following theme values |
-| `prefers-reduced-motion` | Yes | motion preference; enhancement behavior only |
-| `prefers-contrast` | Yes on Firefox 140 baseline | user-requested contrast adaptation |
-| `forced-colors` | Yes/conditional | targeted fixes for forced/high-contrast palettes |
-| input `hover` / `pointer` media features | Yes | input-capability-aware polish |
-| `scripting` media feature | Yes | capability-aware mixed-app fallback |
-| Popover API (`auto`/basic) | Yes on Firefox 140 baseline | menus/panels |
-| `popovertargetaction` | Yes on Firefox 140 baseline | declarative show/hide/toggle |
-| `position: sticky` | Yes | sticky UI without scroll JS |
-| container **size** queries | Yes on Firefox 140 baseline | component responsiveness without ResizeObserver |
-| dynamic viewport units (`dvh`/`svh`/`lvh`) | Yes on Firefox 140 baseline | mobile viewport sizing |
-| safe-area `env()` | Yes | device/system-safe layout |
-| `aspect-ratio` / `object-fit` | Yes | media sizing/cropping |
-| CSS `min()` / `max()` / `clamp()` | Yes | bounded responsive sizing |
-| `text-overflow: ellipsis` | Yes | single-line visual truncation |
-| `@starting-style` | Polish | entry transitions |
-| `transition-behavior: allow-discrete` | Polish | exit/entry transitions |
-| `interpolate-size` | Polish / verify | intrinsic-size animation only |
-| `scrollbar-gutter` | Yes/polish | avoid scrollbar-driven layout shift |
-| Declarative Shadow DOM | Verify component semantics | server-rendered isolation |
+| `:has()` | Yes on Firefox 140 baseline | derived visual state |
+| `:focus-visible` / `:focus-within` | Yes | focus feedback |
+| `:empty` | Yes, presentation caveats | DOM-derived empty-container styling |
 | `hidden="until-found"` | Yes on Firefox 140 baseline | findable collapsed content |
-| `inert` | Yes, when semantics fit | inactive subtree |
-| scroll snap | Yes | scroll-based interactions |
-| `content-visibility: auto` | Yes/progressive performance | skip off-screen layout/paint; not data virtualization |
-| `overscroll-behavior` | Conditional | prevent nested scroll chaining; gesture side effects |
-| `<datalist>` | Conditional | simple suggestions; a11y limitations |
-| `command` / `commandfor` | No for Firefox 140 ESR | newer declarative invocation |
-| `closedby` | No/verify for Firefox 140 ESR | newer declarative dialog dismissal |
-| `field-sizing: content` | No for Firefox 140 ESR | autosizing native fields; Firefox 152+ |
-| CSS Anchor Positioning | No for Firefox 140 ESR | floating-position enhancement |
-| `anchor-scope` | No for Firefox 140 ESR | isolate repeated anchor components |
-| `position-visibility` | No for Firefox 140 ESR | anchor-aware overlay hiding |
-| `popover="hint"` / `interestfor` | No for Firefox 140 ESR | emerging tooltip/hovercard |
-| customizable select picker styling | No for Firefox 140 ESR | enhancement; normal `<select>` is baseline |
-| container **style** queries | No for conservative baseline | CSS custom-property state composition |
-| CSS `@scope` | No for Firefox 140 ESR | current-browser selector scoping |
-| typed `attr()` in arbitrary properties | No for Firefox 140 ESR | current-browser attribute-driven CSS; Firefox 155+ |
-| CSS `if()` | No | experimental / Limited Availability |
-| native CSS masonry / Grid Lanes | No | evolving early-testing syntax/spec |
-| `scroll-target-group` | No for conservative baseline | native scrollspy enhancement |
-| scroll-state container queries | No for conservative baseline | stuck/snapped/scrollable CSS state |
-| `::scroll-button()` / `::scroll-marker` | No for conservative baseline | carousel controls enhancement |
+| `inert` | Yes when semantics fit | inactive subtree |
+| real checkbox/radio/select | Yes | form selection state |
+| `:checked` | Yes | visual selection state |
+| `:default` / `:indeterminate` | Yes | browser-owned default/indeterminate presentation |
+| native constraint validation | Yes | client affordance; server remains authoritative |
+| `:user-invalid` / `:user-valid` | Yes/verify exact UX | user validation feedback |
+| `:placeholder-shown` | Yes | field presentation state |
+| `:autofill` | Yes/verify styling restrictions | browser autofill presentation |
+| `:in-range` / `:out-of-range` | Yes | range constraint presentation |
+| `disabled` / `readonly` / `fieldset disabled` | Yes | semantic interaction/submission state |
+| `formaction` / `formmethod` / `formtarget` | Yes | native multi-action routing |
+| submitter `name=value` | Yes | clicked action intent in form payload |
+| `formnovalidate` | Yes | draft/non-validating browser-submit action |
+| native `<select>` | Yes | browser-owned picker |
+| `<datalist>` | Conditional | simple suggestions; accessibility limitations |
+| native date/time inputs | Yes/conditional UX | browser picker; not ideal for every date task |
+| `<input type="range">` | Yes | native slider |
+| `<input type="color">` | Yes | native color picker |
+| native file input + multipart form | Yes | baseline upload |
+| `capture` hint | Conditional | mobile capture hint; Limited Availability |
+| `::file-selector-button` | Yes | style real file input button |
+| `<progress>` / `<meter>` | Yes | progress vs scalar measurement |
+| `accent-color` | Yes | native control branding |
+| `inputmode` / `enterkeyhint` | Yes/conditional hint | virtual keyboard hints |
+| autocomplete tokens | Yes | autofill/password-manager semantics |
+| `autocorrect` | Yes on Firefox 140 baseline | browser/OS correction; Firefox 136+ |
+| `autocapitalize` | Conditional | Limited Availability input hint |
+| `spellcheck` | Yes/conditional privacy | UA spelling UI; sensitive-data caveat |
+| `dir="auto"` / `<bdi>` | Yes | bidi user content |
+| `:dir()` / `:lang()` | Yes/verify exact styling target | language/direction-derived presentation |
+| CSS logical properties | Yes | RTL/writing-mode-safe geometry |
+| `prefers-color-scheme` | Yes | user theme preference |
+| `prefers-reduced-motion` | Yes | motion adaptation |
+| `prefers-contrast` | Yes on Firefox 140 baseline | contrast preference |
+| `forced-colors` | Yes/conditional platform | forced-color adaptation |
+| `color-scheme` / `light-dark()` | Yes | native/theme color integration |
+| hover/pointer media features | Yes | input capability adaptation |
+| `scripting` media feature | Yes | script capability adaptation |
+| `position: sticky` | Yes | sticky layout without scroll JS |
+| container size queries | Yes on Firefox 140 baseline | component responsiveness |
+| Grid `auto-fit` / `minmax()` | Yes | intrinsic responsive column count |
+| CSS Subgrid | Yes | repeated-component track alignment |
+| CSS logical sizing/positioning | Yes | direction-safe layout |
+| CSS containment | Yes/conditional | layout/paint isolation; behavior-changing |
+| `content-visibility: auto` | Yes/progressive performance | skip off-screen layout/paint |
+| `contain-intrinsic-size` | Yes/progressive | placeholder/remembered contained size |
+| scroll snap | Yes | browser scroll physics |
+| scroll offsets | Yes | fragment visibility under sticky UI |
+| `scroll-behavior` | Yes/polish | smooth native navigation |
+| `scrollbar-gutter` | Yes/polish | layout stability |
+| `overscroll-behavior` | Conditional | nested scroll chaining; gesture effects |
+| dynamic viewport units | Yes on Firefox 140 baseline | mobile viewport sizing |
+| safe-area `env()` | Yes/conditional device | display-cutout insets |
+| `aspect-ratio` / `object-fit` | Yes | media layout/cropping |
+| `min()` / `max()` / `clamp()` | Yes | responsive sizing without measurements |
+| `text-overflow` | Yes | truncation presentation |
+| `text-wrap: balance/pretty` | Polish / verify value | browser line wrapping quality |
+| CSS counters | Yes, presentation only | document-structural numbering |
+| CSS `resize` | Conditional | simple user resizing; Limited Availability |
+| Declarative Shadow DOM | Verify component semantics | server-rendered isolation |
+| `@starting-style` | Polish | entry transition |
+| `transition-behavior: allow-discrete` | Polish | discrete entry/exit transition |
+| `interpolate-size` | Polish / verify | intrinsic-size animation only |
+| `command` / `commandfor` | No for Firefox 140 ESR | newer declarative invocation; FF144+ |
+| `closedby` | No/verify for Firefox 140 ESR | newer dialog dismissal policy |
+| CSS Anchor Positioning | No for Firefox 140 ESR | floating UI positioning; FF147+ |
+| `anchor-scope` / `position-visibility` | No for Firefox 140 ESR | newer anchor stack |
+| `popover="hint"` / `interestfor` | No for Firefox 140 ESR | newer tooltip/hovercard state |
+| customizable select styling | No for Firefox 140 ESR | native-picker enhancement |
+| `field-sizing: content` | No for Firefox 140 ESR | autosizing fields; FF152+ |
+| `scroll-target-group` | No | native scrollspy enhancement |
+| scroll-state container queries | No for conservative baseline | stuck/snapped/scrollable state |
+| generated `::scroll-button()` / `::scroll-marker` | No | carousel enhancement |
 | `focusgroup` | No for Firefox 140 ESR | emerging keyboard group navigation |
-| `reading-flow` / `reading-order` | No | experimental sequential-navigation ordering |
-| scroll-driven animations | No | decorative experiment only |
-| cross-document View Transitions | No for Firefox 140 ESR | MPA polish elsewhere |
-| Declarative Partial Updates | No | research/future streaming |
-| `text-fit` | No for Firefox 140 ESR | presentation enhancement |
-| `::tooltip` proposal | No | watchlist only |
+| `reading-flow` / `reading-order` | No | experimental sequential navigation ordering |
+| media state pseudo-classes | No for Firefox 140 ESR | playback styling; Firefox 150+ |
+| cross-document View Transitions | No for Firefox 140 ESR | MPA navigation polish |
+| scroll-driven animations | No | decoration only |
+| container style queries | No/partial for conservative baseline | newer custom-property-derived component styling |
+| `@scope` | Verify newer-browser support | selector scoping enhancement |
+| typed `attr()` | No/verify | newer attribute-to-CSS value flow |
+| CSS `if()` | No | experimental/watchlist |
+| native masonry/Grid Lanes | No | evolving/watchlist |
+| Declarative Partial Updates | No | research/future server-stream patching |
+| `text-fit` | No for Firefox 140 ESR | newer presentation enhancement |
+| native tooltip proposals | No | watchlist |
 
 ## Meaning of labels
 
@@ -96,14 +120,10 @@ This file answers one question: may a primitive be core behavior for the conserv
 
 **Polish** — may improve motion/presentation; losing it cannot remove a task.
 
-**Conditional** — technology exists but UX/accessibility/gesture/privacy constraints decide whether it is appropriate.
+**Conditional** — the primitive exists but semantics, privacy, accessibility, gesture behavior or interoperability decide whether it is appropriate.
 
 **No** — keep a baseline path that does not depend on it.
 
 ## Baseline warning
 
-A feature marked "Baseline 2026" by MDN is baseline for current mainstream browser releases, **not** automatically for Tor Browser's Firefox ESR engine. Always compare the exact Firefox landing version against the ESR base.
-
-## No-JS loading warning
-
-Native `loading="lazy"` is a special case: browsers intentionally do not defer lazy resource loading when scripting is disabled because request timing could otherwise become a scroll-position tracking channel. Do not count it as a bandwidth-saving guarantee for a Tor/Safest-style no-JS contract.
+A current MDN **Baseline 2026** badge means current mainstream releases converge; it does **not** prove support in Tor Browser's Firefox 140 ESR engine. Compare exact landing versions and test the actual Tor Browser release.
