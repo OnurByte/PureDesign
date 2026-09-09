@@ -86,7 +86,7 @@ client-side JS               -> 0 for core behavior
 - [`primitives/range-input.md`](primitives/range-input.md) — native slider.
 - [`primitives/color-input.md`](primitives/color-input.md) — native color picker.
 - [`primitives/native-file-upload.md`](primitives/native-file-upload.md) — native file picker/multipart upload.
-- [`primitives/file-selector-button.md`](primitives/file-selector-button.md) — style the real file button.
+- [`primitives/file-selector-button.md`](primitives/file-selector-button.md) — style the real file input button.
 - [`primitives/file-capture-hint.md`](primitives/file-capture-hint.md) — optional mobile capture hint.
 - [`primitives/progress.md`](primitives/progress.md) — task progress.
 - [`primitives/meter.md`](primitives/meter.md) — scalar/quota measurement.
@@ -310,4 +310,4 @@ The goal is **selective retrieval**, not loading the repository wholesale.
 
 ## License
 
-No license has been selected yet.
+PureDesign is licensed under the [0BSD License](LICENSE). You may use, copy, modify, and distribute it for any purpose, including commercial use, without an attribution requirement.
