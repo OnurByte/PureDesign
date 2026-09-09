@@ -1,6 +1,6 @@
 # Feature Matrix
 
-Snapshot: **2026-09-09**.
+Snapshot: **2026-09-10**.
 
 Conservative reference target: **Tor Browser 15.0.21 / Firefox 140.15 ESR**.
 
@@ -102,6 +102,7 @@ This file answers one question: may a primitive participate in core behavior for
 | `command` / `commandfor` | No for Firefox 140 ESR | newer declarative invocation; FF144+ |
 | `closedby` | No/verify for Firefox 140 ESR | newer dialog dismissal policy |
 | CSS Anchor Positioning | No for Firefox 140 ESR | floating UI positioning; FF147+ |
+| anchored container queries | No for Firefox 140 ESR | fallback-aware styling for anchor-positioned descendants; Chromium 143+, no Firefox/Safari support at snapshot |
 | `anchor-scope` / `position-visibility` | No for Firefox 140 ESR | newer anchor stack |
 | `popover="hint"` / `interestfor` | No for Firefox 140 ESR | newer tooltip/hovercard state |
 | customizable select styling | No for Firefox 140 ESR | native-picker enhancement |
