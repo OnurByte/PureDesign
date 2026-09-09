@@ -29,6 +29,8 @@ PureDesign collects techniques for UI that can initially look impossible without
 - server-backed multi-step forms;
 - hierarchical file/folder browsers and native directory uploads;
 - bulk-selection and bulk-action workflows;
+- server-rendered inline preview/result panels through named browsing contexts;
+- bounded image coordinate submission with an accessible fallback;
 - responsive navigation;
 - sticky application shells and action bars;
 - responsive and context-aware components without resize observers;
@@ -82,6 +84,8 @@ You can use it manually or give the repository to an AI coding agent.
 | Hierarchical file browser | [`patterns/hierarchical-file-browser.md`](patterns/hierarchical-file-browser.md) |
 | Directory upload | [`patterns/directory-upload-form.md`](patterns/directory-upload-form.md) |
 | Bulk actions | [`patterns/server-backed-bulk-actions.md`](patterns/server-backed-bulk-actions.md) |
+| Inline server preview/result | [`patterns/server-backed-inline-result-panel.md`](patterns/server-backed-inline-result-panel.md) |
+| Image coordinate picker | [`patterns/server-image-coordinate-picker.md`](patterns/server-image-coordinate-picker.md) |
 | Search | [`patterns/server-search-form.md`](patterns/server-search-form.md) |
 | Filter / sort / paginate | [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) |
 | Sticky Save/Publish actions | [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) |
@@ -173,7 +177,7 @@ PureDesign/
 ├── README.md          # entry point for people and AI
 ├── AGENTS.md          # strict instructions for coding agents
 ├── CONTRIBUTING.md    # contribution/research contract
-├── principles/        # architecture and state-ownership rules
+├── principles/        # architecture, state ownership and hard boundaries
 ├── patterns/          # complete reusable UI compositions
 ├── primitives/        # one browser/platform capability per file
 └── compatibility/     # support boundaries and zero-JS testing
@@ -196,11 +200,13 @@ Examples:
 - [`primitives/native-validation.md`](primitives/native-validation.md)
 - [`primitives/container-size-queries.md`](primitives/container-size-queries.md)
 - [`primitives/name-only-container-queries.md`](primitives/name-only-container-queries.md)
+- [`primitives/named-browsing-context-targets.md`](primitives/named-browsing-context-targets.md)
 - [`primitives/position-sticky.md`](primitives/position-sticky.md)
 - [`primitives/scroll-snap.md`](primitives/scroll-snap.md)
 - [`primitives/anchor-positioning.md`](primitives/anchor-positioning.md)
 - [`primitives/anchored-container-queries.md`](primitives/anchored-container-queries.md)
 - [`primitives/render-blocking-expect.md`](primitives/render-blocking-expect.md)
+- [`primitives/at-rule-feature-detection.md`](primitives/at-rule-feature-detection.md)
 - [`primitives/native-media-controls.md`](primitives/native-media-controls.md)
 
 ### `principles/`
@@ -212,6 +218,7 @@ Use these when deciding whether a technique belongs in PureDesign at all:
 - [`principles/progressive-enhancement.md`](principles/progressive-enhancement.md)
 - [`principles/server-authoritative-state.md`](principles/server-authoritative-state.md)
 - [`principles/accessibility-and-input.md`](principles/accessibility-and-input.md)
+- [`principles/hard-boundaries.md`](principles/hard-boundaries.md) — explicit cases that require a different interaction model, a server roundtrip, or an unsupported verdict.
 
 ### `compatibility/`
 
@@ -227,7 +234,7 @@ Experimental features may add polish or unlock future patterns, but must not be 
 
 PureDesign is deliberately split into small files so coding agents do not need the entire repository in context.
 
-Give the agent [`AGENTS.md`](AGENTS.md) as its contract, then let it retrieve only the matching pattern and its linked primitives.
+Give the agent [`AGENTS.md`](AGENTS.md) as its contract, then let it retrieve only the matching pattern and its linked primitives. If a requested behavior starts requiring client-side event/data plumbing, check [`principles/hard-boundaries.md`](principles/hard-boundaries.md) before inventing CSS state machinery.
 
 Example prompt:
 
@@ -262,6 +269,7 @@ UI problem
   -> patterns/<matching-pattern>.md
       -> primitives/<required-capability>.md
       -> compatibility/<target>.md when needed
+      -> principles/hard-boundaries.md if native/server composition runs out
 ```
 
 ## Design rules
