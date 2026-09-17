@@ -81,6 +81,7 @@ You can use it manually or give the repository to an AI coding agent.
 | Responsive navigation | [`patterns/responsive-navigation.md`](patterns/responsive-navigation.md) |
 | URL-backed tabs | [`patterns/url-tabs.md`](patterns/url-tabs.md) |
 | Multi-step wizard/form | [`patterns/server-backed-multi-step-form.md`](patterns/server-backed-multi-step-form.md) |
+| Recovery phrase save/confirm | [`patterns/recovery-phrase-save-confirm.md`](patterns/recovery-phrase-save-confirm.md) |
 | Hierarchical file browser | [`patterns/hierarchical-file-browser.md`](patterns/hierarchical-file-browser.md) |
 | Directory upload | [`patterns/directory-upload-form.md`](patterns/directory-upload-form.md) |
 | Bulk actions | [`patterns/server-backed-bulk-actions.md`](patterns/server-backed-bulk-actions.md) |
@@ -199,6 +200,9 @@ Examples:
 - [`primitives/details.md`](primitives/details.md)
 - [`primitives/form-owner-attribute.md`](primitives/form-owner-attribute.md)
 - [`primitives/native-validation.md`](primitives/native-validation.md)
+- [`primitives/download-attribute.md`](primitives/download-attribute.md)
+- [`primitives/user-select-all.md`](primitives/user-select-all.md)
+- [`primitives/tabular-numerals.md`](primitives/tabular-numerals.md)
 - [`primitives/container-size-queries.md`](primitives/container-size-queries.md)
 - [`primitives/name-only-container-queries.md`](primitives/name-only-container-queries.md)
 - [`primitives/named-browsing-context-targets.md`](primitives/named-browsing-context-targets.md)
