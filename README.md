@@ -87,6 +87,7 @@ You can use it manually or give the repository to an AI coding agent.
 | Inline server preview/result | [`patterns/server-backed-inline-result-panel.md`](patterns/server-backed-inline-result-panel.md) |
 | Image coordinate picker | [`patterns/server-image-coordinate-picker.md`](patterns/server-image-coordinate-picker.md) |
 | Search | [`patterns/server-search-form.md`](patterns/server-search-form.md) |
+| Animated search hints | [`patterns/animated-search-hints.md`](patterns/animated-search-hints.md) |
 | Filter / sort / paginate | [`patterns/server-filter-sort-pagination.md`](patterns/server-filter-sort-pagination.md) |
 | Sticky Save/Publish actions | [`patterns/detached-form-actions.md`](patterns/detached-form-actions.md) |
 | Draft vs Publish form | [`patterns/draft-vs-publish-form.md`](patterns/draft-vs-publish-form.md) |
